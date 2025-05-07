@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/widgets/card.dart';
 
 class PageContent extends StatelessWidget {
-  PageContent({super.key});
+  final screenWidth;
+  final isMobile;
+  PageContent({super.key, this.screenWidth, this.isMobile});
 
   final List<Map<String, dynamic>> myItems = [
     {
-      'title': 'Shalat Berjamaah',
-      'description': 'Shalat 5 waktu berjamaah setiap hari',
+      'title': 'Tafsir Surat Alfatihah',
+      'description': 'Mengkaji Tafsir Surat Alfatihah',
       'image': 'assets/images/kajian1.jpg',
     },
     {
@@ -19,8 +21,10 @@ class PageContent extends StatelessWidget {
 
   final List<Map<String, dynamic>> qurbanItems = [
     {
-      'title': 'Sapi Bali',
-      'description': 'Patungan 1 Sapi 7 Orang',
+      'title': 'Sapi Bali dan Kambing',
+      'description':
+          'Patungan 1 Sapi 7 Orang, perorang Rp. 3.5 Juta                                         '
+              '1 Kambing Rp. 3.5 Juta',
       'image': 'assets/images/qurbanSapi.jpg',
     },
   ];
@@ -55,14 +59,16 @@ class PageContent extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             SizedBox(
-              height: 500, // or use Expanded if in a Column with other widgets
+              height: isMobile
+                  ? 500
+                  : 800, // or use Expanded if in a Column with other widgets
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: qurbanItems.length,
                 itemBuilder: (context, index) {
                   final item = qurbanItems[index];
                   return SizedBox(
-                    width: 430,
+                    width: isMobile ? 430 : 800,
                     child: QurbanImage(
                       title: item['title'],
                       description: item['description'],
@@ -80,9 +86,9 @@ class PageContent extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             SizedBox(
-              height: 399, // or use Expanded if in a Column with other widgets
+              height: 370, // or use Expanded if in a Column with other widgets
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: myItems.length,

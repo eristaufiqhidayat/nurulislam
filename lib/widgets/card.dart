@@ -87,8 +87,8 @@ class KajianCard extends StatelessWidget {
                       const BorderRadius.vertical(top: Radius.circular(16)),
                   child: Image.asset(
                     assetPath!,
-                    width: 200,
-                    //height: 160,
+                    //width: 50,
+                    height: 250,
                     //fit: BoxFit.cover,
                   ),
                 )
@@ -105,7 +105,7 @@ class KajianCard extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       height: 1.2,
-                      fontSize: 12),
+                      fontSize: 10),
                 ),
                 const SizedBox(height: 8),
                 Text(

@@ -27,7 +27,10 @@ class ResponsiveLayout extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     constraints: const BoxConstraints(maxWidth: 1200),
-                    child: PageContent(),
+                    child: PageContent(
+                      screenWidth: screenWidth,
+                      isMobile: isMobile,
+                    ),
                   ),
                   const SizedBox(height: 40),
                   const MosqueFooter(),
