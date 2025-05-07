@@ -34,7 +34,7 @@ class DesktopMenuBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                MosqueLogo(judul: this.judul),
+                MosqueLogo(judul: judul),
               ],
             ),
           ),
@@ -49,7 +49,7 @@ class DesktopMenuBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ...menuItems.map((item) => MenuButton(item: item)).toList(),
+                ...menuItems.map((item) => MenuButton(item: item)),
                 // const SizedBox(width: 20),
                 // Flexible(
                 //   child: ElevatedButton(
@@ -90,7 +90,7 @@ class MenuButton extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           Navigator.pushNamed(
-              context, '${item.route.toLowerCase()}'); // Navigation action
+              context, item.route.toLowerCase()); // Navigation action
         },
         child: Text(
           item.title,
@@ -118,7 +118,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.green[800],
       title: MosqueLogo(
         compact: true,
-        judul: this.judul,
+        judul: judul,
       ),
       iconTheme: const IconThemeData(color: Colors.white),
       centerTitle: false,
@@ -164,10 +164,10 @@ class MobileDrawer extends StatelessWidget {
           ),
           ...menuItems.map((item) => ListTile(
                 leading: Icon(item.icon, color: Colors.green[700]),
-                title: Text('${item.title}'),
+                title: Text(item.title),
                 onTap: () {
                   //Navigator.pop(context);
-                  Navigator.pushNamed(context, '${item.route.toLowerCase()}');
+                  Navigator.pushNamed(context, item.route.toLowerCase());
                   // Navigation action
                 },
               )),
