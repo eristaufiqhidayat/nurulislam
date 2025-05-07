@@ -7,20 +7,22 @@ class PageContent extends StatelessWidget {
     {
       'title': 'Shalat Berjamaah',
       'description': 'Shalat 5 waktu berjamaah setiap hari',
-      'icon': Icons.mosque,
+      'image': 'assets/images/kajian1.jpg',
     },
     {
       'title': 'Pengajian',
       'description': 'Kajian rutin setiap pekan',
       'icon': Icons.menu_book,
     },
-    {
-      'title': 'Kegiatan Sosial',
-      'description': 'Bakti sosial masyarakat sekitar',
-      'icon': Icons.people,
-    },
   ];
 
+  final List<Map<String, dynamic>> qurbanItems = [
+    {
+      'title': 'Sapi Bali',
+      'description': 'Patungan 1 Sapi 7 Orang',
+      'image': 'assets/images/qurbanSapi.jpg',
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,7 +46,7 @@ class PageContent extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Text(
-              'Info Kegiatan',
+              'Info Qurban',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: Colors.green[800],
                     fontWeight: FontWeight.bold,
@@ -52,18 +54,18 @@ class PageContent extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             SizedBox(
-              height: 200, // or use Expanded if in a Column with other widgets
+              height: 500, // or use Expanded if in a Column with other widgets
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: myItems.length,
+                itemCount: qurbanItems.length,
                 itemBuilder: (context, index) {
-                  final item = myItems[index];
+                  final item = qurbanItems[index];
                   return SizedBox(
-                    width: 200,
-                    child: InfoCard(
-                      //icon: item['icon'],
+                    width: 430,
+                    child: QurbanImage(
                       title: item['title'],
                       description: item['description'],
+                      assetPath: item['image'],
                     ),
                   );
                 },
@@ -79,7 +81,7 @@ class PageContent extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             SizedBox(
-              height: 200, // or use Expanded if in a Column with other widgets
+              height: 399, // or use Expanded if in a Column with other widgets
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: myItems.length,
@@ -87,8 +89,8 @@ class PageContent extends StatelessWidget {
                   final item = myItems[index];
                   return SizedBox(
                     width: 200,
-                    child: InfoCard(
-                      //icon: item['icon'],
+                    child: KajianCard(
+                      assetPath: item['image'],
                       title: item['title'],
                       description: item['description'],
                     ),
@@ -125,14 +127,14 @@ class PageContent extends StatelessWidget {
   }
 }
 
-class FeatureCard extends StatelessWidget {
-  final IconData icon;
+class QurbanImage extends StatelessWidget {
+  final String assetPath;
   final String title;
   final String description;
 
-  const FeatureCard({
+  const QurbanImage({
     super.key,
-    required this.icon,
+    required this.assetPath,
     required this.title,
     required this.description,
   });
@@ -141,90 +143,110 @@ class FeatureCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              size: 40,
-              color: Colors.green[700],
+      color: Colors.green[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Image.asset(
+              assetPath,
+              //height: 160,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.green[800],
-                    fontWeight: FontWeight.bold,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    height: 1.5,
                   ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              style: const TextStyle(
-                color: Colors.grey,
-                height: 1.5,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class InfoCard extends StatelessWidget {
-  final IconData? icon;
+class KajianCard extends StatelessWidget {
+  final String? assetPath;
   final String title;
   final String description;
 
-  const InfoCard({
+  const KajianCard({
     super.key,
-    this.icon,
+    this.assetPath,
     required this.title,
     required this.description,
   });
 
   @override
   Widget build(BuildContext context) {
+    print(assetPath);
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Icon(
-            //   icon,
-            //   size: 40,
-            //   color: Colors.green[700],
-            // ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.green,
-                height: 1.5,
-                fontWeight: FontWeight.bold,
-              ),
+      color: Colors.green[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          assetPath != null
+              ? ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.asset(
+                    assetPath!,
+                    width: 200,
+                    //height: 160,
+                    //fit: BoxFit.cover,
+                  ),
+                )
+              : const SizedBox(),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      height: 1.2,
+                      fontSize: 12),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Colors.white,
+                    height: 1.5,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              style: const TextStyle(
-                color: Colors.grey,
-                height: 1.5,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
