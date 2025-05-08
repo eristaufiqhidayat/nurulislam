@@ -28,6 +28,13 @@ class PageContent extends StatelessWidget {
       'image': 'assets/images/qurbanSapi.jpg',
     },
   ];
+  final List<Map<String, dynamic>> kegiatanItems = [
+    {
+      'title': 'Rapat Pengurus',
+      'description': 'Rapat Pengurus Masjid Nurul Islam',
+      'image': 'assets/images/rapat1.jpg',
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -73,6 +80,33 @@ class PageContent extends StatelessWidget {
                       title: item['title'],
                       description: item['description'],
                       assetPath: item['image'],
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'Kegiatan',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.green[800],
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 370, // or use Expanded if in a Column with other widgets
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: kegiatanItems.length,
+                itemBuilder: (context, index) {
+                  final item = kegiatanItems[index];
+                  return SizedBox(
+                    width: 200,
+                    child: KajianCard(
+                      assetPath: item['image'],
+                      title: item['title'],
+                      description: item['description'],
                     ),
                   );
                 },
