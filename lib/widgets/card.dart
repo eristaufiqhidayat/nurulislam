@@ -17,7 +17,13 @@ class QurbanImage extends StatelessWidget {
     return Card(
       elevation: 4,
       color: Colors.green[900],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: Colors.green, // Border color
+          width: 2.0,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -77,7 +83,13 @@ class KajianCard extends StatelessWidget {
     return Card(
       elevation: 4,
       color: Colors.green[900],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: Colors.green, // Border color
+          width: 2.0,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

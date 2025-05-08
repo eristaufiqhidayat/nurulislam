@@ -6,6 +6,7 @@ class IslamicCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const IslamicCard({
+    super.key,
     required this.title,
     required this.icon,
     required this.onTap,
