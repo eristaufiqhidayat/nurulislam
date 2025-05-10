@@ -24,19 +24,6 @@ class _PageContentState extends State<PageContent> {
     kajianItems = ApiService().fetchPosts('kajian');
   }
 
-  final List<Map<String, dynamic>> myItems = [
-    {
-      'title': 'Tafsir Surat Alfatihah',
-      'description': 'Mengkaji Tafsir Surat Alfatihah',
-      'image': 'assets/images/kajian1.jpg',
-    },
-    {
-      'title': 'Pengajian',
-      'description': 'Kajian rutin setiap pekan',
-      'icon': Icons.menu_book,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -69,8 +56,8 @@ class _PageContentState extends State<PageContent> {
             const SizedBox(height: 30),
             SizedBox(
               height: widget.isMobile
-                  ? 500
-                  : 800, // or use Expanded if in a Column with other widgets
+                  ? 800
+                  : 1000, // or use Expanded if in a Column with other widgets
               child: FutureBuilder<List<PageinfoModel>>(
                   future: qurbanItems,
                   builder: (context, snapshot) {
@@ -88,7 +75,7 @@ class _PageContentState extends State<PageContent> {
                       itemBuilder: (context, index) {
                         final item = items[index];
                         return SizedBox(
-                          width: widget.isMobile ? 430 : 800,
+                          width: widget.isMobile ? 430 : 600,
                           child: QurbanImage(
                             title: item.title,
                             description: item.description,
