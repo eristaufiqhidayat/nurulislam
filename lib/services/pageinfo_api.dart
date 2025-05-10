@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import '../models/pageinfo_model.dart';
 
 class ApiService {
-  final String baseUrl = "http://localhost:8000";
+  //final String baseUrl = "http://localhost:8000";
+  final String baseUrl = "https://nurulislam.info/api/public";
 
   Future<List<PageinfoModel>> fetchPosts(String category) async {
     final response =
