@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/models/pageinfo_model.dart';
+import 'package:nurulislam/services/pageinfo_api.dart';
 import 'package:nurulislam/widgets/card.dart';
 
-class PageContent extends StatelessWidget {
+class PageContent extends StatefulWidget {
   final screenWidth;
   final isMobile;
-  PageContent({super.key, this.screenWidth, this.isMobile});
+  const PageContent({super.key, this.screenWidth, this.isMobile});
+
+  @override
+  _PageContentState createState() => _PageContentState();
+}
+
+class _PageContentState extends State<PageContent> {
+  late Future<List<PageinfoModel>> qurbanItems;
+  late Future<List<PageinfoModel>> kegiatanItems;
+  late Future<List<PageinfoModel>> kajianItems;
+
+  void initState() {
+    super.initState();
+    qurbanItems = ApiService().fetchPosts('qurban');
+    kegiatanItems = ApiService().fetchPosts('kegiatan');
+    kajianItems = ApiService().fetchPosts('kajian');
+  }
 
   final List<Map<String, dynamic>> myItems = [
     {
@@ -19,22 +37,6 @@ class PageContent extends StatelessWidget {
     },
   ];
 
-  final List<Map<String, dynamic>> qurbanItems = [
-    {
-      'title': 'Sapi Bali dan Kambing',
-      'description':
-          'Patungan 1 Sapi 7 Orang, perorang Rp. 3.5 Juta                                         '
-              '1 Kambing Rp. 3.5 Juta',
-      'image': 'assets/images/qurbanSapi.jpg',
-    },
-  ];
-  final List<Map<String, dynamic>> kegiatanItems = [
-    {
-      'title': 'Rapat Pengurus',
-      'description': 'Rapat Pengurus Masjid Nurul Islam',
-      'image': 'assets/images/rapat1.jpg',
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -66,24 +68,36 @@ class PageContent extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             SizedBox(
-              height: isMobile
+              height: widget.isMobile
                   ? 500
                   : 800, // or use Expanded if in a Column with other widgets
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: qurbanItems.length,
-                itemBuilder: (context, index) {
-                  final item = qurbanItems[index];
-                  return SizedBox(
-                    width: isMobile ? 430 : 800,
-                    child: QurbanImage(
-                      title: item['title'],
-                      description: item['description'],
-                      assetPath: item['image'],
-                    ),
-                  );
-                },
-              ),
+              child: FutureBuilder<List<PageinfoModel>>(
+                  future: qurbanItems,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('Tidak ada data Qurban');
+                    }
+                    final items = snapshot.data!;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return SizedBox(
+                          width: widget.isMobile ? 430 : 800,
+                          child: QurbanImage(
+                            title: item.title,
+                            description: item.description,
+                            assetPath: "assets/images/${item.image}",
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
             const SizedBox(height: 30),
             Text(
@@ -96,21 +110,33 @@ class PageContent extends StatelessWidget {
             const SizedBox(height: 10),
             SizedBox(
               height: 370, // or use Expanded if in a Column with other widgets
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: kegiatanItems.length,
-                itemBuilder: (context, index) {
-                  final item = kegiatanItems[index];
-                  return SizedBox(
-                    width: 200,
-                    child: KajianCard(
-                      assetPath: item['image'],
-                      title: item['title'],
-                      description: item['description'],
-                    ),
-                  );
-                },
-              ),
+              child: FutureBuilder<List<PageinfoModel>>(
+                  future: kegiatanItems,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('Tidak ada data kegiatan');
+                    }
+                    final items = snapshot.data!;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return SizedBox(
+                          width: 200,
+                          child: KajianCard(
+                            title: item.title,
+                            description: item.description,
+                            assetPath: "assets/images/${item.image}",
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
             const SizedBox(height: 30),
             Text(
@@ -123,21 +149,33 @@ class PageContent extends StatelessWidget {
             const SizedBox(height: 10),
             SizedBox(
               height: 370, // or use Expanded if in a Column with other widgets
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: myItems.length,
-                itemBuilder: (context, index) {
-                  final item = myItems[index];
-                  return SizedBox(
-                    width: 200,
-                    child: KajianCard(
-                      assetPath: item['image'],
-                      title: item['title'],
-                      description: item['description'],
-                    ),
-                  );
-                },
-              ),
+              child: FutureBuilder<List<PageinfoModel>>(
+                  future: kajianItems,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('Tidak ada data kajian');
+                    }
+                    final items = snapshot.data!;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return SizedBox(
+                          width: 200,
+                          child: KajianCard(
+                            title: item.title,
+                            description: item.description,
+                            assetPath: "assets/images/${item.image}",
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
           ],
         ),
