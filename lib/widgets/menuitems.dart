@@ -7,6 +7,7 @@ final List<MenuEntry> menuItems = [
   MenuEntry('Kegiatan', Icons.event, '/kegiatan'),
   MenuEntry('Donasi', Icons.volunteer_activism, '/donate'),
   MenuEntry('Kontak', Icons.contact_page, '/contact'),
+  MenuEntry('Login', Icons.contact_page, '/login'),
 ];
 
 class MenuEntry {
