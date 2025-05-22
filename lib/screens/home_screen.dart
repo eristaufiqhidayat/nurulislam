@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/widgets/header.dart';
+// import 'package:nurulislam/widgets/header.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
 import '../api/auth_service.dart';
@@ -132,16 +132,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  IconData _getIconData(String iconName) {
-    switch (iconName) {
-      case 'dashboard':
-        return Icons.dashboard;
-      case 'admin':
-        return Icons.admin_panel_settings;
-      case 'settings':
-        return Icons.settings;
-      default:
-        return Icons.list;
-    }
-  }
+  // IconData _getIconData(String iconName) {
+  //   switch (iconName) {
+  //     case 'dashboard':
+  //       return Icons.dashboard;
+  //     case 'admin':
+  //       return Icons.admin_panel_settings;
+  //     case 'settings':
+  //       return Icons.settings;
+  //     default:
+  //       return Icons.list;
+  //   }
+  // }
 }
