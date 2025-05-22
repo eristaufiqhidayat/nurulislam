@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/widgets/header.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
 import '../api/auth_service.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     _menuFuture = AuthService.getUserMenu(widget.user.role);
     _menuFuture.then((menu) => setState(() => _menuItems = menu));
   }
@@ -59,34 +61,73 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<List<MenuItem>>(
-        future: _menuFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        children: [
+          //const MosqueHeader(),
 
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
+          SizedBox(height: 16),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: FutureBuilder<List<MenuItem>>(
+                future: _menuFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-          final accessibleMenu = MenuUtils.filterMenuByRole(
-            _menuItems,
-            widget.user.role,
-          );
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Text('Error Home Screen: ${snapshot.error}'));
+                  }
 
-          return ListView.builder(
-            itemCount: accessibleMenu.length,
-            itemBuilder: (context, index) {
-              final item = accessibleMenu[index];
-              return ListTile(
-                leading: Icon(_getIconData(item.icon)),
-                title: Text(item.title),
-                onTap: () => _navigateToScreen(item),
-              );
-            },
-          );
-        },
+                  final accessibleMenu = MenuUtils.filterMenuByRole(
+                    _menuItems,
+                    widget.user.role,
+                  );
+                  return Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: accessibleMenu.map((item) {
+                      return GestureDetector(
+                        onTap: () => _navigateToScreen(item),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ClipOval(
+                              child: Image.asset(
+                                //'assets/icons/${item.icon}.png',
+                                'assets/images/masjid.jpg',
+                                width: 64,
+                                height: 64,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text("${item.title}", textAlign: TextAlign.center),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  );
+
+                  //print(accessibleMenu);
+                  // return ListView.builder(
+                  //   itemCount: accessibleMenu.length,
+                  //   itemBuilder: (context, index) {
+                  //     final item = accessibleMenu[index];
+                  //     return ListTile(
+                  //       leading: Icon(_getIconData(item.icon)),
+                  //       title: Text(item.title),
+                  //       onTap: () => _navigateToScreen(item),
+                  //     );
+                  //   },
+                  // );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -13,10 +13,13 @@ class MenuItem {
 
   factory MenuItem.fromJson(Map<String, dynamic> json) {
     return MenuItem(
-      title: json['title'],
-      icon: json['icon'],
-      route: json['route'],
-      requiredRoles: List<String>.from(json['requiredRoles']),
+      title: json['title'] ?? '',
+      icon: json['icon'] ?? '',
+      route: json['route'] ?? '',
+      requiredRoles: (json['requiredRoles'] as String)
+          .split(',')
+          .map((e) => e.trim())
+          .toList(),
     );
   }
 

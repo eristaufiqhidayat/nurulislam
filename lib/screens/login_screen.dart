@@ -19,8 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _login() async {
-    print(_emailController.text.trim());
-    print(_passwordController.text.trim());
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
@@ -40,7 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Login failed: $e'), backgroundColor: Colors.red),
+            content: Text('Login failed Home Screen: $e'),
+            backgroundColor: Colors.red),
       );
     } finally {
       setState(() => _isLoading = false);
