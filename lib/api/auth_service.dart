@@ -36,7 +36,7 @@ class AuthService {
         Uri.parse('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role'),
       );
       if (response.statusCode == 200) {
-        print("Raw JSON: ${response.body}");
+        //print("Raw JSON: ${response.body}");
         final List<dynamic> data = json.decode(response.body);
 
         return data

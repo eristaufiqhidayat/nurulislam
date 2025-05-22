@@ -79,7 +79,7 @@ class KajianCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(assetPath);
+    //print(assetPath);
     return Card(
       elevation: 4,
       color: Colors.green[900],
