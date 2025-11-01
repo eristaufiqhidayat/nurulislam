@@ -14,6 +14,7 @@ class QurbanImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //print(assetPath);
     return Card(
       elevation: 4,
       color: Colors.green[900],
@@ -24,42 +25,52 @@ class QurbanImage extends StatelessWidget {
           width: 2.0,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.asset(
-              assetPath,
-              //height: 160,
-              fit: BoxFit.cover,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(16)),
+              child: Image.network(
+                assetPath,
+                //width: 50,
+                //height: 160,
+                fit: BoxFit.cover,
+              ),
+              // child: Image.asset(
+              //   assetPath,
+              //   //height: 160,
+              //   fit: BoxFit.cover,
+              // ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  description,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    height: 1.5,
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    description,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -79,6 +90,11 @@ class KajianCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int maxLength = 50;
+
+    String hasil = description.length > maxLength
+        ? description.substring(0, maxLength)
+        : description;
     //print(assetPath);
     return Card(
       elevation: 4,
@@ -90,48 +106,51 @@ class KajianCard extends StatelessWidget {
           width: 2.0,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          assetPath != null
-              ? ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(16)),
-                  child: Image.asset(
-                    assetPath!,
-                    //width: 50,
-                    height: 250,
-                    //fit: BoxFit.cover,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            assetPath != null
+                ? ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(16)),
+                    child: Image.network(
+                      assetPath!,
+                      //width: 50,
+                      height: 250,
+                      //fit: BoxFit.cover,
+                    ),
+                  )
+                : const SizedBox(),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                        fontSize: 10),
                   ),
-                )
-              : const SizedBox(),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  const SizedBox(height: 8),
+                  Text(
+                    hasil,
+                    style: const TextStyle(
+                      fontSize: 10,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                      fontSize: 10),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  description,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                    height: 1.5,
+                      height: 1.5,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

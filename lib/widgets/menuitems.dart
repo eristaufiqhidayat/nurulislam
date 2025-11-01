@@ -5,7 +5,7 @@ final List<MenuEntry> menuItems = [
   //MenuEntry('About us', Icons.info, '/about'),
   MenuEntry('DKM', Icons.info, '/dkm'),
   MenuEntry('Kegiatan', Icons.event, '/kegiatan'),
-  MenuEntry('Donasi', Icons.volunteer_activism, '/donate'),
+  MenuEntry('Donasi', Icons.volunteer_activism, '/donasi'),
   MenuEntry('Kontak', Icons.contact_page, '/contact'),
   MenuEntry('Login', Icons.contact_page, '/login'),
 ];

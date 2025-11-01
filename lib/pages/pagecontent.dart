@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
 import 'package:nurulislam/api/auth_service.dart';
+import 'package:nurulislam/pages/kajian_detil.crud';
 import 'package:nurulislam/widgets/card.dart';
 
 class PageContent extends StatefulWidget {
@@ -47,7 +48,7 @@ class _PageContentState extends State<PageContent> {
             ),
             const SizedBox(height: 30),
             Text(
-              'Info Qurban',
+              'Sekilas Info',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: Colors.green[800],
                     fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class _PageContentState extends State<PageContent> {
                           child: QurbanImage(
                             title: item.title,
                             description: item.description,
-                            assetPath: "assets/images/${item.image}",
+                            assetPath: item.image,
                           ),
                         );
                       },
@@ -118,7 +119,7 @@ class _PageContentState extends State<PageContent> {
                           child: KajianCard(
                             title: item.title,
                             description: item.description,
-                            assetPath: "assets/images/${item.image}",
+                            assetPath: item.image,
                           ),
                         );
                       },
@@ -154,11 +155,21 @@ class _PageContentState extends State<PageContent> {
                         final item = items[index];
                         return SizedBox(
                           width: 200,
-                          child: KajianCard(
-                            title: item.title,
-                            description: item.description,
-                            assetPath: "assets/images/${item.image}",
-                          ),
+                          child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        KajianDetailPage(kajian: item),
+                                  ),
+                                );
+                              },
+                              child: KajianCard(
+                                title: item.title,
+                                description: item.description,
+                                assetPath: item.image,
+                              )),
                         );
                       },
                     );

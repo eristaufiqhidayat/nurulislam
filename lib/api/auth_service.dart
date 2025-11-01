@@ -32,13 +32,19 @@ class AuthService {
   static Future<List<MenuItem>> getUserMenu(String role) async {
     try {
       final token = await SharedPrefs.getToken();
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role'),
+        body: {
+          'role': role,
+          'token': token ?? '',
+        },
       );
+      //print('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role');
       if (response.statusCode == 200) {
-        //print("Raw JSON: ${response.body}");
+        print("Raw JSON: ${response.body}");
         final List<dynamic> data = json.decode(response.body);
 
+        //print("Parsed JSON: $data");
         return data
             .map<MenuItem>(
                 (item) => MenuItem.fromJson(item as Map<String, dynamic>))
@@ -50,12 +56,28 @@ class AuthService {
       throw Exception('Error loading menu auth_service: $e');
     }
   }
+
+  static Future<User?> getUser() async {
+    final user = await SharedPrefs.getUser();
+    return user;
+  }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPrefs.getToken();
+    return prefs != null;
+  }
+
+  static Future<void> logout() async {
+    final prefs = await SharedPrefs.clear();
+  }
 }
 
 class ApiService {
   Future<List<PageinfoModel>> fetchPosts(String category) async {
-    final response = await http.get(
-        Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category"));
+    final response = await http.post(
+        Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category"),
+        body: {'category': category});
+
     //print("${ApiConstants.baseUrl}/api/pageinfo?category=$category");
     if (response.statusCode == 200) {
       final List jsonData = json.decode(response.body);

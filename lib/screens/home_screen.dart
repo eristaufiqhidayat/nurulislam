@@ -1,47 +1,36 @@
 import 'package:flutter/material.dart';
-// import 'package:nurulislam/widgets/header.dart';
+import 'package:nurulislam/pages/menuRolepage.dart';
+import 'package:nurulislam/pages/page_info/page_info_crud.dart';
+import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
 import '../api/auth_service.dart';
 import '../utils/shared_prefs.dart';
-import '../utils/menu_utils.dart';
 import 'admin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final User user;
-
-  const HomeScreen({Key? key, required this.user}) : super(key: key);
+  final User? user;
+  const HomeScreen({Key? key, this.user}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<MenuItem>> _menuFuture;
   List<MenuItem> _menuItems = [];
+  bool _isDarkMode = false;
 
   @override
   void initState() {
     super.initState();
-
-    _menuFuture = AuthService.getUserMenu(widget.user.role);
-    _menuFuture.then((menu) => setState(() => _menuItems = menu));
-  }
-
-  void _navigateToScreen(MenuItem item) {
-    switch (item.route) {
-      case '/admin':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => AdminScreen()),
-        );
-        break;
-      // Add more cases for other routes
-      default:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Screen not implemented: ${item.route}')),
-        );
+    if (widget.user?.token == null) {
+      Navigator.pushReplacementNamed(context, '/login');
+      return;
     }
+
+    _menuFuture = AuthService.getUserMenu(widget.user!.role);
+    _menuFuture.then((m) => setState(() => _menuItems = m));
   }
 
   Future<void> _logout() async {
@@ -51,111 +40,146 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: Container(
-          color: Colors.green, // Background hijau
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Tombol Kembali (Back)
-              IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context); // Aksi kembali
-                },
-              ),
+    final theme = _isDarkMode
+        ? ThemeData.dark().copyWith(primaryColor: Colors.green.shade800)
+        : ThemeData.light().copyWith(primaryColor: Colors.green);
 
-              // Judul Rata Kiri
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Back',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+    return MaterialApp(
+      theme: theme,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.green.shade50,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 150,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.green.shade900, Colors.green.shade600],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: SafeArea(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 28,
+                          backgroundColor: Colors.white.withOpacity(0.25),
+                          child:
+                              Icon(Icons.person, size: 35, color: Colors.white),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "Assalamu'alaikum, ${widget.user!.name}",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Dashboard",
+                          style: TextStyle(color: Colors.white70, fontSize: 11),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-
-              // Tombol Logout
-              IconButton(
-                icon: Icon(Icons.logout, color: Colors.white),
-                onPressed: _logout,
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          //const MosqueHeader(),
-
-          SizedBox(height: 16),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: FutureBuilder<List<MenuItem>>(
+              actions: [
+                IconButton(
+                    icon: Icon(Icons.notifications_none, color: Colors.white),
+                    onPressed: () {}),
+                IconButton(
+                  icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                      color: Colors.white),
+                  onPressed: () => setState(() => _isDarkMode = !_isDarkMode),
+                ),
+                IconButton(
+                    icon: Icon(Icons.logout, color: Colors.white),
+                    onPressed: _logout),
+              ],
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(2),
+              sliver: FutureBuilder<List<MenuItem>>(
                 future: _menuFuture,
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                  if (!snapshot.hasData) {
+                    return SliverFillRemaining(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
 
-                  if (snapshot.hasError) {
-                    return Center(
-                        child: Text('Error Home Screen: ${snapshot.error}'));
-                  }
+                  int crossAxis = MediaQuery.of(context).size.width > 1400
+                      ? 10
+                      : MediaQuery.of(context).size.width > 1200
+                          ? 9
+                          : MediaQuery.of(context).size.width > 900
+                              ? 8
+                              : MediaQuery.of(context).size.width > 600
+                                  ? 5
+                                  : 4;
 
-                  final accessibleMenu = MenuUtils.filterMenuByRole(
-                    _menuItems,
-                    widget.user.role,
+                  return SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxis,
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 1,
+                      childAspectRatio: 1.25,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => _menuIcon(_menuItems[i]),
+                      childCount: _menuItems.length,
+                    ),
                   );
-                  return Wrap(
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: accessibleMenu.map((item) {
-                      return GestureDetector(
-                        onTap: () => _navigateToScreen(item),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ClipOval(
-                              child: Image.asset(
-                                //'assets/icons/${item.icon}.png',
-                                'assets/images/masjid.jpg',
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text("${item.title}", textAlign: TextAlign.center),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  );
-
-                  //print(accessibleMenu);
-                  // return ListView.builder(
-                  //   itemCount: accessibleMenu.length,
-                  //   itemBuilder: (context, index) {
-                  //     final item = accessibleMenu[index];
-                  //     return ListTile(
-                  //       leading: Icon(_getIconData(item.icon)),
-                  //       title: Text(item.title),
-                  //       onTap: () => _navigateToScreen(item),
-                  //     );
-                  //   },
-                  // );
                 },
               ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _menuIcon(MenuItem item) {
+    return InkWell(
+      onTap: () => _navigate(item),
+      borderRadius: BorderRadius.circular(4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.green.shade300.withOpacity(.6),
+            ),
+            child: Icon(
+              _icon(item.icon),
+              size: 40, // SUPER BESAR ✅
+              color: Colors.green.shade900,
+            ),
+          ),
+          SizedBox(height: 2),
+          SizedBox(
+            width: 50,
+            child: Text(
+              item.title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 8.5,
+                color: Colors.green.shade900,
+                height: 1.1,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -163,16 +187,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // IconData _getIconData(String iconName) {
-  //   switch (iconName) {
-  //     case 'dashboard':
-  //       return Icons.dashboard;
-  //     case 'admin':
-  //       return Icons.admin_panel_settings;
-  //     case 'settings':
-  //       return Icons.settings;
-  //     default:
-  //       return Icons.list;
-  //   }
-  // }
+  void _navigate(MenuItem item) {
+    final pages = {
+      '/admin': AdminScreen(),
+      '/pagecontent_crud': pagecontent_crud(),
+      '/menuRole': MenuRolePage(),
+      '/pageInfo': PageInfoPage(),
+    };
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            pages[item.route] ??
+            Scaffold(
+                body: Center(
+                    child: Text("Halaman ${item.route} belum tersedia"))),
+      ),
+    );
+  }
+
+  IconData _icon(String n) {
+    switch (n) {
+      case 'dashboard':
+        return Icons.dashboard_rounded;
+      case 'admin':
+        return Icons.admin_panel_settings;
+      case 'users':
+        return Icons.people_alt_rounded;
+      case 'settings':
+        return Icons.settings_rounded;
+      default:
+        return Icons.apps_rounded;
+    }
+  }
 }
