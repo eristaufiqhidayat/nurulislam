@@ -68,6 +68,7 @@ class AuthService {
   }
 
   static Future<void> logout() async {
+    // ignore: unused_local_variable
     final prefs = await SharedPrefs.clear();
   }
 }

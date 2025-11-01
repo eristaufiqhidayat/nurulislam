@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, library_private_types_in_public_api, non_constant_identifier_names, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:nurulislam/api/auth_service.dart';
+//import 'package:nurulislam/api/auth_service.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 //import 'package:sentraextro/widget/appbar_widget.dart';
 import 'package:nurulislam/widgets/textCaption1_widget.dart';
