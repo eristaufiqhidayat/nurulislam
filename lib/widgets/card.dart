@@ -38,6 +38,10 @@ class QurbanImage extends StatelessWidget {
                 //width: 50,
                 //height: 160,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image,
+                      size: 48, color: Colors.grey);
+                },
               ),
               // child: Image.asset(
               //   assetPath,
@@ -120,6 +124,10 @@ class KajianCard extends StatelessWidget {
                       //width: 50,
                       height: 250,
                       //fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.broken_image,
+                            size: 48, color: Colors.grey);
+                      },
                     ),
                   )
                 : const SizedBox(),

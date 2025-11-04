@@ -20,7 +20,7 @@ class PageInfoService {
   Future<String> uploadImage(PlatformFile file) async {
     final uri = Uri.parse('$uploadUrl?token=$token');
     final request = http.MultipartRequest('POST', uri);
-    print('$uploadUrl?token=$token');
+    //print('$uploadUrl?token=$token');
     if (kIsWeb) {
       request.files.add(
         http.MultipartFile.fromBytes('image', file.bytes!, filename: file.name),
@@ -46,12 +46,13 @@ class PageInfoService {
       Uri.parse('$pageInfoUrl?page=$page'),
       headers: {'Authorization': 'Bearer $token'},
     );
-
+    print('$pageInfoUrl?page=$page');
+    print('Authorization Bearer $token');
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
       return jsonList.map((e) => PageinfoModel.fromJson(e)).toList();
     } else {
-      throw Exception('Failed to fetch data');
+      throw Exception('$pageInfoUrl?page=$page');
     }
   }
 

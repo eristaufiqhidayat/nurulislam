@@ -19,7 +19,7 @@ class AuthService {
       //print('Response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        //print("auth_service : $data");
+        print("auth_service : $data");
         return User.fromJson(data);
       } else {
         throw Exception('Login failed: ${response.body}');
@@ -39,9 +39,9 @@ class AuthService {
           'token': token ?? '',
         },
       );
-      //print('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role');
+      print('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role');
       if (response.statusCode == 200) {
-        print("Raw JSON: ${response.body}");
+        //print("Raw JSON: ${response.body}");
         final List<dynamic> data = json.decode(response.body);
 
         //print("Parsed JSON: $data");
@@ -75,16 +75,17 @@ class AuthService {
 
 class ApiService {
   Future<List<PageinfoModel>> fetchPosts(String category) async {
-    final response = await http.post(
-        Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category"),
-        body: {'category': category});
+    final url =
+        Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category");
+    print(url);
 
-    //print("${ApiConstants.baseUrl}/api/pageinfo?category=$category");
+    final response = await http.get(url);
+
     if (response.statusCode == 200) {
       final List jsonData = json.decode(response.body);
       return jsonData.map((item) => PageinfoModel.fromJson(item)).toList();
     } else {
-      throw Exception("Failed to load posts");
+      throw Exception("Failed to load posts: ${response.statusCode}");
     }
   }
 }

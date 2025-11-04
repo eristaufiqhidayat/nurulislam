@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
 import 'package:nurulislam/api/auth_service.dart';
-import 'package:nurulislam/pages/kajian_detil.crud';
+import 'package:nurulislam/pages/kajian_detil_crud.dart';
 import 'package:nurulislam/widgets/card.dart';
 
 class PageContent extends StatefulWidget {

@@ -73,6 +73,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
     }
 
     final response = await request.send();
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final respStr = await response.stream.bytesToString();
       final jsonData = jsonDecode(respStr);
