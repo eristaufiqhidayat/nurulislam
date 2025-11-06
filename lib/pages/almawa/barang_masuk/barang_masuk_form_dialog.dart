@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../models/barang_masuk_model.dart';
-import '../../models/barang_model.dart';
-import '../../services/barang_masuk_service.dart';
-import '../../services/barang_service.dart';
+import '../../../models/barang_masuk_model.dart';
+import '../../../models/barang_model.dart';
+import '../../../services/barang_masuk_service.dart';
+import '../../../services/barang_service.dart';
 
 void showBarangMasukFormDialog({
   required BuildContext context,

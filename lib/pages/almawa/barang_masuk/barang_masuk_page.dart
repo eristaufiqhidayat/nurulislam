@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
-import '../../services/barang_service.dart';
-import '../../services/barang_masuk_service.dart';
+import '../../../services/barang_service.dart';
+import '../../../services/barang_masuk_service.dart';
 import 'barang_masuk_form_dialog.dart';
 
 class BarangMasukPage extends StatefulWidget {

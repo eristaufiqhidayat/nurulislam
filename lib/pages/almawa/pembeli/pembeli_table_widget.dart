@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/pembeli_model.dart';
+import '../../../models/pembeli_model.dart';
 
 class PembeliTableWidget extends StatelessWidget {
   final List<PembeliModel> items;

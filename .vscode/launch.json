@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib/pages/almawa/pembeli_table_widget_column.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/pages/almawa/pembeli_table_widget_column.dart"
+        }
+    ]
+}

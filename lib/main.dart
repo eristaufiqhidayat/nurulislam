@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nurulislam/api/auth_service.dart';
 import 'package:nurulislam/app.dart';
-import 'package:nurulislam/pages/almawa/barang_crud_page.dart';
+import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
 //import 'package:nurulislam/models/menuRole_model.dart';
 import 'package:nurulislam/pages/dkm.dart';
 import 'package:nurulislam/pages/kegiatan.dart';
