@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/pages/almawa/barang_crud_page.dart';
 import 'package:nurulislam/pages/almawa/barang_masuk_page.dart';
+import 'package:nurulislam/pages/almawa/pembeli_crud_page.dart';
 import 'package:nurulislam/pages/menuRolepage.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
+import 'package:nurulislam/widgets/menu_drawer.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
 import '../api/auth_service.dart';
@@ -50,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       theme: theme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        //drawer: MobileDrawer(),
         backgroundColor: Colors.green.shade50,
         body: CustomScrollView(
           slivers: [
@@ -197,6 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '/pageInfo': PageInfoPage(),
       '/stokBarang': BarangMasukPage(),
       '/barang': BarangPage(),
+      '/pembeli': PembeliPage(),
     };
 
     Navigator.push(
@@ -220,6 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'users':
         return Icons.people_alt_rounded;
       case 'home':
+        return Icons.home;
+      case 'buyer':
         return Icons.home;
       default:
         return Icons.apps_rounded;

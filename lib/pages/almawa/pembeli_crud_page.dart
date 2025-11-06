@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../models/barang_model.dart';
-import '../../services/barang_service.dart';
-import 'barang_table_widget.dart';
-import 'barang_form_dialog.dart';
+import '../../models/pembeli_model.dart';
+import '../../services/pembeli_service.dart';
+import 'pembeli_form_dialog.dart';
+import 'pembeli_table_widget.dart';
 
-class BarangPage extends StatefulWidget {
-  const BarangPage({super.key});
+class PembeliPage extends StatefulWidget {
+  const PembeliPage({super.key});
 
   @override
-  State<BarangPage> createState() => _BarangPageState();
+  State<PembeliPage> createState() => _PembeliPageState();
 }
 
-class _BarangPageState extends State<BarangPage> {
-  List<BarangModel> _items = [];
+class _PembeliPageState extends State<PembeliPage> {
+  List<PembeliModel> _items = [];
   int currentPage = 1;
   bool isLastPage = false;
-  late BarangService service;
+  late PembeliService service;
   String searchQuery = "";
-
-  final List<String> kategoriList = [
-    'Beras',
-    'Minyak',
-    'Sembako Lainnya',
-    'Almawa'
-  ];
 
   @override
   void initState() {
@@ -35,17 +28,17 @@ class _BarangPageState extends State<BarangPage> {
 
   Future<void> _initTokenAndLoadData() async {
     final token = await SharedPrefs.getToken();
-    service = BarangService(token!);
+    service = PembeliService(token!);
     await _loadData();
   }
 
   Future<void> _loadData() async {
     try {
-      final data = await service.fetchBarangs(currentPage);
+      final data = await service.fetchPembelis(currentPage);
       setState(() {
         _items = data
-            .where((e) =>
-                e.namaBarang.toLowerCase().contains(searchQuery.toLowerCase()))
+            .where(
+                (e) => e.nama.toLowerCase().contains(searchQuery.toLowerCase()))
             .toList();
         isLastPage = data.length < 10;
       });
@@ -64,7 +57,7 @@ class _BarangPageState extends State<BarangPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green[100],
-      appBar: AppBarCustom(title: 'Data Barang', routeName: '/homepage'),
+      appBar: AppBarCustom(title: 'Data Pembeli', routeName: '/homepage'),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -77,7 +70,7 @@ class _BarangPageState extends State<BarangPage> {
           children: [
             const SizedBox(height: 10),
             const Text(
-              'DAFTAR BARANG',
+              'DAFTAR PEMBELI',
               style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -102,10 +95,9 @@ class _BarangPageState extends State<BarangPage> {
                   ElevatedButton.icon(
                     icon: const Icon(Icons.add),
                     label: const Text("New"),
-                    onPressed: () => showBarangFormDialog(
+                    onPressed: () => showPembeliFormDialog(
                       context: context,
                       service: service,
-                      kategoriList: kategoriList,
                       onSaveSuccess: _loadData,
                     ),
                     style: ElevatedButton.styleFrom(
@@ -123,7 +115,7 @@ class _BarangPageState extends State<BarangPage> {
               child: TextField(
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search, color: Colors.green),
-                  hintText: "Cari barang...",
+                  hintText: "Cari pembeli...",
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -136,18 +128,15 @@ class _BarangPageState extends State<BarangPage> {
               ),
             ),
             const SizedBox(height: 10),
-
-            // 🔹 Widget tabel
             Expanded(
-              child: BarangTableWidget(
+              child: PembeliTableWidget(
                 items: _items,
                 onEdit: (item) {
                   Future.delayed(const Duration(milliseconds: 150), () {
-                    showBarangFormDialog(
+                    showPembeliFormDialog(
                       context: context,
                       service: service,
-                      kategoriList: kategoriList,
-                      item: item, // ✅ kirim data item ke dialog
+                      item: item,
                       onSaveSuccess: _loadData,
                     );
                   });
@@ -155,8 +144,6 @@ class _BarangPageState extends State<BarangPage> {
                 onDelete: (id) => _delete(id),
               ),
             ),
-
-            // 🔹 Pagination
             Container(
               color: Colors.green[200],
               padding: const EdgeInsets.symmetric(vertical: 6),

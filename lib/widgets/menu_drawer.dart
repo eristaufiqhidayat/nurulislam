@@ -13,24 +13,13 @@ class DesktopMenuBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.green[800],
-        // border: Border.all(
-        //   color: Colors.black, // Border color
-        //   width: 2.0, // Border width
-        // ),
       ),
-      //color: Colors.green[800],
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     color: Colors.black, // Border color
-            //     width: 0, // Border width
-            //   ),
-            // ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -39,36 +28,11 @@ class DesktopMenuBar extends StatelessWidget {
             ),
           ),
           Container(
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     color: Colors.black, // Border color
-            //     width: 0, // Border width
-            //   ),
-            // ),
             alignment: Alignment.centerRight,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ...menuItems.map((item) => MenuButton(item: item)),
-                // const SizedBox(width: 20),
-                // Flexible(
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: Colors.green[600],
-                //       foregroundColor: Colors.white,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(20),
-                //       ),
-                //     ),
-                //     onPressed: () {
-                //       // Action for donation button
-                //     },
-                //     child: const Padding(
-                //       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                //       child: Text('Donasi Sekarang'),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

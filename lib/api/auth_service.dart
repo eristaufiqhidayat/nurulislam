@@ -19,7 +19,7 @@ class AuthService {
       //print('Response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print("auth_service : $data");
+        //print("auth_service : $data");
         return User.fromJson(data);
       } else {
         throw Exception('Login failed: ${response.body}');
@@ -39,7 +39,7 @@ class AuthService {
           'token': token ?? '',
         },
       );
-      print('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role');
+      //print('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role');
       if (response.statusCode == 200) {
         //print("Raw JSON: ${response.body}");
         final List<dynamic> data = json.decode(response.body);
@@ -77,7 +77,7 @@ class ApiService {
   Future<List<PageinfoModel>> fetchPosts(String category) async {
     final url =
         Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category");
-    print(url);
+    //print(url);
 
     final response = await http.get(url);
 

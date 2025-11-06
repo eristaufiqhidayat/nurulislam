@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../models/barang_model.dart';
+import '../../models/pembeli_model.dart';
 
-class BarangTableWidget extends StatelessWidget {
-  final List<BarangModel> items;
-  final Function(BarangModel) onEdit;
+class PembeliTableWidget extends StatelessWidget {
+  final List<PembeliModel> items;
+  final Function(PembeliModel) onEdit;
   final Function(int) onDelete;
 
-  const BarangTableWidget({
+  const PembeliTableWidget({
     super.key,
     required this.items,
     required this.onEdit,
@@ -16,7 +16,12 @@ class BarangTableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
-      return const Center(child: Text("Belum ada data barang"));
+      return const Center(
+        child: Text(
+          "Belum ada data pembeli",
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+      );
     }
 
     return ListView.builder(
@@ -24,39 +29,66 @@ class BarangTableWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = items[index];
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey.shade300),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Nomor urut
+              Padding(
+                padding: const EdgeInsets.only(right: 8, top: 6),
+                child: Text(
+                  "${index + 1}.",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.green),
+                ),
+              ),
+
+              // Informasi Pembeli
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.namaBarang,
+                      item.nama,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
+                        color: Colors.black87,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "Kategori: ${item.kategori}",
+                      "Alamat: ${item.alamat}",
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     Text(
-                      "Harga: Rp${item.hargaJual.toStringAsFixed(0)} | Stok: ${item.stok}",
-                      style: TextStyle(color: Colors.grey[600]),
+                      "No. Telepon: ${item.noTelepon}",
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Dibuat: ${item.createdAt.toString().split(' ')[0]}",
+                      style: TextStyle(color: Colors.grey[500], fontSize: 12),
                     ),
                   ],
                 ),
               ),
+
+              // Tombol Popup Aksi
               PopupMenuButton(
                 icon: const Icon(Icons.more_vert, color: Colors.blueGrey),
                 itemBuilder: (context) => [
@@ -65,7 +97,7 @@ class BarangTableWidget extends StatelessWidget {
                       children: [
                         Icon(Icons.edit, color: Colors.blue),
                         SizedBox(width: 6),
-                        Text("Edit")
+                        Text("Edit"),
                       ],
                     ),
                     onTap: () => Future(() => onEdit(item)),
@@ -75,10 +107,10 @@ class BarangTableWidget extends StatelessWidget {
                       children: [
                         Icon(Icons.delete, color: Colors.red),
                         SizedBox(width: 6),
-                        Text("Hapus")
+                        Text("Hapus"),
                       ],
                     ),
-                    onTap: () => Future(() => onDelete(item.id!)),
+                    onTap: () => Future(() => onDelete(item.id)),
                   ),
                 ],
               ),
