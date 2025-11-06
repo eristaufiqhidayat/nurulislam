@@ -2,7 +2,7 @@ import '../services/almawa_service.dart';
 
 class TransaksiRepository {
   Future<dynamic> tambahBarangMasuk(int barangId, int jumlah) async {
-    return await ApiService.post('transaksi/barang-masuk', {
+    return await ApiService.post('api/transaksi/barang-masuk', {
       'barang_id': barangId,
       'jumlah': jumlah,
     });

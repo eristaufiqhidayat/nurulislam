@@ -1,5 +1,5 @@
-class Barang {
-  final int id;
+class BarangModel {
+  final int? id;
   final String namaBarang;
   final String kategori;
   final String satuan;
@@ -7,8 +7,8 @@ class Barang {
   final double hargaJual;
   final int stok;
 
-  Barang({
-    required this.id,
+  BarangModel({
+    this.id,
     required this.namaBarang,
     required this.kategori,
     required this.satuan,
@@ -17,13 +17,26 @@ class Barang {
     required this.stok,
   });
 
-  factory Barang.fromJson(Map<String, dynamic> json) => Barang(
-        id: json['id'],
-        namaBarang: json['nama_barang'],
-        kategori: json['kategori'] ?? '',
-        satuan: json['satuan'] ?? '',
-        hargaBeli: (json['harga_beli'] ?? 0).toDouble(),
-        hargaJual: (json['harga_jual'] ?? 0).toDouble(),
-        stok: json['stok'] ?? 0,
-      );
+  factory BarangModel.fromJson(Map<String, dynamic> json) {
+    return BarangModel(
+      id: json['id'],
+      namaBarang: json['nama_barang'],
+      kategori: json['kategori'],
+      satuan: json['satuan'],
+      hargaBeli: double.tryParse(json['harga_beli'].toString()) ?? 0,
+      hargaJual: double.tryParse(json['harga_jual'].toString()) ?? 0,
+      stok: int.tryParse(json['stok'].toString()) ?? 0,
+    );
+  }
+
+  Map<String, String> toJson() {
+    return {
+      'nama_barang': namaBarang,
+      'kategori': kategori,
+      'satuan': satuan,
+      'harga_beli': hargaBeli.toString(),
+      'harga_jual': hargaJual.toString(),
+      'stok': stok.toString(),
+    };
+  }
 }

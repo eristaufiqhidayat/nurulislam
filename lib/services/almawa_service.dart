@@ -9,7 +9,10 @@ class ApiService {
 
   static Future<dynamic> get(String endpoint) async {
     final token = await SharedPrefs.getToken();
-    final response = await http.get(Uri.parse('$baseUrl/$endpoint'));
+    final response = await http.get(Uri.parse('$baseUrl/$endpoint'), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
     return _handleResponse(response);
   }
 
@@ -18,9 +21,13 @@ class ApiService {
     final token = await SharedPrefs.getToken();
     final response = await http.post(
       Uri.parse('$baseUrl/$endpoint'),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
       body: jsonEncode(data),
     );
+    print(data);
     return _handleResponse(response);
   }
 

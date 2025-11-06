@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/pages/almawa/barang_crud_page.dart';
+import 'package:nurulislam/pages/almawa/barang_masuk_page.dart';
 import 'package:nurulislam/pages/menuRolepage.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
@@ -170,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: 50,
             child: Text(
-              item.title,
+              "${item.title}",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
@@ -193,6 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
       '/pagecontent_crud': pagecontent_crud(),
       '/menuRole': MenuRolePage(),
       '/pageInfo': PageInfoPage(),
+      '/stokBarang': BarangMasukPage(),
+      '/barang': BarangPage(),
     };
 
     Navigator.push(
@@ -209,14 +213,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   IconData _icon(String n) {
     switch (n) {
-      case 'dashboard':
-        return Icons.dashboard_rounded;
+      case 'page':
+        return Icons.pages;
       case 'admin':
         return Icons.admin_panel_settings;
       case 'users':
         return Icons.people_alt_rounded;
-      case 'settings':
-        return Icons.settings_rounded;
+      case 'home':
+        return Icons.home;
       default:
         return Icons.apps_rounded;
     }
