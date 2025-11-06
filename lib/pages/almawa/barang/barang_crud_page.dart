@@ -34,8 +34,7 @@ class _BarangPageState extends State<BarangPage> {
   }
 
   Future<void> _initTokenAndLoadData() async {
-    final token = await SharedPrefs.getToken();
-    service = BarangService(token!);
+    service = BarangService();
     await _loadData();
   }
 

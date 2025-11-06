@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/utils/shared_prefs.dart';
-import '../../../services/barang_service.dart';
+import '../../../models/barang_masuk_model.dart';
 import '../../../services/barang_masuk_service.dart';
 import 'barang_masuk_form_dialog.dart';
+import 'barang_masuk_table_widget.dart';
+//import '../../../widgets/appbar_widget.dart';
 
 class BarangMasukPage extends StatefulWidget {
   const BarangMasukPage({super.key});
@@ -12,44 +13,64 @@ class BarangMasukPage extends StatefulWidget {
 }
 
 class _BarangMasukPageState extends State<BarangMasukPage> {
-  late BarangMasukService barangMasukService;
-  late BarangService barangService;
+  late Future<List<BarangMasukModel>> futureData;
 
   @override
   void initState() {
     super.initState();
-    _initServices();
+    futureData = BarangMasukService.fetchAll();
   }
 
-  Future<void> _initServices() async {
-    final token = await SharedPrefs.getToken();
-    barangMasukService = BarangMasukService(token!);
-    barangService = BarangService(token);
+  void _refreshData() {
+    setState(() {
+      futureData = BarangMasukService.fetchAll();
+    });
   }
 
-  void _openForm() {
-    showBarangMasukFormDialog(
+  void _showForm([BarangMasukModel? item]) {
+    showDialog(
       context: context,
-      service: barangMasukService,
-      barangService: barangService,
-      onSaveSuccess: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Data barang masuk berhasil disimpan')),
-        );
-      },
+      builder: (_) => BarangMasukFormDialog(
+        item: item,
+        onSubmit: (data) async {
+          bool success = item == null
+              ? await BarangMasukService.create(data)
+              : await BarangMasukService.update(item.id, data);
+          if (success) _refreshData();
+        },
+      ),
     );
+  }
+
+  void _delete(int id) async {
+    await BarangMasukService.delete(id);
+    _refreshData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Barang Masuk')),
-      body: Center(
-        child: ElevatedButton.icon(
-          icon: const Icon(Icons.add),
-          label: const Text("Tambah Barang Masuk"),
-          onPressed: _openForm,
-        ),
+      appBar: AppBar(title: Text('Data Pembelian Barang')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showForm(),
+        child: const Icon(Icons.add),
+      ),
+      body: FutureBuilder<List<BarangMasukModel>>(
+        future: futureData,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final data = snapshot.data!;
+          return BarangMasukTableWidget(
+            data: data,
+            onEdit: (item) => _showForm(item),
+            onDelete: (id) => _delete(id),
+          );
+        },
       ),
     );
   }

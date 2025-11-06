@@ -1,6 +1,7 @@
 class BarangMasukModel {
   final int id;
   final int barangId;
+  final String namaBarang;
   final int jumlah;
   final DateTime tglMasuk;
   final double hargaBeli;
@@ -9,6 +10,7 @@ class BarangMasukModel {
   BarangMasukModel({
     required this.id,
     required this.barangId,
+    required this.namaBarang,
     required this.jumlah,
     required this.tglMasuk,
     required this.hargaBeli,
@@ -17,12 +19,16 @@ class BarangMasukModel {
 
   factory BarangMasukModel.fromJson(Map<String, dynamic> json) {
     return BarangMasukModel(
-      id: json['id'],
-      barangId: json['barang_id'],
-      jumlah: json['jumlah'],
-      tglMasuk: DateTime.parse(json['tgl_masuk']),
-      hargaBeli: double.parse(json['harga_beli'].toString()),
-      supplier: json['supplier'],
+      id: json['id'] ?? 0,
+      barangId: json['barang_id'] ?? 0,
+      namaBarang: json['barang']?['nama_barang'] ?? '-',
+      jumlah: json['jumlah'] ?? 0,
+      // ✅ Ganti dari tgl_masuk → tanggal_masuk
+      tglMasuk: (json['tanggal_masuk'] != null)
+          ? DateTime.parse(json['tanggal_masuk'])
+          : DateTime.now(),
+      hargaBeli: double.tryParse(json['harga_beli']?.toString() ?? '0') ?? 0,
+      supplier: json['supplier'] ?? '',
     );
   }
 
@@ -30,7 +36,8 @@ class BarangMasukModel {
     return {
       'barang_id': barangId,
       'jumlah': jumlah,
-      'tgl_masuk': tglMasuk.toIso8601String(),
+      // ✅ Laravel masih pakai nama `tanggal_masuk`, bukan `tgl_masuk`
+      'tanggal_masuk': tglMasuk.toIso8601String(),
       'harga_beli': hargaBeli,
       'supplier': supplier,
     };
