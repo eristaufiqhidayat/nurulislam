@@ -22,10 +22,6 @@ class BarangMasukService {
     final headers = await _headers();
     final response = await http.get(Uri.parse(endpoint), headers: headers);
 
-    print('📦 [GET] $endpoint');
-    print('➡️ Response: ${response.statusCode}');
-    print('➡️ Body: ${response.body}');
-
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
 

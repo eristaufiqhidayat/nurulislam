@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
 import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_page.dart';
 import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
+import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
 import 'package:nurulislam/pages/menuRolepage.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
@@ -153,34 +154,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _menuIcon(MenuItem item) {
+    final Color itemColor = _parseColor(item.color); // default hijau
+
     return InkWell(
       onTap: () => _navigate(item),
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.green.shade300.withOpacity(.6),
+              color: itemColor
+                  .withOpacity(0.15), // background lembut dari warna icon
             ),
             child: Icon(
               _icon(item.icon),
-              size: 40, // SUPER BESAR ✅
-              color: Colors.green.shade900,
+              size: 40,
+              color: itemColor, // warna icon sesuai API
             ),
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 3),
           SizedBox(
-            width: 50,
+            width: 60,
             child: Text(
-              "${item.title}",
+              item.title,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 8.5,
-                color: Colors.green.shade900,
+                fontSize: 9,
+                color: itemColor, // warna teks sama dengan icon
                 height: 1.1,
               ),
               maxLines: 2,
@@ -201,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '/barangMasuk': BarangMasukPage(),
       '/barang': BarangPage(),
       '/pembeli': PembeliPage(),
+      '/penjualan': DetailPenjualanPage(),
     };
 
     Navigator.push(
@@ -224,11 +229,30 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'users':
         return Icons.people_alt_rounded;
       case 'home':
-        return Icons.home;
+        return Icons.add_shopping_cart_sharp;
       case 'buyer':
-        return Icons.home;
+        return Icons.person_sharp;
+      case 'barang':
+        return Icons.airport_shuttle_rounded;
       default:
         return Icons.apps_rounded;
     }
   }
+}
+
+Color _parseColor(String colorString) {
+  try {
+    if (colorString.startsWith('0x')) {
+      return Color(int.parse(colorString));
+    } else if (colorString.startsWith('#')) {
+      String hex = colorString.substring(1);
+      if (hex.length == 6) {
+        hex = 'FF' + hex; // tambahkan alpha jika tidak ada
+      }
+      return Color(int.parse('0x$hex'));
+    }
+  } catch (e) {
+    // Jika parsing gagal, kembalikan warna default
+  }
+  return Color(0xFF388E3C); // default hijau
 }

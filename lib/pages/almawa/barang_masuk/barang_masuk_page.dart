@@ -67,7 +67,7 @@ class _BarangMasukPageState extends State<BarangMasukPage> {
     return Scaffold(
       backgroundColor: Colors.green[100],
       appBar: AppBarCustom(
-        title: 'Data Pembelian Barang',
+        title: 'Back to Dashboard',
         routeName: '/homepage',
       ),
       body: Container(
@@ -82,7 +82,7 @@ class _BarangMasukPageState extends State<BarangMasukPage> {
           children: [
             const SizedBox(height: 10),
             const Text(
-              'DAFTAR PEMBELIAN BARANG',
+              'Daftar Barang Masuk',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,

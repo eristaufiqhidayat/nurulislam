@@ -2,13 +2,13 @@ class MenuItem {
   final String title;
   final String icon;
   final String route;
-  final List<String> requiredRoles;
+  final String color;
 
   MenuItem({
     required this.title,
     required this.icon,
     required this.route,
-    required this.requiredRoles,
+    this.color = '',
   });
 
   factory MenuItem.fromJson(Map<String, dynamic> json) {
@@ -16,14 +16,7 @@ class MenuItem {
       title: json['title'] ?? '',
       icon: json['icon'] ?? '',
       route: json['route'] ?? '',
-      requiredRoles: (json['requiredRoles'] as String)
-          .split(',')
-          .map((e) => e.trim())
-          .toList(),
+      color: json['color'] ?? '',
     );
-  }
-
-  bool isAccessibleFor(String role) {
-    return requiredRoles.contains(role);
   }
 }

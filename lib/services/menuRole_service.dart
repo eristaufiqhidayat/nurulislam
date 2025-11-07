@@ -19,6 +19,7 @@ class MenuRoleService {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
+    print(response.body);
     //print('$baseUrl/api/menu-roles?token=$token');
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);

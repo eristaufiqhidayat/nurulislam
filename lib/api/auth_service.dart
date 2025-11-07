@@ -39,6 +39,7 @@ class AuthService {
           'token': token ?? '',
         },
       );
+      //print(response.body);
       //print('${ApiConstants.baseUrl}/api/menu?token=$token&role=$role');
       if (response.statusCode == 200) {
         //print("Raw JSON: ${response.body}");
