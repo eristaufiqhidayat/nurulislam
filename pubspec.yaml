@@ -41,6 +41,7 @@ dependencies:
   google_fonts: ^6.2.1
   file_picker: ^8.0.0
   flutter_markdown: ^0.7.3
+  dropdown_search: ^6.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

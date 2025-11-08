@@ -6,7 +6,7 @@ import '../api/api_constants.dart';
 
 class DetailPenjualanService {
   static const String base =
-      '${ApiConstants.baseUrl}/api/'; // from api_constants.dart
+      '${ApiConstants.baseUrl}/api'; // from api_constants.dart
   static Future<Map<String, String>> _headers() async {
     final token = await SharedPrefs.getToken();
     return {
@@ -19,7 +19,7 @@ class DetailPenjualanService {
   Future<List<DetailPenjualan>> fetchAll() async {
     final headers = await _headers();
     final res =
-        await http.get(Uri.parse('\$base/detail-penjualan'), headers: headers);
+        await http.get(Uri.parse('$base/detail-penjualan'), headers: headers);
     if (res.statusCode == 200) {
       final List data = json.decode(res.body);
       return data.map((e) => DetailPenjualan.fromJson(e)).toList();
@@ -27,12 +27,14 @@ class DetailPenjualanService {
     throw Exception('Failed to load');
   }
 
-  Future<DetailPenjualan> fetchById(int id) async {
+  Future<List<DetailPenjualan>> fetchById(int id) async {
     final headers = await _headers();
-    final res = await http.get(Uri.parse('\$base/detail-penjualan/\$id'),
+    final res = await http.get(
+        Uri.parse('$base/detail-penjualan?penjualan_id=$id'),
         headers: headers);
     if (res.statusCode == 200) {
-      return DetailPenjualan.fromJson(json.decode(res.body));
+      final List data = json.decode(res.body);
+      return data.map((e) => DetailPenjualan.fromJson(e)).toList();
     }
     throw Exception('Failed to load');
   }
@@ -40,7 +42,7 @@ class DetailPenjualanService {
   Future<DetailPenjualan> create(DetailPenjualan d) async {
     final headers = await _headers();
     final res = await http.post(
-      Uri.parse('\$base/detail-penjualan'),
+      Uri.parse('$base/detail-penjualan'),
       headers: headers,
       body: json.encode(d.toJson()),
     );
@@ -48,6 +50,8 @@ class DetailPenjualanService {
     if (res.statusCode == 201) {
       return DetailPenjualan.fromJson(json.decode(res.body));
     }
+    print('$base/detail-penjualan');
+    print(d.toJson());
     print('Response code: ${res.statusCode}');
     print('Response body: ${res.body}');
     throw Exception('Failed to create');
@@ -56,7 +60,7 @@ class DetailPenjualanService {
   Future<DetailPenjualan> update(int id, DetailPenjualan d) async {
     final headers = await _headers();
     final res = await http.put(
-      Uri.parse('\$base/detail-penjualan/\$id'),
+      Uri.parse('$base/detail-penjualan/$id'),
       headers: headers,
       body: json.encode(d.toJson()),
     );
@@ -68,7 +72,7 @@ class DetailPenjualanService {
 
   Future<void> delete(int id) async {
     final headers = await _headers();
-    final res = await http.delete(Uri.parse('\$base/detail-penjualan/\$id'),
+    final res = await http.delete(Uri.parse('$base/detail-penjualan/$id'),
         headers: headers);
     if (res.statusCode != 200 && res.statusCode != 204) {
       throw Exception('Failed to delete');

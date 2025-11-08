@@ -54,20 +54,44 @@ class _DetailPenjualanPageState extends State<DetailPenjualanPage> {
       headers: headers,
     );
 
-    //print(res.body); // untuk debugging
+    print('Response code: ${res.statusCode}');
+    print('Response body: ${res.body}');
 
     if (res.statusCode == 200) {
       final decoded = json.decode(res.body);
 
-      // Ambil key 'data' dari JSON response
-      final List<dynamic> dataList = decoded['data'] ?? [];
+      // ✅ Ambil list barang dari key "data"
+      final List<dynamic> dataList =
+          (decoded is Map<String, dynamic> && decoded['data'] is List)
+              ? decoded['data']
+              : (decoded is List ? decoded : []);
 
-      // Mapping ke model BarangModel
-      barangs = dataList.map((e) => BarangModel.fromJson(e)).toList();
+      // ✅ Konversi ke model
+      barangs = dataList.map((e) {
+        try {
+          return BarangModel.fromJson(Map<String, dynamic>.from(e));
+        } catch (err) {
+          print('❌ Gagal parse barang: $err');
+          return BarangModel(
+            id: 0,
+            namaBarang: 'Error',
+            kategori: '',
+            satuan: '',
+            hargaBeli: 0,
+            hargaJual: 0,
+            stok: 0,
+          );
+        }
+      }).toList();
+
+      print('✅ Barang loaded: ${barangs.length}');
+      for (var b in barangs) {
+        print('📦 ${b.id} | ${b.namaBarang}');
+      }
 
       setState(() {});
     } else {
-      print('Gagal memuat data barang: ${res.statusCode}');
+      print('❌ Gagal memuat data barang: ${res.statusCode}');
     }
   }
 

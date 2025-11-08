@@ -138,7 +138,6 @@ Future<void> showBarangFormDialog({
                 hargaJual: double.tryParse(hargaJual.text) ?? 0,
                 stok: int.tryParse(stok.text) ?? 0,
               );
-
               if (item == null) {
                 await service.create(newItem);
               } else {

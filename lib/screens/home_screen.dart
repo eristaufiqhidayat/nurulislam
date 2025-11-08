@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
 import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_page.dart';
 import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
-import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
+//import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
+//import 'package:nurulislam/pages/almawa/penjualan/penjualan_form_page.dart';
+import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
 import 'package:nurulislam/pages/menuRolepage.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
@@ -58,48 +60,58 @@ class _HomeScreenState extends State<HomeScreen> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: 150,
+              expandedHeight: 180,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                background: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.green.shade900, Colors.green.shade600],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // 🔹 Gambar background masjid
+                    Image.asset(
+                      'assets/images/masjid_nuris.jpg',
+                      fit: BoxFit.cover,
                     ),
-                  ),
-                  child: SafeArea(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.white.withOpacity(0.25),
-                          child:
-                              Icon(Icons.person, size: 35, color: Colors.white),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "Assalamu'alaikum, ${widget.user!.name}",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+
+                    // 🔹 Overlay hijau transparan agar teks tetap terbaca
+                    Container(
+                      color: Colors.green.withOpacity(0.65),
+                    ),
+
+                    // 🔹 Konten di tengah (avatar, nama, dll)
+                    SafeArea(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 28,
+                            backgroundColor: Colors.white.withOpacity(0.25),
+                            child: Icon(Icons.person,
+                                size: 35, color: Colors.white),
                           ),
-                        ),
-                        Text(
-                          "Dashboard",
-                          style: TextStyle(color: Colors.white70, fontSize: 11),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          Text(
+                            "Assalamu'alaikum, ${widget.user!.name}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const Text(
+                            "Dashboard",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 11),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
               actions: [
                 IconButton(
-                    icon: Icon(Icons.notifications_none, color: Colors.white),
+                    icon: const Icon(Icons.notifications_none,
+                        color: Colors.white),
                     onPressed: () {}),
                 IconButton(
                   icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode,
@@ -107,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () => setState(() => _isDarkMode = !_isDarkMode),
                 ),
                 IconButton(
-                    icon: Icon(Icons.logout, color: Colors.white),
+                    icon: const Icon(Icons.logout, color: Colors.white),
                     onPressed: _logout),
               ],
             ),
@@ -205,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '/barangMasuk': BarangMasukPage(),
       '/barang': BarangPage(),
       '/pembeli': PembeliPage(),
-      '/penjualan': DetailPenjualanPage(),
+      '/penjualan': PenjualanPage(),
     };
 
     Navigator.push(

@@ -19,24 +19,47 @@ class BarangModel {
 
   factory BarangModel.fromJson(Map<String, dynamic> json) {
     return BarangModel(
-      id: json['id'],
-      namaBarang: json['nama_barang'],
-      kategori: json['kategori'],
-      satuan: json['satuan'],
-      hargaBeli: double.tryParse(json['harga_beli'].toString()) ?? 0,
-      hargaJual: double.tryParse(json['harga_jual'].toString()) ?? 0,
-      stok: int.tryParse(json['stok'].toString()) ?? 0,
+      id: int.tryParse(json['id']?.toString() ?? '0'),
+      namaBarang: json['nama_barang']?.toString() ?? '',
+      kategori: json['kategori']?.toString() ?? '',
+      satuan: json['satuan']?.toString() ?? '',
+      hargaBeli: double.tryParse(json['harga_beli']?.toString() ?? '0') ?? 0,
+      hargaJual: double.tryParse(json['harga_jual']?.toString() ?? '0') ?? 0,
+      stok: int.tryParse(json['stok']?.toString() ?? '0') ?? 0,
     );
   }
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'nama_barang': namaBarang,
       'kategori': kategori,
       'satuan': satuan,
-      'harga_beli': hargaBeli.toString(),
-      'harga_jual': hargaJual.toString(),
-      'stok': stok.toString(),
+      'harga_beli': hargaBeli,
+      'harga_jual': hargaJual,
+      'stok': stok,
     };
   }
+
+  BarangModel copyWith({
+    int? id,
+    String? namaBarang,
+    String? kategori,
+    String? satuan,
+    double? hargaBeli,
+    double? hargaJual,
+    int? stok,
+  }) {
+    return BarangModel(
+      id: id ?? this.id,
+      namaBarang: namaBarang ?? this.namaBarang,
+      kategori: kategori ?? this.kategori,
+      satuan: satuan ?? this.satuan,
+      hargaBeli: hargaBeli ?? this.hargaBeli,
+      hargaJual: hargaJual ?? this.hargaJual,
+      stok: stok ?? this.stok,
+    );
+  }
+
+  @override
+  String toString() => 'BarangModel(id: $id, nama: $namaBarang, stok: $stok)';
 }

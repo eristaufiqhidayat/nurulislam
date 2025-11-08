@@ -5,6 +5,15 @@ import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/barang_model.dart';
 
 class BarangService {
+  static Future<Map<String, String>> _headers() async {
+    final token = await SharedPrefs.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
+
   Future<List<BarangModel>> fetchBarangs(int page) async {
     // Ambil token dari SharedPrefs
     final token = await SharedPrefs.getToken();
@@ -31,30 +40,29 @@ class BarangService {
   }
 
   Future<void> create(BarangModel item) async {
-    final token = await SharedPrefs.getToken();
+    final headers = await _headers();
+    //print('📝 Menyimpan barang service: ${item.toJson()}');
     final res = await http.post(
       Uri.parse('${ApiConstants.baseUrl}/api/barang'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Accept': 'application/json',
-      },
-      body: item.toJson(),
+      headers: headers,
+      body: jsonEncode(item.toJson()),
     );
+    //print(res.body);
+    //print(res.statusCode);
     if (res.statusCode != 201) {
       throw Exception('Gagal menambah barang: ${res.body}');
     }
   }
 
   Future<void> update(int id, BarangModel item) async {
-    final token = await SharedPrefs.getToken();
+    final headers = await _headers();
     final res = await http.put(
       Uri.parse('${ApiConstants.baseUrl}/api/barang/$id'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Accept': 'application/json',
-      },
-      body: item.toJson(),
+      headers: headers,
+      body: jsonEncode(item.toJson()),
     );
+    //print(res.body);
+    //print(res.statusCode);
     if (res.statusCode != 200) {
       throw Exception('Gagal mengubah barang: ${res.body}');
     }

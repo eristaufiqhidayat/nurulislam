@@ -1,5 +1,14 @@
 ```mermaid
 erDiagram
+    BARANG_MASUK {
+        int id
+        int barang_id
+        int jumlah
+        datetime tgl_masuk
+        decimal harga_beli
+        string supplier
+    }
+
 
     PEMBELI {
         int id
@@ -9,6 +18,14 @@ erDiagram
         datetime created_at
     }
 
+    PENJUALAN {
+        int id
+        int pembeli_id
+        datetime tgl_transaksi
+        decimal total_harga
+        decimal total_modal
+        decimal total_margin
+    }
     BARANG {
         int id
         string nama_barang
@@ -20,24 +37,7 @@ erDiagram
         datetime created_at
     }
 
-    BARANG_MASUK {
-        int id
-        int barang_id
-        int jumlah
-        datetime tgl_masuk
-        decimal harga_beli
-        string supplier
-    }
-
-    PENJUALAN {
-        int id
-        int pembeli_id
-        datetime tgl_transaksi
-        decimal total_harga
-        decimal total_modal
-        decimal total_margin
-    }
-
+    
     DETAIL_PENJUALAN {
         int id
         int penjualan_id

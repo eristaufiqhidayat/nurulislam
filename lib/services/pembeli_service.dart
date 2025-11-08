@@ -33,7 +33,7 @@ class PembeliService {
       body: json.encode(pembeli.toJson()),
     );
     print(response.body);
-    if (response.statusCode != 201) throw Exception('Gagal menambah pembeli');
+    if (response.statusCode != 200) throw Exception('Gagal menambah pembeli');
   }
 
   Future<void> update(int id, PembeliModel pembeli) async {
