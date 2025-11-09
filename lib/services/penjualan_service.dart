@@ -55,7 +55,7 @@ class PenjualanService {
     final res = await http.get(
         Uri.parse('${ApiConstants.baseUrl}/api/penjualan'),
         headers: headers);
-    print(res.body);
+    //print(res.body);
     if (res.statusCode == 200) {
       List data = jsonDecode(res.body);
       return data.map((e) => Penjualan.fromJson(e)).toList();
@@ -68,11 +68,11 @@ class PenjualanService {
     final headers = await _headers();
     final url = Uri.parse('${ApiConstants.baseUrl}/api/penjualan/$id');
 
-    print('🔹 Menghapus penjualan ID: $id');
+    //print('🔹 Menghapus penjualan ID: $id');
     final res = await http.delete(url, headers: headers);
 
-    print('🔹 Status Code: ${res.statusCode}');
-    print('🔹 Body: ${res.body}');
+    //print('🔹 Status Code: ${res.statusCode}');
+    //print('🔹 Body: ${res.body}');
 
     if (res.statusCode == 200) {
       // Berhasil hapus

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/barang_harga_model.dart';
+import '../../../models/barang_model.dart';
+import '../../../services/barang_service.dart';
 
 class HargaForm extends StatefulWidget {
   final BarangHarga? item;
@@ -13,21 +15,37 @@ class HargaForm extends StatefulWidget {
 
 class _HargaFormState extends State<HargaForm> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController barangIdCtrl;
   late TextEditingController tanggalCtrl;
   late TextEditingController hargaBeliCtrl;
   late TextEditingController hargaJualCtrl;
 
+  List<BarangModel> barangs = [];
+  int? selectedBarangId;
+  bool loadingBarang = true;
+
   @override
   void initState() {
     super.initState();
-    barangIdCtrl =
-        TextEditingController(text: widget.item?.barangId.toString() ?? '');
     tanggalCtrl = TextEditingController(text: widget.item?.tanggal ?? '');
     hargaBeliCtrl =
         TextEditingController(text: widget.item?.hargaBeli.toString() ?? '');
     hargaJualCtrl =
         TextEditingController(text: widget.item?.hargaJual.toString() ?? '');
+    selectedBarangId = widget.item?.barangId;
+    _loadBarangList();
+  }
+
+  Future<void> _loadBarangList() async {
+    try {
+      final data = await BarangService().fetchBarangs(1);
+      setState(() {
+        barangs = data;
+        loadingBarang = false;
+      });
+    } catch (e) {
+      print('❌ Gagal memuat barang: $e');
+      setState(() => loadingBarang = false);
+    }
   }
 
   @override
@@ -39,17 +57,32 @@ class _HargaFormState extends State<HargaForm> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TextFormField(
-                controller: barangIdCtrl,
-                decoration: const InputDecoration(labelText: 'Barang ID'),
-                keyboardType: TextInputType.number,
-                validator: (v) =>
-                    v!.isEmpty ? 'Barang ID tidak boleh kosong' : null,
-              ),
+              // 🔽 Dropdown Barang
+              loadingBarang
+                  ? const Center(child: CircularProgressIndicator())
+                  : DropdownButtonFormField<int>(
+                      value: selectedBarangId,
+                      decoration:
+                          const InputDecoration(labelText: 'Pilih Barang'),
+                      items: barangs.map((b) {
+                        return DropdownMenuItem<int>(
+                          value: b.id,
+                          child: Text('${b.namaBarang} (ID: ${b.id})'),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedBarangId = value;
+                        });
+                      },
+                      validator: (v) =>
+                          v == null ? 'Barang harus dipilih' : null,
+                    ),
+
               TextFormField(
                 controller: tanggalCtrl,
-                decoration:
-                    const InputDecoration(labelText: 'Tanggal (YYYY-MM-DD)'),
+                decoration: const InputDecoration(
+                    labelText: 'Tanggal Berlaku (YYYY-MM-DD)'),
                 validator: (v) =>
                     v!.isEmpty ? 'Tanggal tidak boleh kosong' : null,
               ),
@@ -82,7 +115,7 @@ class _HargaFormState extends State<HargaForm> {
             if (_formKey.currentState!.validate()) {
               final data = BarangHarga(
                 id: widget.item?.id,
-                barangId: int.parse(barangIdCtrl.text),
+                barangId: selectedBarangId!,
                 tanggal: tanggalCtrl.text,
                 hargaBeli: double.parse(hargaBeliCtrl.text),
                 hargaJual: double.parse(hargaJualCtrl.text),

@@ -16,6 +16,24 @@ class DetailPenjualanService {
     };
   }
 
+  Future<HargaResponse> getHarga({
+    required int barangId,
+    required String tanggal,
+  }) async {
+    final headers = await _headers();
+    final url = Uri.parse(
+        '${ApiConstants.baseUrl}/api/get-harga?barang_id=$barangId&tanggal=$tanggal');
+
+    final response = await http.get(url, headers: headers);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return HargaResponse.fromJson(data);
+    } else {
+      throw Exception('Gagal memuat data harga');
+    }
+  }
+
   Future<List<DetailPenjualan>> fetchAll() async {
     final headers = await _headers();
     final res =

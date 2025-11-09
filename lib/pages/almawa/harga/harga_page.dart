@@ -29,7 +29,8 @@ class _HargaPageState extends State<HargaPage> {
     } catch (e) {
       print(e);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gagal memuat data harga')));
+        const SnackBar(content: Text('Gagal memuat data harga')),
+      );
     } finally {
       setState(() => loading = false);
     }
@@ -61,8 +62,22 @@ class _HargaPageState extends State<HargaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Harga Barang'),
         backgroundColor: Colors.green.shade700,
+        iconTheme:
+            const IconThemeData(color: Colors.white), // 👈 panah jadi putih
+        title: const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Daftar Harga Barang',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        centerTitle: false,
+        elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
@@ -71,12 +86,29 @@ class _HargaPageState extends State<HargaPage> {
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: HargaTableWidget(
-                items: items,
-                onEdit: (item) => showForm(item: item),
-                onDelete: deleteItem,
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Daftar Harga',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: HargaTableWidget(
+                      items: items,
+                      onEdit: (item) => showForm(item: item),
+                      onDelete: deleteItem,
+                    ),
+                  ),
+                ],
               ),
             ),
     );

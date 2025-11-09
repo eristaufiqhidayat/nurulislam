@@ -11,7 +11,7 @@ class BarangHargaService {
       Uri.parse('${ApiConstants.baseUrl}/api/barang-harga'),
       headers: headers,
     );
-
+    //print(res.body);
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body)['data'] as List;
       return data.map((e) => BarangHarga.fromJson(e)).toList();
@@ -25,7 +25,7 @@ class BarangHargaService {
     final res = await http.post(
       Uri.parse('${ApiConstants.baseUrl}/api/barang-harga'),
       headers: headers,
-      body: item.toJson(),
+      body: jsonEncode(item.toJson()),
     );
 
     if (res.statusCode != 201) {
@@ -38,7 +38,7 @@ class BarangHargaService {
     final res = await http.put(
       Uri.parse('${ApiConstants.baseUrl}/api/barang-harga/${item.id}'),
       headers: headers,
-      body: item.toJson(),
+      body: jsonEncode(item.toJson()),
     );
 
     if (res.statusCode != 200) {

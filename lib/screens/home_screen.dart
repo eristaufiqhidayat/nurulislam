@@ -249,7 +249,11 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'buyer':
         return Icons.person_sharp;
       case 'barang':
-        return Icons.airport_shuttle_rounded;
+        return Icons.backpack_rounded;
+      case 'harga':
+        return Icons.price_check_outlined;
+      case 'jual':
+        return Icons.sell_outlined;
       default:
         return Icons.apps_rounded;
     }

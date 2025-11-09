@@ -79,3 +79,48 @@ class DetailPenjualan {
         'margin': margin,
       };
 }
+
+class HargaResponse {
+  final bool success;
+  final int barangId;
+  final String tanggalBerlaku;
+  final String tanggalInput;
+  final double hargaBeli;
+  final double hargaJual;
+  final String? message;
+
+  HargaResponse({
+    required this.success,
+    required this.barangId,
+    required this.tanggalBerlaku,
+    required this.tanggalInput,
+    required this.hargaBeli,
+    required this.hargaJual,
+    this.message,
+  });
+
+  factory HargaResponse.fromJson(Map<String, dynamic> json) {
+    return HargaResponse(
+      success: json['success'] ?? false,
+      barangId:
+          int.tryParse(json['barang_id'].toString()) ?? 0, // ✅ fix di sini
+      tanggalBerlaku: json['tanggal_berlaku'] ?? '',
+      tanggalInput: json['tanggal_input'] ?? '',
+      hargaBeli: double.tryParse(json['harga_beli'].toString()) ?? 0,
+      hargaJual: double.tryParse(json['harga_jual'].toString()) ?? 0,
+      message: json['message'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'barang_id': barangId,
+      'tanggal_berlaku': tanggalBerlaku,
+      'tanggal_input': tanggalInput,
+      'harga_beli': hargaBeli,
+      'harga_jual': hargaJual,
+      'message': message,
+    };
+  }
+}

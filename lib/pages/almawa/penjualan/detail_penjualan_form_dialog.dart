@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/services/detail_penjualan_service.dart';
 import '../../../models/barang_model.dart';
 import '../../../models/detail_penjualan_model.dart';
 
@@ -26,20 +27,83 @@ class _DetailPenjualanFormDialogState extends State<DetailPenjualanFormDialog> {
   int _jumlah = 1;
   double _hargaJual = 0;
   double _hargaBeli = 0;
+  bool _loadingHarga = false;
+
+  // 🟩 Controller agar nilai bisa berubah dari API
+  late final TextEditingController _hargaJualController;
+  late final TextEditingController _hargaBeliController;
+  late final TextEditingController _jumlahController;
 
   @override
   void initState() {
     super.initState();
+
+    // Inisialisasi dari initial (kalau ada)
     if (widget.initial != null) {
       _barangId = widget.initial!.barangId;
       _jumlah = widget.initial!.jumlah;
       _hargaJual = widget.initial!.hargaJual;
       _hargaBeli = widget.initial!.hargaBeli;
     }
+
+    // Inisialisasi controller dengan nilai awal
+    _hargaJualController =
+        TextEditingController(text: _hargaJual.toStringAsFixed(0));
+    _hargaBeliController =
+        TextEditingController(text: _hargaBeli.toStringAsFixed(0));
+    _jumlahController = TextEditingController(text: _jumlah.toString());
+
+    // Jika barang_id sudah ada, ambil harga dari server
+    if (_barangId != null) {
+      _loadHarga(_barangId!);
+    }
   }
 
-  InputDecoration _inputStyle(
-      {required String label, required IconData icon, required Color green}) {
+  Future<void> _loadHarga(int barangId) async {
+    setState(() => _loadingHarga = true);
+    try {
+      final hargaResponse = await DetailPenjualanService().getHarga(
+        barangId: barangId,
+        tanggal: DateTime.now().toIso8601String(),
+      );
+
+      if (hargaResponse.success) {
+        setState(() {
+          _hargaBeli = hargaResponse.hargaBeli;
+          _hargaJual = hargaResponse.hargaJual;
+
+          // Update controller agar UI berubah
+          _hargaBeliController.text = _hargaBeli.toStringAsFixed(0);
+          _hargaJualController.text = _hargaJual.toStringAsFixed(0);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('⚠️ Tidak ada harga berlaku')),
+        );
+      }
+    } catch (e) {
+      print('❌ Gagal memuat harga: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memuat harga: $e')),
+      );
+    } finally {
+      setState(() => _loadingHarga = false);
+    }
+  }
+
+  @override
+  void dispose() {
+    _hargaJualController.dispose();
+    _hargaBeliController.dispose();
+    _jumlahController.dispose();
+    super.dispose();
+  }
+
+  InputDecoration _inputStyle({
+    required String label,
+    required IconData icon,
+    required Color green,
+  }) {
     return InputDecoration(
       labelText: label,
       labelStyle: TextStyle(color: green, fontWeight: FontWeight.w600),
@@ -81,23 +145,29 @@ class _DetailPenjualanFormDialogState extends State<DetailPenjualanFormDialog> {
                 ),
               );
             }).toList(),
-            onChanged: (v) => setState(() => _barangId = v),
+            onChanged: (v) {
+              setState(() => _barangId = v);
+              if (v != null) _loadHarga(v); // ✅ ambil harga otomatis
+            },
             validator: (v) => v == null ? 'Pilih barang terlebih dahulu' : null,
             decoration: _inputStyle(
-                label: 'Pilih Barang', icon: Icons.inventory, green: green),
+              label: 'Pilih Barang',
+              icon: Icons.inventory,
+              green: green,
+            ),
           ),
           const SizedBox(height: 16),
 
           // 🟩 Jumlah
           TextFormField(
-            initialValue: _jumlah.toString(),
+            controller: _jumlahController,
             decoration: _inputStyle(
               label: 'Jumlah Barang',
               icon: Icons.numbers,
               green: green,
             ),
             keyboardType: TextInputType.number,
-            onSaved: (v) => _jumlah = int.tryParse(v ?? '1') ?? 1,
+            onChanged: (v) => _jumlah = int.tryParse(v.isEmpty ? '0' : v) ?? 1,
             validator: (v) =>
                 (int.tryParse(v ?? '') ?? 0) <= 0 ? 'Jumlah tidak valid' : null,
           ),
@@ -105,27 +175,27 @@ class _DetailPenjualanFormDialogState extends State<DetailPenjualanFormDialog> {
 
           // 🟩 Harga Jual
           TextFormField(
-            initialValue: _hargaJual.toString(),
+            controller: _hargaJualController,
+            readOnly: true, // agar user tidak ubah manual
             decoration: _inputStyle(
-              label: 'Harga Jual',
+              label: _loadingHarga ? 'Memuat harga jual...' : 'Harga Jual (Rp)',
               icon: Icons.sell_outlined,
               green: green,
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onSaved: (v) => _hargaJual = double.tryParse(v ?? '0') ?? 0,
           ),
           const SizedBox(height: 16),
 
           // 🟩 Harga Beli
           TextFormField(
-            initialValue: _hargaBeli.toString(),
+            controller: _hargaBeliController,
+            readOnly: true,
             decoration: _inputStyle(
-              label: 'Harga Beli',
+              label: _loadingHarga ? 'Memuat harga beli...' : 'Harga Beli (Rp)',
               icon: Icons.attach_money_outlined,
               green: green,
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onSaved: (v) => _hargaBeli = double.tryParse(v ?? '0') ?? 0,
           ),
           const SizedBox(height: 24),
 
@@ -133,7 +203,6 @@ class _DetailPenjualanFormDialogState extends State<DetailPenjualanFormDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Tombol batal (outline)
               OutlinedButton.icon(
                 onPressed: () => Navigator.pop(context),
                 icon: Icon(Icons.close, color: green),
@@ -150,12 +219,9 @@ class _DetailPenjualanFormDialogState extends State<DetailPenjualanFormDialog> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 ),
               ),
-
-              // Tombol simpan (filled)
               ElevatedButton.icon(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
                     final margin = (_hargaJual - _hargaBeli) * _jumlah;
                     final detail = DetailPenjualan(
                       id: widget.initial?.id,

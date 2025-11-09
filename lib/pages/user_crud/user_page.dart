@@ -29,7 +29,7 @@ class _UserPageState extends State<UserPage> {
     } catch (e) {
       debugPrint(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memuat data')),
+        const SnackBar(content: Text('Gagal memuat data user')),
       );
     }
     setState(() => isLoading = false);
@@ -43,7 +43,6 @@ class _UserPageState extends State<UserPage> {
         onSubmit: (newUser, password, confirmPassword) async {
           try {
             if (user == null) {
-              // 🟢 Jika password dikirim dari form
               await _service.createUser(newUser, password: password);
             } else {
               await _service.updateUser(newUser);
@@ -86,27 +85,55 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data User'),
-        backgroundColor: Colors.green,
-        actions: [
-          IconButton(
-            onPressed: () => showForm(),
-            icon: const Icon(Icons.add),
-            tooltip: 'Tambah User',
+        backgroundColor: Colors.green.shade700,
+        iconTheme: const IconThemeData(color: Colors.white), // panah putih
+        title: const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Data User',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ],
+        ),
+        centerTitle: false,
+        elevation: 0,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () => showForm(),
+        child: const Icon(Icons.add),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: loadData,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: UserTable(
-                  items: users,
-                  onEdit: (user) => showForm(user: user),
-                  onDelete: deleteUser,
-                ),
+          : Padding(
+              padding:
+                  const EdgeInsets.all(16.0), // padding seperti halaman harga
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Daftar User', // judul sebelum tabel
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: UserTable(
+                        items: users,
+                        onEdit: (user) => showForm(user: user),
+                        onDelete: deleteUser,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
     );
