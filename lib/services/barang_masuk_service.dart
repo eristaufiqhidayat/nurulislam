@@ -44,11 +44,6 @@ class BarangMasukService {
       body: jsonEncode(data),
     );
 
-    print('📦 [POST] $endpoint');
-    print('➡️ Request: ${jsonEncode(data)}');
-    print('➡️ Response: ${response.statusCode}');
-    print('➡️ Body: ${response.body}');
-
     return response.statusCode == 201;
   }
 
@@ -61,11 +56,6 @@ class BarangMasukService {
       body: jsonEncode(data),
     );
 
-    print('📦 [PUT] $endpoint/$id');
-    print('➡️ Request: ${jsonEncode(data)}');
-    print('➡️ Response: ${response.statusCode}');
-    print('➡️ Body: ${response.body}');
-
     return response.statusCode == 200;
   }
 
@@ -76,10 +66,6 @@ class BarangMasukService {
       Uri.parse('$endpoint/$id'),
       headers: headers,
     );
-
-    print('📦 [DELETE] $endpoint/$id');
-    print('➡️ Response: ${response.statusCode}');
-    print('➡️ Body: ${response.body}');
 
     return response.statusCode == 200;
   }

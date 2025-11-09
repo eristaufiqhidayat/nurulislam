@@ -9,7 +9,7 @@ import '../../../models/penjualan_model.dart';
 import '../../../models/pembeli_model.dart';
 import '../../../services/penjualan_service.dart';
 import '../../../utils/shared_prefs.dart';
-import 'detail_penjualan_page2.dart';
+import 'detail_penjualan_page.dart';
 
 class PenjualanFormPage extends StatefulWidget {
   const PenjualanFormPage({super.key});

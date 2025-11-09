@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page2.dart';
+import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
 import 'package:nurulislam/pages/almawa/penjualan/penjualan_form_page.dart';
 import '../../../models/penjualan_detil_model.dart';
 import '../../../services/penjualan_service.dart';

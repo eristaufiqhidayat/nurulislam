@@ -50,13 +50,11 @@ class DetailPenjualanTable extends StatelessWidget {
           columnSpacing: 20,
           horizontalMargin: 16,
           columns: const [
-            DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Penjualan ID')),
+            DataColumn(label: Text('Id')),
+            DataColumn(label: Text('Nota')),
             DataColumn(label: Text('Barang')),
-            DataColumn(label: Text('Jumlah')),
-            DataColumn(label: Text('Harga Jual')),
-            DataColumn(label: Text('Harga Beli')),
-            DataColumn(label: Text('Margin')),
+            DataColumn(label: Text('Jml')),
+            DataColumn(label: Text('Harga')),
             DataColumn(label: Text('Aksi')),
           ],
           rows: items
@@ -78,8 +76,6 @@ class DetailPenjualanTable extends StatelessWidget {
                     DataCell(Text(d.barang?.namaBarang ?? '-')),
                     DataCell(Text(d.jumlah.toString())),
                     DataCell(Text("Rp ${d.hargaJual.toStringAsFixed(0)}")),
-                    DataCell(Text("Rp ${d.hargaBeli.toStringAsFixed(0)}")),
-                    DataCell(Text("Rp ${d.margin.toStringAsFixed(0)}")),
                     DataCell(Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
