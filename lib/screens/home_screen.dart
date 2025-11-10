@@ -256,6 +256,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return Icons.price_check_outlined;
       case 'jual':
         return Icons.sell_outlined;
+      case 'report':
+        return Icons.pie_chart;
       default:
         return Icons.apps_rounded;
     }

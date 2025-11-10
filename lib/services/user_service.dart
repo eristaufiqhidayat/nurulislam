@@ -46,7 +46,7 @@ class UserService {
     final res = await http.put(
       Uri.parse('${ApiConstants.baseUrl}/api/users/${user.id}'),
       headers: headers,
-      body: user.toJson(forUpdate: true),
+      body: json.encode(user.toJson(forUpdate: true)),
     );
 
     if (res.statusCode != 200) {
