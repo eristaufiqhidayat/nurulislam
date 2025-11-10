@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/date_symbol_data_local.dart'; // ✅ Tambahkan ini
 import 'package:nurulislam/api/auth_service.dart';
 import 'package:nurulislam/app.dart';
 import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
-//import 'package:nurulislam/models/menuRole_model.dart';
 import 'package:nurulislam/pages/dkm.dart';
 import 'package:nurulislam/pages/kegiatan.dart';
 import 'package:nurulislam/pages/menuRolepage.dart';
@@ -15,7 +15,13 @@ import 'package:nurulislam/screens/splashscreen.dart';
 import 'package:nurulislam/pages/donasi.dart';
 import 'package:nurulislam/pages/contact.dart';
 
-void main() {
+/// ✅ Fix utama ada di sini:
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ Inisialisasi data lokal untuk tanggal Indonesia
+  await initializeDateFormatting('id_ID', null);
+
   runApp(MyApp2());
 }
 
@@ -33,7 +39,6 @@ class MyApp2 extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const ResponsiveLayout(),
-        //'/about': (context) => const aboutPage(),
         '/dkm': (context) => const dkm(),
         '/donasi': (context) => const donasi(),
         '/contact': (context) => const contact(),
@@ -51,20 +56,20 @@ class MyApp2 extends StatelessWidget {
   }
 }
 
+/// GoRouter untuk navigasi terkontrol
 final _router = GoRouter(
   initialLocation: '/',
   redirect: (context, state) async {
     final loggedIn = await AuthService.isLoggedIn();
     final loggingIn = state.fullPath == '/login';
-    //final user = await AuthService.getUser();
+
     if (!loggedIn && !loggingIn) return '/login';
-    //if (loggedIn && loggingIn) return '/home';
     return null;
   },
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const SplashScreen(), // akan cek login
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
       path: '/login',

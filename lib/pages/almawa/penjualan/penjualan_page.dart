@@ -203,7 +203,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
                                 color: Colors.green),
                             title: Text(detail.barang.namaBarang),
                             subtitle: Text(
-                              "${detail.jumlah} pcs × ${formatRupiah(detail.hargaBeli)}",
+                              "${detail.jumlah} pcs × ${formatRupiah(detail.hargaJual)}",
                             ),
                             trailing: Text(
                               formatRupiah(detail.jumlah * detail.hargaJual),

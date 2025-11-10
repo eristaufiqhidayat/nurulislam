@@ -68,28 +68,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  )
+                    color: Colors.green.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
                 ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Logo/Image
+                  // Ganti bagian logo/image di dalam Column
                   Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
+                      color: Colors.green[100], // hijau muda
                       border: Border.all(color: Colors.green, width: 2),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.lock,
-                      size: 60,
-                      color: Colors.green,
+                    child: ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(100), // bikin gambar bundar
+                      child: Image.asset(
+                        'assets/images/masjid.jpg',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover, // biar gambar pas di dalam lingkaran
+                      ),
                     ),
                   ),
+
                   SizedBox(height: 24),
 
                   // Title

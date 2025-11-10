@@ -34,8 +34,7 @@ class DetailPenjualanTable extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-          headingRowColor:
-              WidgetStateProperty.all(green), // header background hijau
+          headingRowColor: WidgetStateProperty.all(green),
           headingTextStyle: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -47,8 +46,11 @@ class DetailPenjualanTable extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
           dividerThickness: 0.8,
-          columnSpacing: 20,
-          horizontalMargin: 16,
+
+          // 🔽 Persempit jarak antar kolom
+          columnSpacing: 8,
+          horizontalMargin: 4,
+
           columns: const [
             DataColumn(label: Text('Id')),
             DataColumn(label: Text('Nota')),
@@ -82,14 +84,19 @@ class DetailPenjualanTable extends StatelessWidget {
                         Tooltip(
                           message: "Edit Data",
                           child: IconButton(
+                            padding: EdgeInsets.zero, // 🔽 lebih rapat juga
+                            constraints: const BoxConstraints(),
                             icon:
                                 Icon(Icons.edit, color: Colors.green.shade600),
                             onPressed: () => onEdit(d),
                           ),
                         ),
+                        const SizedBox(width: 4),
                         Tooltip(
                           message: "Hapus Data",
                           child: IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
                             icon: Icon(Icons.delete_forever_rounded,
                                 color: Colors.red.shade400),
                             onPressed: () => onDelete(d),
