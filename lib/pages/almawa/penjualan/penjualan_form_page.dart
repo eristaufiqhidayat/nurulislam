@@ -53,7 +53,7 @@ class _PenjualanFormPageState extends State<PenjualanFormPage> {
       return list
           .where((p) =>
               p.nama.toLowerCase().contains(filter.toLowerCase()) ||
-              (p.noTelepon ?? '').toLowerCase().contains(filter.toLowerCase()))
+              (p.noTelepon).toLowerCase().contains(filter.toLowerCase()))
           .toList();
     } else {
       debugPrint('Gagal memuat pembeli: ${res.statusCode}');
@@ -161,7 +161,7 @@ class _PenjualanFormPageState extends State<PenjualanFormPage> {
                       _fetchPembeli(filter, props),
                   selectedItem: _selectedPembeli,
                   onChanged: (val) => setState(() => _selectedPembeli = val),
-                  itemAsString: (p) => "${p.nama} (${p.noTelepon ?? '-'})",
+                  itemAsString: (p) => "${p.nama} (${p.noTelepon})",
                   compareFn: (a, b) => a.id == b.id, // ✅ FIX UTAMA
                   validator: (v) =>
                       v == null ? 'Pilih pembeli terlebih dahulu' : null,

@@ -89,7 +89,7 @@ class _DetailPenjualanPageState extends State<DetailPenjualanPage> {
       barrierDismissible: false, // biar user gak bisa tutup tanpa tombol
       builder: (BuildContext context) {
         final green = Colors.green.shade700;
-        final lightGreen = Colors.green.shade50;
+        //final lightGreen = Colors.green.shade50;
 
         return Dialog(
           backgroundColor: Colors.transparent,

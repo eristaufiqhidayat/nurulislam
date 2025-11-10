@@ -74,7 +74,7 @@ class DetailPenjualanTable extends StatelessWidget {
                   ),
                   cells: [
                     DataCell(Text(d.id?.toString() ?? '-')),
-                    DataCell(Text(d.penjualanId?.toString() ?? '-')),
+                    DataCell(Text(d.penjualanId.toString())),
                     DataCell(Text(d.barang?.namaBarang ?? '-')),
                     DataCell(Text(d.jumlah.toString())),
                     DataCell(Text("Rp ${d.hargaJual.toStringAsFixed(0)}")),
