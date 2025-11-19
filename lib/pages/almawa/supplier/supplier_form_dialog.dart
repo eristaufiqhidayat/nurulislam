@@ -104,10 +104,11 @@ Future<void> showFormDialog({
                 alamat: alamat.text,
                 telp: telp.text,
               );
+              // ignore: unnecessary_null_comparison
               if (item == null) {
                 await service.create(newItem);
               } else {
-                await service.update(item.id!, newItem);
+                await service.update(item.id, newItem);
               }
 
               Navigator.pop(context);

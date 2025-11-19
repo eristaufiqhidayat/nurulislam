@@ -13,6 +13,7 @@ class SupplierPage extends StatefulWidget {
 
 class _SupplierPageState extends State<SupplierPage> {
   late SupplierService service;
+  // ignore: unused_field
   late Future<List<SupplierModel>> _futureSuppliers;
   List<SupplierModel> _items = [];
   int currentPage = 1;
