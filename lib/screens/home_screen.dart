@@ -6,6 +6,7 @@ import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
 //import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
 //import 'package:nurulislam/pages/almawa/penjualan/penjualan_form_page.dart';
 import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
+import 'package:nurulislam/pages/almawa/supplier/supplier_page.dart';
 import 'package:nurulislam/pages/menuRolepage.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
@@ -224,6 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '/userCrud': UserPage(),
       '/hargaBarang': HargaPage(),
       '/rekapPenjualan': RekapPenjualanPage(),
+      '/suppliers': SupplierPage(),
     };
 
     Navigator.push(

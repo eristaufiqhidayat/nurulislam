@@ -64,6 +64,23 @@ class PenjualanService {
     }
   }
 
+  Future<PenjualanModel> fetchPenjualanBy(id) async {
+    final headers = await _headers();
+    final res = await http.get(
+      Uri.parse('${ApiConstants.baseUrl}/api/penjualan/$id'),
+      headers: headers,
+    );
+
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      final Map<String, dynamic> decoded = jsonDecode(res.body);
+      return PenjualanModel.fromJson(decoded);
+    } else {
+      throw Exception("Gagal memuat data penjualan (${res.statusCode})");
+    }
+  }
+
   Future<bool> deletePenjualan(int id) async {
     final headers = await _headers();
     final url = Uri.parse('${ApiConstants.baseUrl}/api/penjualan/$id');

@@ -1,4 +1,5 @@
 import 'barang_model.dart';
+import 'pembeli_model.dart';
 
 class Penjualan {
   final int id;
@@ -7,6 +8,8 @@ class Penjualan {
   final double totalHarga;
   final double totalModal;
   final double totalMargin;
+  final PembeliModel? pembeli; // 🔥 Tambahan
+  final List<DetailPenjualan>? details; // 🔥 Tambahan (list)
 
   Penjualan({
     required this.id,
@@ -15,16 +18,32 @@ class Penjualan {
     required this.totalHarga,
     required this.totalModal,
     required this.totalMargin,
+    this.pembeli,
+    this.details,
   });
 
-  factory Penjualan.fromJson(Map<String, dynamic> json) => Penjualan(
-        id: json['id'],
-        pembeliId: json['pembeli_id'],
-        tglTransaksi: DateTime.parse(json['tgl_transaksi']),
-        totalHarga: double.parse(json['total_harga'].toString()),
-        totalModal: double.parse(json['total_modal'].toString()),
-        totalMargin: double.parse(json['total_margin'].toString()),
-      );
+  factory Penjualan.fromJson(Map<String, dynamic> json) {
+    return Penjualan(
+      id: json['id'],
+      pembeliId: json['pembeli_id'],
+      tglTransaksi: DateTime.parse(json['tgl_transaksi']),
+      totalHarga: double.parse(json['total_harga'].toString()),
+      totalModal: double.parse(json['total_modal'].toString()),
+      totalMargin: double.parse(json['total_margin'].toString()),
+
+      // 🔥 Parsing pembeli (object)
+      pembeli: json['pembeli'] != null
+          ? PembeliModel.fromJson(json['pembeli'])
+          : null,
+
+      // 🔥 Parsing details (list)
+      details: json['details'] != null
+          ? List<DetailPenjualan>.from(
+              json['details'].map((d) => DetailPenjualan.fromJson(d)),
+            )
+          : [],
+    );
+  }
 }
 
 class DetailPenjualan {
