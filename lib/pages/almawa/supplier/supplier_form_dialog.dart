@@ -9,6 +9,7 @@ Future<void> showFormDialog({
   required Future<void> Function() onSaveSuccess,
 }) async {
   // ✅ Controller dibuat sekali saja di luar StatefulBuilder
+  final id = TextEditingController(text: item?.id.toString() ?? '');
   final nama = TextEditingController(text: item?.nama ?? '');
   final alamat = TextEditingController(text: item?.alamat ?? '');
   final telp = TextEditingController(text: item?.telp.toString() ?? '');
@@ -27,7 +28,7 @@ Future<void> showFormDialog({
           ),
           child: Center(
             child: Text(
-              item == null ? 'Tambah Barang' : 'Edit Barang',
+              item == null ? 'Tambah' : 'Edit',
               style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ Future<void> showFormDialog({
                 TextField(
                   controller: nama,
                   decoration: const InputDecoration(
-                    labelText: 'Nama Barang',
+                    labelText: 'Nama',
                     prefixIcon: Icon(Icons.shopping_bag, color: Colors.green),
                     border: OutlineInputBorder(),
                   ),
@@ -51,29 +52,26 @@ Future<void> showFormDialog({
                 const SizedBox(height: 12),
                 const SizedBox(height: 12),
                 TextField(
-                  controller: nama,
+                  controller: id,
                   decoration: const InputDecoration(
-                    labelText: 'Satuan (pcs, kg, dll)',
+                    labelText: 'id',
+                    prefixIcon: Icon(Icons.scale, color: Colors.green),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                TextField(
+                  controller: alamat,
+                  decoration: const InputDecoration(
+                    labelText: 'alamat',
                     prefixIcon: Icon(Icons.scale, color: Colors.green),
                     border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
-                  controller: alamat,
-                  decoration: const InputDecoration(
-                    labelText: 'Harga Beli',
-                    prefixIcon:
-                        Icon(Icons.monetization_on, color: Colors.green),
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 12),
-                TextField(
                   controller: telp,
                   decoration: const InputDecoration(
-                    labelText: 'Harga Jual',
+                    labelText: 'Telp',
                     prefixIcon: Icon(Icons.sell, color: Colors.green),
                     border: OutlineInputBorder(),
                   ),
@@ -99,16 +97,17 @@ Future<void> showFormDialog({
                 style: TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
               final newItem = SupplierModel(
-                id: item!.id,
+                //id: int.parse(id.text),
                 nama: nama.text,
                 alamat: alamat.text,
                 telp: telp.text,
               );
+              print('Saving supplier: ${newItem.toJson()}');
               // ignore: unnecessary_null_comparison
               if (item == null) {
                 await service.create(newItem);
               } else {
-                await service.update(item.id, newItem);
+                await service.update(item.id!, newItem);
               }
 
               Navigator.pop(context);

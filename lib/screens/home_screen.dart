@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
-import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_page.dart';
+//import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_page.dart';
+import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_inv.dart';
 import 'package:nurulislam/pages/almawa/harga/harga_page.dart';
 import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
 //import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
@@ -218,7 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
       '/pagecontent_crud': pagecontent_crud(),
       '/menuRole': MenuRolePage(),
       '/pageInfo': PageInfoPage(),
-      '/barangMasuk': BarangMasukPage(),
+      //'/barangMasuk': BarangMasukPage(),
+      '/barangMasuk': BarangMasukInv(),
       '/barang': BarangPage(),
       '/pembeli': PembeliPage(),
       '/penjualan': PenjualanPage(),

@@ -1,11 +1,11 @@
 class SupplierModel {
-  final int id;
+  final int? id;
   final String nama;
   final String alamat;
   final String telp;
 
   SupplierModel({
-    required this.id,
+    this.id,
     required this.nama,
     required this.alamat,
     required this.telp,
@@ -16,11 +16,13 @@ class SupplierModel {
       id: json['id'] is int ? json['id'] : int.tryParse('${json['id'] ?? ''}'),
       nama: json['nama'] ?? '',
       alamat: json['alamat'] ?? '',
-      telp: json['no_telp'] ?? '',
+      telp: json['telp'] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
     return {
+      // ignore: unnecessary_null_comparison
+      if (id != null) 'id': id,
       'nama': nama,
       'alamat': alamat,
       'telp': telp,

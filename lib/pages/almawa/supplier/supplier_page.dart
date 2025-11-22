@@ -3,6 +3,7 @@ import 'package:nurulislam/models/supplier_model.dart';
 import 'package:nurulislam/pages/almawa/supplier/supplier_form_dialog.dart';
 import 'package:nurulislam/pages/almawa/supplier/supplier_table_widget.dart';
 import 'package:nurulislam/services/supplier_service.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class SupplierPage extends StatefulWidget {
   const SupplierPage({super.key});
@@ -23,17 +24,17 @@ class _SupplierPageState extends State<SupplierPage> {
   @override
   void initState() {
     super.initState();
-
     // 🔥 Inisialisasi service wajib!
     service = SupplierService();
-
     // 🔥 Load data pertama kali
     _futureSuppliers = service.fetch();
+    _loadData();
   }
 
   Future<void> _loadData() async {
     try {
       final data = await service.fetch();
+      print('Loaded supplier data: ${data} items');
       setState(() {
         _items = data.toList();
         isLastPage = data.length < 10;
@@ -52,10 +53,7 @@ class _SupplierPageState extends State<SupplierPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Data Supplier"),
-        backgroundColor: Colors.green,
-      ),
+      appBar: AppBarCustom(title: 'Data Supplier', routeName: '/homepage'),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -68,7 +66,7 @@ class _SupplierPageState extends State<SupplierPage> {
           children: [
             const SizedBox(height: 10),
             const Text(
-              'DAFTAR BARANG',
+              'DATA SUPPLIER',
               style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,

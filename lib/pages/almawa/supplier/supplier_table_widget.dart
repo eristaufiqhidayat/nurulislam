@@ -76,7 +76,7 @@ class TableWidget extends StatelessWidget {
                               Text("Hapus")
                             ],
                           ),
-                          onTap: () => Future(() => onDelete(item.id)),
+                          onTap: () => Future(() => onDelete(item.id!)),
                         ),
                       ],
                     ),

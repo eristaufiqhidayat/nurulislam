@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/api/api_constants.dart';
-import 'package:nurulislam/models/supplier_model.dart';
+import 'package:nurulislam/models/barang_masuk_inv_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
-class SupplierService {
+class BarangMasukInvService {
+  String route = 'barang-masuk-inv';
   static Future<Map<String, String>> _headers() async {
     final token = await SharedPrefs.getToken();
     return {
@@ -15,24 +16,24 @@ class SupplierService {
     };
   }
 
-  Future<List<SupplierModel>> fetch() async {
+  Future<List<BarangMasukInvModel>> fetch() async {
     final headers = await _headers();
-    final res = await http.get(
-        Uri.parse('${ApiConstants.baseUrl}/api/supplier'),
+    final res = await http.get(Uri.parse('${ApiConstants.baseUrl}/api/$route'),
         headers: headers);
-    //print(res.body);
+    print(res.body);
     if (res.statusCode == 200) {
-      List data = jsonDecode(res.body);
-      return data.map((e) => SupplierModel.fromJson(e)).toList();
+      final jsonData = jsonDecode(res.body);
+      final data = (jsonData['data'] ?? jsonData) as List;
+      return data.map((e) => BarangMasukInvModel.fromJson(e)).toList();
     } else {
       throw Exception("Gagal memuat data penjualan");
     }
   }
 
-  Future<SupplierModel> fetchBy(id) async {
+  Future<BarangMasukInvModel> fetchBy(id) async {
     final headers = await _headers();
     final res = await http.get(
-      Uri.parse('${ApiConstants.baseUrl}/api/supplier/$id'),
+      Uri.parse('${ApiConstants.baseUrl}/api/$route/$id'),
       headers: headers,
     );
 
@@ -40,14 +41,14 @@ class SupplierService {
 
     if (res.statusCode == 200) {
       final Map<String, dynamic> decoded = jsonDecode(res.body);
-      return SupplierModel.fromJson(decoded);
+      return BarangMasukInvModel.fromJson(decoded);
     } else {
       throw Exception("Gagal memuat data supplier (${res.statusCode})");
     }
   }
 
-  Future<SupplierModel> create(SupplierModel p) async {
-    final url = Uri.parse('${ApiConstants.baseUrl}/api/supplier');
+  Future<BarangMasukInvModel> create(BarangMasukInvModel p) async {
+    final url = Uri.parse('${ApiConstants.baseUrl}/api/$route');
     final headers = await _headers();
 
     final res = await http.post(
@@ -63,13 +64,13 @@ class SupplierService {
       final decoded = json.decode(res.body);
       final data = decoded['data'];
       if (data is Map<String, dynamic>) {
-        return SupplierModel.fromJson(data);
+        return BarangMasukInvModel.fromJson(data);
       } else {
         // fallback: jika server hanya kirim penjualan_id
         final id = decoded['penjualan_id'];
         if (id is int) {
-          return SupplierModel(
-              id: id, nama: p.nama, alamat: p.alamat, telp: p.telp);
+          return BarangMasukInvModel(
+              id: id, idSupplier: p.idSupplier, tanggal: p.tanggal);
         }
         throw Exception('Response data not in expected format');
       }
@@ -78,10 +79,10 @@ class SupplierService {
     }
   }
 
-  Future<void> update(int id, SupplierModel item) async {
+  Future<void> update(int id, BarangMasukInvModel item) async {
     final headers = await _headers();
     final res = await http.put(
-      Uri.parse('${ApiConstants.baseUrl}/api/supplier/$id'),
+      Uri.parse('${ApiConstants.baseUrl}/api/$route/$id'),
       headers: headers,
       body: jsonEncode(item.toJson()),
     );
@@ -94,7 +95,7 @@ class SupplierService {
 
   Future<bool> delete(int id) async {
     final headers = await _headers();
-    final url = Uri.parse('${ApiConstants.baseUrl}/api/supplier/$id');
+    final url = Uri.parse('${ApiConstants.baseUrl}/api/$route/$id');
 
     //print('🔹 Menghapus penjualan ID: $id');
     final res = await http.delete(url, headers: headers);
