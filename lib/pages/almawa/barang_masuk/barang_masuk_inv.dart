@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_form_inv.dart';
+import 'package:nurulislam/pages/almawa/barang_masuk/detail_barang_masuk_page.dart';
 import 'package:nurulislam/services/barang_masuk_inv_service.dart';
 import 'package:nurulislam/models/barang_masuk_inv_model.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
@@ -25,9 +27,27 @@ class _BarangMasukInvState extends State<BarangMasukInv> {
     _futurebarangmasukinv = service.fetch();
   }
 
-  void _tambahbaranginv() {}
+  void _tambahbaranginv() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BarangMasukInvForm(),
+      ),
+    );
+  }
 
-  void _editbarangmasukinv(BarangMasukInvModel barang) {}
+  void _editbarangmasukinv(BarangMasukInvModel barang) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DetailBarangMasukPage(BarangMasukInvId: barang.id!),
+      ),
+    );
+    // TODO: Arahkan ke halaman edit
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(content: Text("Edit penjualan #${penjualan.id}")),
+    // );
+  }
 
   void _hapusPenjualan(BarangMasukInvModel barang) async {
     final confirm = await showDialog<bool>(
@@ -140,11 +160,11 @@ class _BarangMasukInvState extends State<BarangMasukInv> {
                         ),
                         subtitle: Text("Tanggal: ${barang.tanggal}"),
                         // ignore: sort_child_properties_last
-                        children: barang.Barang?.map((detail) {
+                        children: barang.barangMasuk?.map((detail) {
                               return ListTile(
                                 leading: const Icon(Icons.shopping_bag_outlined,
                                     color: Colors.green),
-                                title: Text(detail.namaBarang),
+                                title: Text(detail.barang!.namaBarang),
                                 subtitle: Text(
                                   "${detail.jumlah} pcs × ${(detail.hargaBeli)}",
                                 ),

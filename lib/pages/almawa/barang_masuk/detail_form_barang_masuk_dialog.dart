@@ -1,39 +1,48 @@
 import 'package:flutter/material.dart';
-import '../../../models/barang_model.dart';
-import '../../../models/barang_masuk_model.dart';
+import 'package:nurulislam/models/barang_masuk_model.dart';
+import 'package:nurulislam/models/barang_model.dart';
+import 'package:nurulislam/models/detail_penjualan_model.dart';
 import '../../../services/barang_service.dart';
+import 'package:nurulislam/services/barang_harga_service.dart';
 
-class BarangMasukFormDialog extends StatefulWidget {
-  final BarangMasukModel? item;
+class DetailFormBarangMasukDialog extends StatefulWidget {
+  final BarangMasukModel? initial;
   final void Function(Map<String, dynamic>) onSubmit;
-
-  const BarangMasukFormDialog({super.key, this.item, required this.onSubmit});
+  const DetailFormBarangMasukDialog({
+    super.key,
+    this.initial,
+    required this.onSubmit,
+  });
 
   @override
-  State<BarangMasukFormDialog> createState() => _BarangMasukFormDialogState();
+  State<DetailFormBarangMasukDialog> createState() =>
+      _DetailFormBarangMasukDialogState();
 }
 
-class _BarangMasukFormDialogState extends State<BarangMasukFormDialog> {
+class _DetailFormBarangMasukDialogState
+    extends State<DetailFormBarangMasukDialog> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _hargaBeliController = TextEditingController();
   int? barangId;
+  int? supplierId;
   int jumlah = 0;
   double hargaBeli = 0;
   String supplier = '';
   DateTime tanggalMasuk = DateTime.now();
   List<BarangModel> barangList = [];
-
   @override
   void initState() {
     super.initState();
     _loadBarang();
 
-    if (widget.item != null) {
-      final i = widget.item!;
+    if (widget.initial != null) {
+      final i = widget.initial!;
       barangId = i.barangId;
       jumlah = i.jumlah;
       hargaBeli = i.hargaBeli;
-      supplier = i.supplier;
+      supplier = i.supplier!;
       tanggalMasuk = i.tglMasuk;
+      _hargaBeliController.text = hargaBeli.toStringAsFixed(0);
     }
   }
 
@@ -60,7 +69,8 @@ class _BarangMasukFormDialogState extends State<BarangMasukFormDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.item == null ? 'Tambah Pembelian' : 'Edit Pembelian'),
+      title:
+          Text(widget.initial == null ? 'Tambah Pembelian' : 'Edit Pembelian'),
       content: Form(
         key: _formKey,
         child: SizedBox(
@@ -77,9 +87,31 @@ class _BarangMasukFormDialogState extends State<BarangMasukFormDialog> {
                       child: Text(b.namaBarang),
                     );
                   }).toList(),
-                  onChanged: (val) => setState(() => barangId = val),
+                  onChanged: (val) async {
+                    setState(() {
+                      barangId = val;
+                    });
+
+                    if (val != null) {
+                      // Ambil harga terbaru berdasarkan barang terpilih
+                      final barangHargaService = BarangHargaService();
+
+                      final hargaResponse = await barangHargaService.getHarga(
+                        barangId: val,
+                        tanggal: DateTime.now().toIso8601String(),
+                      );
+
+                      // Misal hasilnya punya properti harga_beli
+                      setState(() {
+                        hargaBeli = hargaResponse.hargaBeli ?? 0;
+                        _hargaBeliController.text =
+                            hargaBeli.toStringAsFixed(0);
+                      });
+                    }
+                  },
                   validator: (val) => val == null ? 'Pilih barang' : null,
                 ),
+
                 const SizedBox(height: 10),
 
                 TextFormField(
@@ -91,18 +123,10 @@ class _BarangMasukFormDialogState extends State<BarangMasukFormDialog> {
                 const SizedBox(height: 10),
 
                 TextFormField(
-                  initialValue:
-                      hargaBeli == 0 ? '' : hargaBeli.toStringAsFixed(0),
+                  controller: _hargaBeliController,
                   decoration: const InputDecoration(labelText: 'Harga Beli'),
                   keyboardType: TextInputType.number,
                   onChanged: (v) => hargaBeli = double.tryParse(v) ?? 0,
-                ),
-                const SizedBox(height: 10),
-
-                TextFormField(
-                  initialValue: supplier,
-                  decoration: const InputDecoration(labelText: 'Supplier'),
-                  onChanged: (v) => supplier = v,
                 ),
                 const SizedBox(height: 10),
 
@@ -148,7 +172,6 @@ class _BarangMasukFormDialogState extends State<BarangMasukFormDialog> {
                 'tanggal_masuk':
                     tanggalMasuk.toIso8601String(), // ✅ sesuaikan ke Laravel
               });
-              Navigator.pop(context);
             }
           },
           child: const Text('Simpan'),

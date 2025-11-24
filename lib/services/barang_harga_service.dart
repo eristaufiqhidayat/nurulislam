@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nurulislam/models/detail_penjualan_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/barang_harga_model.dart';
 import '../api/api_constants.dart'; // pastikan file ini berisi baseUrl & headers()
@@ -65,5 +66,23 @@ class BarangHargaService {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     };
+  }
+
+  Future<HargaResponse> getHarga({
+    required int barangId,
+    required String tanggal,
+  }) async {
+    final headers = await _headers();
+    final url = Uri.parse(
+        '${ApiConstants.baseUrl}/api/get-harga?barang_id=$barangId&tanggal=$tanggal');
+
+    final response = await http.get(url, headers: headers);
+    //print(response.body);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return HargaResponse.fromJson(data);
+    } else {
+      throw Exception('Gagal memuat data harga');
+    }
   }
 }

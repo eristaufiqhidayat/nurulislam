@@ -43,7 +43,7 @@ class BarangMasukService {
       headers: headers,
       body: jsonEncode(data),
     );
-
+    print(data);
     return response.statusCode == 201;
   }
 
@@ -55,7 +55,7 @@ class BarangMasukService {
       headers: headers,
       body: jsonEncode(data),
     );
-
+    print("RESPONSE BODY ${response.body}");
     return response.statusCode == 200;
   }
 
@@ -66,7 +66,7 @@ class BarangMasukService {
       Uri.parse('$endpoint/$id'),
       headers: headers,
     );
-
+    print(response.body);
     return response.statusCode == 200;
   }
 }

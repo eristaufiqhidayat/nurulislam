@@ -1,31 +1,31 @@
 import 'barang_model.dart';
 
 class BarangMasukModel {
-  final int id;
+  final int? id;
   final int idinv;
   final int barangId;
-  final String namaBarang;
+  final String? namaBarang;
   final int jumlah;
   final DateTime tglMasuk;
   final double hargaBeli;
-  final String supplier;
+  final String? supplier;
   final BarangModel? barang; //
 
   BarangMasukModel({
-    required this.id,
+    this.id,
     required this.idinv,
     required this.barangId,
-    required this.namaBarang,
+    this.namaBarang,
     required this.jumlah,
     required this.tglMasuk,
     required this.hargaBeli,
-    required this.supplier,
+    this.supplier,
     this.barang,
   });
 
   factory BarangMasukModel.fromJson(Map<String, dynamic> json) {
     return BarangMasukModel(
-      id: json['id'] ?? 0,
+      id: json['id'],
       idinv: json['id_inv'] ?? 0,
       barangId: json['barang_id'] ?? 0,
       namaBarang: json['barang']?['nama_barang'] ?? '-',
@@ -43,6 +43,7 @@ class BarangMasukModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id_inv': idinv,
       'barang_id': barangId,
       'jumlah': jumlah,
       // ✅ Laravel masih pakai nama `tanggal_masuk`, bukan `tgl_masuk`

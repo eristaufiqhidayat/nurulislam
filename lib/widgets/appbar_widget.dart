@@ -4,11 +4,13 @@ import 'package:nurulislam/config/theme_config.dart';
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String routeName;
   final String title;
+  final Widget? leading;
 
   const AppBarCustom({
     super.key,
     this.routeName = "",
-    this.title = "Phase 3", // Default judul
+    this.title = "Phase 3",
+    this.leading, // Default judul
   });
 
   @override
@@ -22,13 +24,14 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
           style: const TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
-      leading: IconButton(
-        color: Colors.white,
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+      leading: leading ??
+          IconButton(
+            color: Colors.white,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
     );
   }
 

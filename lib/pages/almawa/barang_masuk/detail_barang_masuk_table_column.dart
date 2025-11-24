@@ -35,11 +35,11 @@ class BarangMasukTableWidget extends StatelessWidget {
           return DataRow(
             cells: [
               DataCell(Text(index.toString())),
-              DataCell(Text(item.namaBarang)),
+              DataCell(Text('')),
               DataCell(Text(item.jumlah.toString())),
               DataCell(Text(item.tglMasuk.toString().split(' ')[0])),
               DataCell(Text(item.hargaBeli.toStringAsFixed(0))),
-              DataCell(Text(item.supplier.isEmpty ? '-' : item.supplier)),
+              DataCell(Text('')),
               DataCell(Row(
                 mainAxisSize: MainAxisSize.min, // ✅ biar gak melebihi cell
                 children: [
@@ -50,7 +50,7 @@ class BarangMasukTableWidget extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => onDelete(item.id),
+                    onPressed: () => onDelete(item.id!),
                     tooltip: 'Hapus',
                   ),
                 ],

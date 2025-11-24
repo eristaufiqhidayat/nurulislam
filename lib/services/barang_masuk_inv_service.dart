@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/api/api_constants.dart';
 import 'package:nurulislam/models/barang_masuk_inv_model.dart';
+import 'package:nurulislam/models/barang_masuk_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
 class BarangMasukInvService {
@@ -20,7 +21,7 @@ class BarangMasukInvService {
     final headers = await _headers();
     final res = await http.get(Uri.parse('${ApiConstants.baseUrl}/api/$route'),
         headers: headers);
-    print(res.body);
+    //print(res.body);
     if (res.statusCode == 200) {
       final jsonData = jsonDecode(res.body);
       final data = (jsonData['data'] ?? jsonData) as List;
@@ -37,13 +38,33 @@ class BarangMasukInvService {
       headers: headers,
     );
 
-    print(res.body);
+    //print(res.body);
 
     if (res.statusCode == 200) {
       final Map<String, dynamic> decoded = jsonDecode(res.body);
       return BarangMasukInvModel.fromJson(decoded);
     } else {
       throw Exception("Gagal memuat data supplier (${res.statusCode})");
+    }
+  }
+
+  Future<List<BarangMasukModel>?> lfetchBy(int id) async {
+    final headers = await _headers();
+
+    final res = await http.get(
+      Uri.parse('${ApiConstants.baseUrl}/api/$route/$id'),
+      headers: headers,
+    );
+
+    if (res.statusCode == 200) {
+      final decoded = jsonDecode(res.body);
+
+      // decoded = JSON root OBJECT (map)
+      final inv = BarangMasukInvModel.fromJson(decoded);
+
+      return inv.barangMasuk; // <-- LIST detail ada di dalam objek ini
+    } else {
+      throw Exception("Gagal memuat detail barang masuk (${res.statusCode})");
     }
   }
 
@@ -99,9 +120,9 @@ class BarangMasukInvService {
 
     //print('🔹 Menghapus penjualan ID: $id');
     final res = await http.delete(url, headers: headers);
-
-    //print('🔹 Status Code: ${res.statusCode}');
-    //print('🔹 Body: ${res.body}');
+    print('${ApiConstants.baseUrl}/api/$route/$id');
+    print('🔹 Status Code: ${res.statusCode}');
+    print('🔹 Body: ${res.body}');
 
     if (res.statusCode == 200) {
       // Berhasil hapus
