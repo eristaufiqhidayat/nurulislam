@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nurulislam/models/barang_masuk_model.dart';
 //import '../../../models/barang_harga_model.dart';
 
@@ -7,13 +8,17 @@ class DetailBarangMasukTable extends StatelessWidget {
   final void Function(BarangMasukModel) onEdit;
   final void Function(BarangMasukModel) onDelete;
 
-  const DetailBarangMasukTable({
+  DetailBarangMasukTable({
     super.key,
     required this.items,
     required this.onEdit,
     required this.onDelete,
   });
-
+  final rupiah = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
   @override
   Widget build(BuildContext context) {
     final green = Colors.green.shade700;
@@ -85,7 +90,7 @@ class DetailBarangMasukTable extends StatelessWidget {
                             DataCell(Text('${d.idinv}')),
                             DataCell(Text(d.barang!.namaBarang)),
                             DataCell(Text(d.jumlah.toString())),
-                            DataCell(Text("Rp ${d.hargaBeli}")),
+                            DataCell(Text(rupiah.format(d.hargaBeli))),
                             DataCell(
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
