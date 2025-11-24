@@ -50,6 +50,7 @@ class _BarangMasukInvState extends State<BarangMasukInv> {
   }
 
   void _hapusPenjualan(BarangMasukInvModel barang) async {
+    // ignore: unused_local_variable
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(

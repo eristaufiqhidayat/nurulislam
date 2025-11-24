@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/models/barang_masuk_model.dart';
 import 'package:nurulislam/models/barang_model.dart';
-import 'package:nurulislam/models/detail_penjualan_model.dart';
+//import 'package:nurulislam/models/detail_penjualan_model.dart';
 import '../../../services/barang_service.dart';
 import 'package:nurulislam/services/barang_harga_service.dart';
 
@@ -103,7 +103,7 @@ class _DetailFormBarangMasukDialogState
 
                       // Misal hasilnya punya properti harga_beli
                       setState(() {
-                        hargaBeli = hargaResponse.hargaBeli ?? 0;
+                        hargaBeli = hargaResponse.hargaBeli;
                         _hargaBeliController.text =
                             hargaBeli.toStringAsFixed(0);
                       });
