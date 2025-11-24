@@ -153,6 +153,7 @@ class _DetailBarangMasukPageState extends State<DetailBarangMasukPage> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final green = Colors.green.shade700;
     return Scaffold(
       appBar: AppBarCustom(
