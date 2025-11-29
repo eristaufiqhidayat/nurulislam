@@ -19,8 +19,8 @@ class PenjualanService {
   Future<PenjualanModel> create(PenjualanModel p) async {
     final url = Uri.parse('${ApiConstants.baseUrl}/api/transaksi/penjualan');
     final headers = await _headers();
-    //print('🔗 POST $url');
-    //print('Payload: ${json.encode(p.toJson())}');
+    print('🔗 POST $url');
+    print('Payload: ${json.encode(p.toJson())}');
 
     final res = await http.post(
       url,
@@ -28,8 +28,8 @@ class PenjualanService {
       body: json.encode(p.toJson()),
     );
 
-    //print('Response code: ${res.statusCode}');
-    //print('Response body: ${res.body}');
+    print('Response code: ${res.statusCode}');
+    print('Response body: ${res.body}');
 
     if (res.statusCode == 201 || res.statusCode == 200) {
       final decoded = json.decode(res.body);

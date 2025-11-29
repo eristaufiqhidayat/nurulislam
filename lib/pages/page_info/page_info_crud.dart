@@ -73,7 +73,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
     }
 
     final response = await request.send();
-    print(response.statusCode);
+    //print(request);
     if (response.statusCode == 200) {
       final respStr = await response.stream.bytesToString();
       final jsonData = jsonDecode(respStr);
@@ -89,7 +89,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
     final img = TextEditingController(text: item?.image ?? '');
     final icon = TextEditingController(text: item?.icon ?? '');
     String selectedCategory = item?.category ?? categories.first;
-
+    print(img.text);
     showDialog(
       context: context,
       builder: (_) => StatefulBuilder(
@@ -132,7 +132,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
                     if (result != null) {
                       final url = await uploadImage(result.files.first);
                       setState(() =>
-                          img.text = url.replaceFirst('http://', 'https://'));
+                          img.text = url.replaceFirst('http://', 'http://'));
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Upload berhasil')));
                     }

@@ -17,3 +17,10 @@ flutter run -d chrome --web-browser-flag "--disable-web-security" --web-port=818
 flutter build web --release       
 ## Task Yang harus di buat
 - Mebuat CRUD pagecontent
+
+## tranfer sftp
+rsync -avz /Users/user/Project/flutter/nurulislam/nurulislam/build/web/ root@10.147.17.187:/docker/nurulislam/public/web/
+
+## import database cli
+docker exec -i mysql_container mysql -u root -p nama_database < backup.sql
+

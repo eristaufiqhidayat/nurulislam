@@ -56,7 +56,6 @@ class _DetailPenjualanPageState extends State<DetailPenjualanPage> {
     setState(() {
       _futurePenjualan =
           PenjualanService().fetchPenjualanBy(widget.penjualanId);
-      print(_futurePenjualan);
     });
   }
 
@@ -66,6 +65,7 @@ class _DetailPenjualanPageState extends State<DetailPenjualanPage> {
       Uri.parse('${ApiConstants.baseUrl}/api/barang'),
       headers: headers,
     );
+    //print("Detail Barang" + res.body);
 
     if (res.statusCode == 200) {
       final decoded = json.decode(res.body);

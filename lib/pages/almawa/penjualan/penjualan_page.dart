@@ -50,10 +50,6 @@ class _PenjualanPageState extends State<PenjualanPage> {
         builder: (_) => DetailPenjualanPage(penjualanId: penjualan.id),
       ),
     );
-    // TODO: Arahkan ke halaman edit
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(content: Text("Edit penjualan #${penjualan.id}")),
-    // );
   }
 
   void _hapusPenjualan(Penjualan penjualan) async {

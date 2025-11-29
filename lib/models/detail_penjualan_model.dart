@@ -26,17 +26,19 @@ class Penjualan {
     return Penjualan(
       id: json['id'],
       pembeliId: json['pembeli_id'],
-      tglTransaksi: DateTime.parse(json['tgl_transaksi']),
-      totalHarga: double.parse(json['total_harga'].toString()),
-      totalModal: double.parse(json['total_modal'].toString()),
-      totalMargin: double.parse(json['total_margin'].toString()),
+      tglTransaksi: DateTime.parse(json['tanggal'] ??
+          json['tgl_transaksi'] ??
+          DateTime.now().toString()),
+      totalHarga: double.tryParse(json['total_harga'].toString()) ?? 0,
+      totalModal: double.tryParse(json['total_modal'].toString()) ?? 0,
+      totalMargin: double.tryParse(json['total_margin'].toString()) ?? 0,
 
-      // 🔥 Parsing pembeli (object)
+      // pembeli
       pembeli: json['pembeli'] != null
           ? PembeliModel.fromJson(json['pembeli'])
           : null,
 
-      // 🔥 Parsing details (list)
+      // details
       details: json['details'] != null
           ? List<DetailPenjualan>.from(
               json['details'].map((d) => DetailPenjualan.fromJson(d)),
@@ -69,24 +71,23 @@ class DetailPenjualan {
     this.penjualan,
   });
 
-  factory DetailPenjualan.fromJson(Map<String, dynamic> json) =>
-      DetailPenjualan(
-        id: json['id'],
-        penjualanId: json['penjualan_id'],
-        barangId: json['barang_id'],
-        jumlah: json['jumlah'] is int
-            ? json['jumlah']
-            : int.parse(json['jumlah'].toString()),
-        hargaJual: double.parse(json['harga_jual'].toString()),
-        hargaBeli: double.parse(json['harga_beli'].toString()),
-        margin: double.parse(json['margin'].toString()),
-        barang: json['barang'] != null
-            ? BarangModel.fromJson(json['barang'])
-            : null,
-        penjualan: json['penjualan'] != null
-            ? Penjualan.fromJson(json['penjualan'])
-            : null,
-      );
+  factory DetailPenjualan.fromJson(Map<String, dynamic> json) {
+    return DetailPenjualan(
+      id: json['id'],
+      penjualanId: json['penjualan_id'],
+      barangId: json['barang_id'],
+      jumlah: int.tryParse(json['jumlah'].toString()) ?? 0,
+      hargaJual: double.tryParse(json['harga_jual'].toString()) ?? 0,
+      hargaBeli: double.tryParse(json['harga_beli'].toString()) ?? 0,
+      margin: double.tryParse(json['margin'].toString()) ?? 0,
+
+      barang:
+          json['barang'] != null ? BarangModel.fromJson(json['barang']) : null,
+
+      // 🔥 Jangan parse penjualan di sini (infinite loop)
+      penjualan: null,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         if (id != null) 'id': id,

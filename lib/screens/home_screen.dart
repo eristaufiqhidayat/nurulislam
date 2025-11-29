@@ -180,16 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: itemColor
                   .withOpacity(0.15), // background lembut dari warna icon
             ),
-            child: Icon(
-              _icon(item.icon),
-              size: 40,
-              color: itemColor, // warna icon sesuai API
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: _icon(item.icon),
             ),
           ),
           const SizedBox(height: 3),
@@ -242,29 +242,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  IconData _icon(String n) {
-    switch (n) {
-      case 'page':
-        return Icons.pages;
-      case 'admin':
-        return Icons.admin_panel_settings;
-      case 'users':
-        return Icons.people_alt_rounded;
-      case 'home':
-        return Icons.add_shopping_cart_sharp;
-      case 'buyer':
-        return Icons.person_sharp;
-      case 'barang':
-        return Icons.backpack_rounded;
-      case 'harga':
-        return Icons.price_check_outlined;
-      case 'jual':
-        return Icons.sell_outlined;
-      case 'report':
-        return Icons.pie_chart;
-      default:
-        return Icons.apps_rounded;
-    }
+  Widget _icon(String n) {
+    return ClipOval(
+      child: Image.network(
+        n,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 40,
+            height: 40,
+            color: Colors.grey[300],
+            child: Icon(Icons.apps_rounded, size: 24),
+          );
+        },
+      ),
+    );
   }
 }
 
