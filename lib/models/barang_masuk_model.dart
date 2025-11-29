@@ -25,17 +25,14 @@ class BarangMasukModel {
 
   factory BarangMasukModel.fromJson(Map<String, dynamic> json) {
     return BarangMasukModel(
-      id: json['id'],
-      idinv: json['id_inv'] ?? 0,
-      barangId: json['barang_id'] ?? 0,
-      namaBarang: json['barang']?['nama_barang'] ?? '-',
-      jumlah: json['jumlah'] ?? 0,
-      // ✅ Ganti dari tgl_masuk → tanggal_masuk
-      tglMasuk: (json['tanggal_masuk'] != null)
-          ? DateTime.parse(json['tanggal_masuk'])
-          : DateTime.now(),
-      hargaBeli: double.tryParse(json['harga_beli']?.toString() ?? '0') ?? 0,
-      supplier: json['supplier'] ?? '',
+      id: int.tryParse(json['id'].toString()) ?? 0,
+      idinv: int.tryParse(json['id_inv'].toString()) ?? 0,
+      barangId: int.tryParse(json['barang_id'].toString()) ?? 0,
+      namaBarang: json['nama_barang'],
+      jumlah: int.tryParse(json['jumlah'].toString()) ?? 0,
+      tglMasuk: DateTime.parse(json['tanggal_masuk'].toString()),
+      hargaBeli: double.tryParse(json['harga_beli'].toString()) ?? 0.0,
+      supplier: json['supplier'],
       barang:
           json['barang'] != null ? BarangModel.fromJson(json['barang']) : null,
     );

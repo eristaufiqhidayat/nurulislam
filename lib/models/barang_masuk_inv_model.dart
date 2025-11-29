@@ -18,9 +18,11 @@ class BarangMasukInvModel {
 
   factory BarangMasukInvModel.fromJson(Map<String, dynamic> json) {
     return BarangMasukInvModel(
-      id: json['id'],
-      idSupplier: json['id_supplier'],
-      tanggal: DateTime.parse(json['tanggal']),
+      id: json['id'] == null
+          ? null
+          : int.tryParse(json['id'].toString()) ?? json['id'],
+      idSupplier: int.tryParse(json['id_supplier'].toString()) ?? 0,
+      tanggal: DateTime.parse(json['tanggal'].toString()),
       supplier: json['supplier'] != null
           ? SupplierModel.fromJson(json['supplier'])
           : null,
@@ -28,7 +30,7 @@ class BarangMasukInvModel {
           ? (json['barang_masuk'] as List)
               .map((e) => BarangMasukModel.fromJson(e))
               .toList()
-          : null,
+          : [],
     );
   }
 

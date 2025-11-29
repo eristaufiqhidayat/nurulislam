@@ -37,11 +37,13 @@ class _DetailFormBarangMasukDialogState
 
     if (widget.initial != null) {
       final i = widget.initial!;
+
       barangId = i.barangId;
       jumlah = i.jumlah;
       hargaBeli = i.hargaBeli;
-      supplier = i.supplier!;
-      tanggalMasuk = i.tglMasuk;
+      supplier = i.supplier ?? ''; // <-- FIX TERPENTING
+      tanggalMasuk = i.tglMasuk; // amanin juga
+
       _hargaBeliController.text = hargaBeli.toStringAsFixed(0);
     }
   }

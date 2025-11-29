@@ -43,10 +43,6 @@ class _BarangMasukInvState extends State<BarangMasukInv> {
         builder: (_) => DetailBarangMasukPage(BarangMasukInvId: barang.id!),
       ),
     );
-    // TODO: Arahkan ke halaman edit
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(content: Text("Edit penjualan #${penjualan.id}")),
-    // );
   }
 
   void _hapusPenjualan(BarangMasukInvModel barang) async {
@@ -110,6 +106,7 @@ class _BarangMasukInvState extends State<BarangMasukInv> {
             child: FutureBuilder<List<BarangMasukInvModel>>(
               future: _futurebarangmasukinv,
               builder: (context, snapshot) {
+                //print(snapshot.error);
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }

@@ -117,13 +117,15 @@ class _DetailBarangMasukPageState extends State<DetailBarangMasukPage> {
                       initial: d,
                       onSubmit: (map) async {
                         final model = BarangMasukModel(
-                          id: d?.id, // aman
+                          id: d?.id,
                           idinv: widget.BarangMasukInvId,
-                          barangId: map['barang_id'],
-                          jumlah: map['jumlah'],
-                          hargaBeli: (map['harga_beli'] as num).toDouble(),
-                          supplier: map['supplier'],
-                          tglMasuk: DateTime.parse(map['tanggal_masuk']),
+                          barangId: map['barang_id'] ?? 0,
+                          jumlah: map['jumlah'] ?? 0,
+                          hargaBeli: (map['harga_beli'] ?? 0).toDouble(),
+                          supplier: map['supplier'] ?? "",
+                          tglMasuk: map['tanggal_masuk'] == null
+                              ? DateTime.now()
+                              : DateTime.parse(map['tanggal_masuk']),
                         );
 
                         // ignore: unnecessary_null_comparison
