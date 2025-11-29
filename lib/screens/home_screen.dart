@@ -242,22 +242,44 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _icon(String n) {
+  Widget _icon(String urlOrAsset) {
     return ClipOval(
-      child: Image.network(
-        n,
-        width: 40,
-        height: 40,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            width: 40,
-            height: 40,
-            color: Colors.grey[300],
-            child: Icon(Icons.apps_rounded, size: 24),
-          );
-        },
-      ),
+      child: _loadNetworkImage(urlOrAsset),
+    );
+  }
+
+  Widget _loadNetworkImage(String url) {
+    return Image.network(
+      url,
+      width: 40,
+      height: 40,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        // 🔥 Tahap 2: fallback ke asset
+        return _loadAssetImage(url);
+      },
+    );
+  }
+
+  Widget _loadAssetImage(String asset) {
+    return Image.asset(
+      "assets/images/$asset", // path lengkap ke asset,
+      width: 40,
+      height: 40,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        print("=== DEBUG ASSET ERROR ===");
+        print("Path: assets/images/$asset");
+        print("Error: $error");
+        print("Stack: $stackTrace");
+        // 🔥 Tahap 3: fallback terakhir ke container + icon
+        return Container(
+          width: 40,
+          height: 40,
+          color: Colors.grey[300],
+          child: const Icon(Icons.apps_rounded, size: 24),
+        );
+      },
     );
   }
 }
