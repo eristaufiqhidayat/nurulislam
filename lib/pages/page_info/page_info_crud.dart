@@ -209,17 +209,26 @@ class _PageInfoPageState extends State<PageInfoPage> {
             child: Row(
               children: [
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.refresh),
+                  icon: const Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                  ),
                   label: const Text(""),
                   onPressed: _loadData,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green.shade700),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.add),
-                  label: const Text("New"),
+                  icon: const Icon(Icons.add, color: Colors.white),
+                  label: const Text("New",
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
                   onPressed: () => _showForm(),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green.shade700),
                 )
               ],
             ),
