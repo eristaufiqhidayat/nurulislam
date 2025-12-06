@@ -42,7 +42,7 @@ class DetailPenjualanService {
       final List data = json.decode(res.body);
       return data.map((e) => DetailPenjualan.fromJson(e)).toList();
     }
-    throw Exception('Failed to load');
+    throw Exception('Failed to load (${res.statusCode})');
   }
 
   Future<List<DetailPenjualan>> fetchById(int id) async {
@@ -57,7 +57,7 @@ class DetailPenjualanService {
       print("Print Load Data Decoded" + data.toString());
       return data.map((e) => DetailPenjualan.fromJson(e)).toList();
     }
-    throw Exception('Failed to load');
+    throw Exception('Failed to load ${res.statusCode}');
   }
 
   Future<DetailPenjualan> create(DetailPenjualan d) async {

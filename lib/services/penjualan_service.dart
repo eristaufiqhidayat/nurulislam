@@ -60,7 +60,7 @@ class PenjualanService {
       List data = jsonDecode(res.body);
       return data.map((e) => Penjualan.fromJson(e)).toList();
     } else {
-      throw Exception("Gagal memuat data penjualan");
+      throw Exception("Gagal memuat data penjualan (${res.statusCode})");
     }
   }
 

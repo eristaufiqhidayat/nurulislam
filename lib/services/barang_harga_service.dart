@@ -17,7 +17,7 @@ class BarangHargaService {
       final data = jsonDecode(res.body)['data'] as List;
       return data.map((e) => BarangHarga.fromJson(e)).toList();
     } else {
-      throw Exception('Gagal memuat data harga');
+      throw Exception(res.statusCode);
     }
   }
 

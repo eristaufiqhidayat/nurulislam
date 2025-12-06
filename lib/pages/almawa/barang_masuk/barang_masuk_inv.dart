@@ -3,6 +3,7 @@ import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_form_inv.dart'
 import 'package:nurulislam/pages/almawa/barang_masuk/detail_barang_masuk_page.dart';
 import 'package:nurulislam/services/barang_masuk_inv_service.dart';
 import 'package:nurulislam/models/barang_masuk_inv_model.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class BarangMasukInv extends StatefulWidget {
@@ -112,8 +113,13 @@ class _BarangMasukInvState extends State<BarangMasukInv> {
                 }
 
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Text("Error: ${snapshot.error.toString()}"));
+                  if (snapshot.toString().contains('401')) {
+                    AuthHelper.handle401(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text('Gagal test memuat data: $snapshot.error')));
+                  }
                 }
 
                 final data = snapshot.data ?? [];

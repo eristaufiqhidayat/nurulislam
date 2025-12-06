@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../models/barang_harga_model.dart';
 import '../../../services/barang_harga_service.dart';
 import 'harga_form.dart';
@@ -27,10 +29,12 @@ class _HargaPageState extends State<HargaPage> {
     try {
       items = await service.fetchAll();
     } catch (e) {
-      print(e);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Gagal memuat data harga')),
-      );
+      if (e.toString().contains('401') || e.toString().contains('500')) {
+        AuthHelper.handle401(context);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Gagal memuat ee data: $e')));
+      }
     } finally {
       setState(() => loading = false);
     }
@@ -61,23 +65,8 @@ class _HargaPageState extends State<HargaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green.shade700,
-        iconTheme:
-            const IconThemeData(color: Colors.white), // 👈 panah jadi putih
-        title: const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Daftar Harga Barang',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        centerTitle: false,
-        elevation: 0,
+      appBar: AppBarCustom(
+        title: "Harga Barang",
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,

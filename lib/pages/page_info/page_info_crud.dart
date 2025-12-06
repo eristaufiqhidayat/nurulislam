@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/api/api_constants.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../models/pageinfo_model.dart';
@@ -48,9 +49,11 @@ class _PageInfoPageState extends State<PageInfoPage> {
         isLastPage = data.length < 10;
       });
     } catch (e) {
-      if (mounted) {
+      if (e.toString().contains('401') || e.toString().contains('500')) {
+        AuthHelper.handle401(context);
+      } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Gagal memuat data: $e')));
+            .showSnackBar(SnackBar(content: Text('Gagal memuat ee data: $e')));
       }
     }
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
 import 'package:nurulislam/pages/almawa/penjualan/penjualan_form_page.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../models/penjualan_detil_model.dart';
 import '../../../services/penjualan_service.dart';
 
@@ -23,7 +25,16 @@ class _PenjualanPageState extends State<PenjualanPage> {
 
   void _loadPenjualan() {
     setState(() {
-      _futurePenjualan = PenjualanService().fetchPenjualan();
+      try {
+        _futurePenjualan = PenjualanService().fetchPenjualan();
+      } catch (e) {
+        if (e.toString().contains('401')) {
+          AuthHelper.handle401(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Gagal memuat ee data: $e')));
+        }
+      }
     });
   }
 
@@ -91,16 +102,8 @@ class _PenjualanPageState extends State<PenjualanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Daftar Penjualan"),
-        backgroundColor: Colors.green[700],
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadPenjualan,
-          ),
-        ],
+      appBar: AppBarCustom(
+        title: "Penjualan",
       ),
       body: Column(
         children: [
@@ -138,6 +141,13 @@ class _PenjualanPageState extends State<PenjualanPage> {
                 }
 
                 if (snapshot.hasError) {
+                  if (snapshot.toString().contains('401')) {
+                    AuthHelper.handle401(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text('Gagal memuat ee data: ${snapshot.error}')));
+                  }
                   return Center(child: Text("Error: ${snapshot.error}"));
                 }
 

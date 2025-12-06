@@ -24,7 +24,7 @@ class UserService {
       final List list = jsonData;
       return list.map((e) => UserModel.fromJson(e)).toList();
     } else {
-      throw Exception('Gagal memuat data user');
+      throw Exception('Gagal memuat data user ${res.statusCode}');
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../models/pembeli_model.dart';
@@ -43,8 +44,12 @@ class _PembeliPageState extends State<PembeliPage> {
         isLastPage = data.length < 10;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Gagal memuat data: $e')));
+      if (e.toString().contains('401') || e.toString().contains('500')) {
+        AuthHelper.handle401(context);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Gagal memuat ee data: $e')));
+      }
     }
   }
 

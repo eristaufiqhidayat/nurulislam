@@ -19,7 +19,7 @@ class PembeliService {
       final List data = jsonData['data'] ?? jsonData;
       return data.map((e) => PembeliModel.fromJson(e)).toList();
     } else {
-      throw Exception('Gagal memuat data pembeli');
+      throw Exception('Gagal memuat data pembeli ${response.statusCode}');
     }
   }
 

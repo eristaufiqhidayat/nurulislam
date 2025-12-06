@@ -27,7 +27,7 @@ class BarangMasukInvService {
       final data = (jsonData['data'] ?? jsonData) as List;
       return data.map((e) => BarangMasukInvModel.fromJson(e)).toList();
     } else {
-      throw Exception("Gagal memuat data penjualan");
+      throw Exception("Gagal memuat data penjualan  (${res.statusCode})");
     }
   }
 

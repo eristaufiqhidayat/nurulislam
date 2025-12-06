@@ -5,6 +5,7 @@ import 'package:nurulislam/models/penjualan_model.dart';
 import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
 import 'package:nurulislam/services/penjualan_service.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../api/api_constants.dart';
 import '../../../models/barang_model.dart';
 import '../../../models/detail_penjualan_model.dart';
@@ -200,22 +201,13 @@ class _DetailPenjualanPageState extends State<DetailPenjualanPage> {
 
     return Scaffold(
       backgroundColor: Colors.white, // ✅ Background putih bersih
-      appBar: AppBar(
-        title: Text(
-          'Detail Penjualan #${widget.penjualanId}',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+      appBar: AppBarCustom(
+        title: "Detail Penjualan",
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
             color: Colors.white,
           ),
-        ),
-        backgroundColor: green,
-        elevation: 3,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
-
-        // 🔥 BACK BUTTON KE HALAMAN TERTENTU
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,

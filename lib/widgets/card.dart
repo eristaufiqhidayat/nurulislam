@@ -1,160 +1,78 @@
 import 'package:flutter/material.dart';
 
-class QurbanImage extends StatelessWidget {
-  final String assetPath;
-  final String title;
-  final String description;
-
-  const QurbanImage({
-    super.key,
-    required this.assetPath,
-    required this.title,
-    required this.description,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    //print(assetPath);
-    return Card(
-      elevation: 4,
-      color: Colors.green[900],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Colors.green, // Border color
-          width: 2.0,
-        ),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(
-                assetPath,
-                //width: 50,
-                //height: 160,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.broken_image,
-                      size: 48, color: Colors.grey);
-                },
-              ),
-              // child: Image.asset(
-              //   assetPath,
-              //   //height: 160,
-              //   fit: BoxFit.cover,
-              // ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class KajianCard extends StatelessWidget {
-  final String? assetPath;
   final String title;
   final String description;
+  final String assetPath;
 
   const KajianCard({
-    super.key,
-    this.assetPath,
+    Key? key,
     required this.title,
     required this.description,
-  });
+    required this.assetPath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int maxLength = 50;
-
-    String hasil = description.length > maxLength
-        ? description.substring(0, maxLength)
-        : description;
-    //print(assetPath);
-    return Card(
-      elevation: 4,
-      color: Colors.green[900],
-      shape: RoundedRectangleBorder(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Colors.green, // Border color
-          width: 2.0,
-        ),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            assetPath != null
-                ? ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(16)),
-                    child: Image.network(
-                      assetPath!,
-                      //width: 50,
-                      height: 250,
-                      //fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.broken_image,
-                            size: 48, color: Colors.grey);
-                      },
-                    ),
-                  )
-                : const SizedBox(),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
+            // ====== FULL IMAGE ======
+            Positioned.fill(
+              child: Image.network(
+                assetPath,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) =>
+                    const Center(child: Icon(Icons.broken_image, size: 40)),
+              ),
+            ),
+
+            // ====== OVERLAY HIJAU FIX HEIGHT ======
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                height: 70, // <<=========== FIXED HEIGHT
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.65),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // biar tengah vertical
+                  children: [
+                    // TITLE
+                    Text(
+                      title,
+                      maxLines: 1, // karena tinggi fix
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        height: 1.2,
-                        fontSize: 10),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    hasil,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                      height: 1.5,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 2),
+
+                    // DESCRIPTION
+                    Text(
+                      description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

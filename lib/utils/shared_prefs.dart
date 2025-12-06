@@ -29,7 +29,7 @@ class SharedPrefs {
 
   static Future<void> clear() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_userKey);
+    //await prefs.remove(_userKey);
     await prefs.remove(_tokenKey);
   }
 }

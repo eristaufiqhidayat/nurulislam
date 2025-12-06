@@ -3,6 +3,7 @@ import 'package:nurulislam/models/supplier_model.dart';
 import 'package:nurulislam/pages/almawa/supplier/supplier_form_dialog.dart';
 import 'package:nurulislam/pages/almawa/supplier/supplier_table_widget.dart';
 import 'package:nurulislam/services/supplier_service.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class SupplierPage extends StatefulWidget {
@@ -40,8 +41,12 @@ class _SupplierPageState extends State<SupplierPage> {
         isLastPage = data.length < 10;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Gagal memuat data: $e')));
+      if (e.toString().contains('401')) {
+        AuthHelper.handle401(context);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Gagal memuat ee data: $e')));
+      }
     }
   }
 

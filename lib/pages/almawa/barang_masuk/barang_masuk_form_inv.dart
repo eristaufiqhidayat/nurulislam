@@ -8,6 +8,7 @@ import 'package:nurulislam/models/barang_masuk_inv_model.dart';
 import 'package:nurulislam/models/supplier_model.dart';
 import 'package:nurulislam/pages/almawa/barang_masuk/detail_barang_masuk_page.dart';
 import 'package:nurulislam/services/barang_masuk_inv_service.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
@@ -55,8 +56,13 @@ class _BarangMasukInvFormState extends State<BarangMasukInvForm> {
               (p.telp).toLowerCase().contains(filter.toLowerCase()))
           .toList();
     } else {
-      debugPrint('Gagal memuat pembeli: ${res.statusCode}');
-      return [];
+      if (res.toString().contains('401')) {
+        AuthHelper.handle401(context);
+        return [];
+      } else {
+        debugPrint('Gagal memuat pembeli: ${res.statusCode}');
+        return [];
+      }
     }
   }
 

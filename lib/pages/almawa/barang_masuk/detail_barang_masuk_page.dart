@@ -5,6 +5,7 @@ import 'package:nurulislam/pages/almawa/barang_masuk/detail_barang_masuk_table.d
 import 'package:nurulislam/pages/almawa/barang_masuk/detail_form_barang_masuk_dialog.dart';
 import 'package:nurulislam/services/barang_masuk_inv_service.dart';
 import 'package:nurulislam/services/barang_masuk_service.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class DetailBarangMasukPage extends StatefulWidget {
@@ -41,6 +42,10 @@ class _DetailBarangMasukPageState extends State<DetailBarangMasukPage> {
       item = r1;
       items = r2;
     } catch (e) {
+      if (e.toString().contains('401')) {
+        AuthHelper.handle401(context);
+        return;
+      }
       debugPrint("Error load data: $e");
     } finally {
       if (!mounted) return;

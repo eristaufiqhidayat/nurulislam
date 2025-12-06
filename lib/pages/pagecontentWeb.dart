@@ -77,10 +77,21 @@ class _PageContentState extends State<PageContent> {
                         final item = items[index];
                         return SizedBox(
                           width: widget.isMobile ? 430 : 600,
-                          child: QurbanImage(
-                            title: item.title,
-                            description: item.description,
-                            assetPath: item.image,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      KajianDetailPage(kajian: item),
+                                ),
+                              );
+                            },
+                            child: KajianCard(
+                              title: item.title,
+                              description: item.description,
+                              assetPath: item.image,
+                            ),
                           ),
                         );
                       },
@@ -116,10 +127,21 @@ class _PageContentState extends State<PageContent> {
                         final item = items[index];
                         return SizedBox(
                           width: 200,
-                          child: KajianCard(
-                            title: item.title,
-                            description: item.description,
-                            assetPath: item.image,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      KajianDetailPage(kajian: item),
+                                ),
+                              );
+                            },
+                            child: KajianCard(
+                              title: item.title,
+                              description: item.description,
+                              assetPath: item.image,
+                            ),
                           ),
                         );
                       },

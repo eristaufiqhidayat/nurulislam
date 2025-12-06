@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nurulislam/pages/pagecontentMobile.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:nurulislam/widgets/header.dart';
 import 'package:nurulislam/widgets/footer.dart';
-import 'package:nurulislam/pages/pagecontent.dart';
+import 'package:nurulislam/pages/pagecontentWeb.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   const ResponsiveLayout({super.key});
@@ -15,31 +17,35 @@ class ResponsiveLayout extends StatelessWidget {
     return Scaffold(
       appBar: isMobile ? MobileAppBar() : null,
       endDrawer: isMobile ? const MobileDrawer() : null,
-      body: Column(
-        children: [
-          if (!isMobile) DesktopMenuBar(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const MosqueHeader(),
-                  const SizedBox(height: 40),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    constraints: const BoxConstraints(maxWidth: 1200),
-                    child: PageContent(
-                      screenWidth: screenWidth,
-                      isMobile: isMobile,
+      body: kIsWeb
+          ? Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const MosqueHeader(),
+                        const SizedBox(height: 40),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          constraints: const BoxConstraints(maxWidth: 1200),
+                          child: PageContent(
+                            screenWidth: screenWidth,
+                            isMobile: isMobile,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        const MosqueFooter(),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 40),
-                  const MosqueFooter(),
-                ],
-              ),
+                ),
+              ],
+            )
+          : PageContentMobile(
+              screenWidth: screenWidth,
+              isMobile: isMobile,
             ),
-          ),
-        ],
-      ),
     );
   }
 }

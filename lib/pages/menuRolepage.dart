@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nurulislam/models/menuRole_model.dart';
 import 'package:nurulislam/services/menuRole_service.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class MenuRolePage extends StatefulWidget {
@@ -22,10 +23,19 @@ class _MenuRolePageState extends State<MenuRolePage> {
   }
 
   Future<void> _loadMenuRoles() async {
-    final data = await service.fetchAll();
-    setState(() {
-      _menuRoles = data;
-    });
+    try {
+      final data = await service.fetchAll();
+      setState(() {
+        _menuRoles = data;
+      });
+    } catch (e) {
+      if (e.toString().contains('401') || e.toString().contains('500')) {
+        AuthHelper.handle401(context);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Gagal memuat data: $e')));
+      }
+    }
   }
 
   void _showForm([MenuRole? item]) {

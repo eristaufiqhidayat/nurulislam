@@ -243,9 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _icon(String urlOrAsset) {
-    return ClipOval(
-      child: _loadNetworkImage(urlOrAsset),
-    );
+    return _loadNetworkImage(urlOrAsset);
   }
 
   Widget _loadNetworkImage(String url) {
@@ -268,11 +266,6 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 40,
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace) {
-        print("=== DEBUG ASSET ERROR ===");
-        print("Path: assets/images/$asset");
-        print("Error: $error");
-        print("Stack: $stackTrace");
-        // 🔥 Tahap 3: fallback terakhir ke container + icon
         return Container(
           width: 40,
           height: 40,

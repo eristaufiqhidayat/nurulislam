@@ -52,7 +52,7 @@ class PageInfoService {
       final List<dynamic> jsonList = jsonDecode(response.body);
       return jsonList.map((e) => PageinfoModel.fromJson(e)).toList();
     } else {
-      throw Exception('$pageInfoUrl?page=$page');
+      throw Exception(response.statusCode);
     }
   }
 

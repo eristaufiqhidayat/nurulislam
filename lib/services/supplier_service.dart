@@ -25,7 +25,7 @@ class SupplierService {
       List data = jsonDecode(res.body);
       return data.map((e) => SupplierModel.fromJson(e)).toList();
     } else {
-      throw Exception("Gagal memuat data penjualan");
+      throw Exception("Gagal memuat data penjualan ${res.statusCode}");
     }
   }
 

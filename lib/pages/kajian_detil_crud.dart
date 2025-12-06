@@ -24,11 +24,12 @@ class KajianDetailPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                width:200,
                 kajian.image,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => 
-                    const Icon(Icons.broken_image, size: 100, color: Colors.grey),
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.broken_image,
+                    size: 100,
+                    color: Colors.grey),
               ),
             ),
             const SizedBox(height: 20),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 //import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../models/barang_model.dart';
@@ -19,6 +20,7 @@ class _BarangPageState extends State<BarangPage> {
   bool isLastPage = false;
   late BarangService service;
   String searchQuery = "";
+  bool isLoading = false;
 
   final List<String> kategoriList = [
     'Beras',
@@ -39,6 +41,7 @@ class _BarangPageState extends State<BarangPage> {
   }
 
   Future<void> _loadData() async {
+    setState(() => isLoading = true);
     try {
       final data = await service.fetchBarangs(currentPage);
       setState(() {
@@ -49,9 +52,14 @@ class _BarangPageState extends State<BarangPage> {
         isLastPage = data.length < 10;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Gagal memuat data: $e')));
+      if (e.toString().contains('401')) {
+        AuthHelper.handle401(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal test memuat data: $e')));
+      }
     }
+    setState(() => isLoading = false);
   }
 
   void _delete(int id) async {
@@ -74,6 +82,15 @@ class _BarangPageState extends State<BarangPage> {
         ),
         child: Column(
           children: [
+            if (isLoading)
+              Container(
+                color: Colors.black.withOpacity(0.3),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.green,
+                  ),
+                ),
+              ),
             const SizedBox(height: 10),
             const Text(
               'DAFTAR BARANG',

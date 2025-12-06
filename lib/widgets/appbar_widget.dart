@@ -21,12 +21,12 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
         alignment: Alignment.centerLeft, // Sesuaikan jika perlu
         child: Text(
           title,
-          style: const TextStyle(fontSize: 18, color: Colors.white),
+          style: const TextStyle(fontSize: 18, color: ThemeConfig.Font),
         ),
       ),
       leading: leading ??
           IconButton(
-            color: Colors.white,
+            color: ThemeConfig.putih,
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/api/api_constants.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class RekapPenjualanPage extends StatefulWidget {
   const RekapPenjualanPage({Key? key}) : super(key: key);
@@ -47,9 +49,12 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
           summary = (data['data'] as List).isNotEmpty ? data['data'][0] : null;
         });
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal memuat data: ${res.body}')),
-        );
+        if (res.statusCode == 401) {
+          AuthHelper.handle401(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Gagal memuat ee data: $res')));
+        }
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -74,32 +79,8 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green[50],
-      appBar: AppBar(
-        backgroundColor: Colors.green[700],
-        elevation: 4,
-        automaticallyImplyLeading:
-            false, // supaya kita bisa custom tombol panah
-        titleSpacing: 0,
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              onPressed: () => Navigator.pop(context),
-            ),
-            const SizedBox(width: 4),
-            const Text(
-              'Rekap Penjualan Bulanan',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20, // 🔹 proporsional, tidak terlalu besar
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBarCustom(
+        title: "Rekap Penjualan",
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

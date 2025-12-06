@@ -18,6 +18,22 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedEmail();
+  }
+
+  Future<void> _loadSavedEmail() async {
+    final savedUser = await SharedPrefs.getUser();
+
+    if (savedUser != null) {
+      setState(() {
+        _emailController.text = savedUser.email ?? '';
+      });
+    }
+  }
+
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -36,11 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
       );
     } catch (e) {
-      print(e);
+      //print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Login failed Home Screen: $e'),
-            backgroundColor: Colors.red),
+            content: Text('User Password Salah!'), backgroundColor: Colors.red),
       );
     } finally {
       setState(() => _isLoading = false);

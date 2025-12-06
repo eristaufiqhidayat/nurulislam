@@ -16,14 +16,11 @@ class BarangService {
 
   Future<List<BarangModel>> fetchBarangs(int page) async {
     // Ambil token dari SharedPrefs
-    final token = await SharedPrefs.getToken();
+    final headers = await _headers();
 
     final response = await http.get(
       Uri.parse('${ApiConstants.baseUrl}/api/barang?page=$page'),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
+      headers: headers,
     );
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -69,10 +66,10 @@ class BarangService {
   }
 
   Future<void> delete(int id) async {
-    final token = await SharedPrefs.getToken();
+    final headers = await _headers();
     final res = await http.delete(
       Uri.parse('${ApiConstants.baseUrl}/api/barang/$id'),
-      headers: {'Authorization': 'Bearer $token'},
+      headers: headers,
     );
     if (res.statusCode != 200) {
       throw Exception('Gagal menghapus barang');
