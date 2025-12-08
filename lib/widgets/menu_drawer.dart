@@ -117,7 +117,7 @@ class MobileDrawer extends StatelessWidget {
                 MosqueLogo(),
                 SizedBox(height: 10),
                 Text(
-                  'Masjid Nurul Islam',
+                  'Masjid Nurul Islam 13',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

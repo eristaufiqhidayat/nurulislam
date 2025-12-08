@@ -1,4 +1,4 @@
-package com.masjid.nurulislam
+package com.eristaufiq.STIE_ReactNative_js
 
 import io.flutter.embedding.android.FlutterActivity
 
