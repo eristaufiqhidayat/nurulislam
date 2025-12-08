@@ -166,13 +166,15 @@ class _DetailBarangMasukPageState extends State<DetailBarangMasukPage> {
       appBar: AppBarCustom(
         title: 'Detail Barang Masuk #${widget.BarangMasukInvId}',
         //🔥 BACK BUTTON
-        leading: IconButton(
-          color: Colors.white,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        leading: [
+          IconButton(
+            color: Colors.white,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
       ),
 
       // 🔥 BODY

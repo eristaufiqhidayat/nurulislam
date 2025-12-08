@@ -203,18 +203,20 @@ class _DetailPenjualanPageState extends State<DetailPenjualanPage> {
       backgroundColor: Colors.white, // ✅ Background putih bersih
       appBar: AppBarCustom(
         title: "Detail Penjualan",
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => PenjualanPage()),
-            );
-          },
-        ),
+        leading: [
+          IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => PenjualanPage()),
+              );
+            },
+          )
+        ],
       ),
 
       body: Column(

@@ -4,7 +4,7 @@ import 'package:nurulislam/config/theme_config.dart';
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String routeName;
   final String title;
-  final Widget? leading;
+  final List<Widget>? leading;
 
   const AppBarCustom({
     super.key,
@@ -24,14 +24,16 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
           style: const TextStyle(fontSize: 18, color: ThemeConfig.Font),
         ),
       ),
-      leading: leading ??
-          IconButton(
-            color: ThemeConfig.putih,
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+      actions: leading ??
+          [
+            IconButton(
+              color: ThemeConfig.putih,
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
     );
   }
 
