@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nurulislam/Home.dart';
 import 'package:nurulislam/pages/pagecontentMobile.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:nurulislam/widgets/header.dart';
@@ -24,6 +25,7 @@ class ResponsiveLayout extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        DesktopMenuBar(judul: 'Masjid Nurul Islam'),
                         const MosqueHeader(),
                         const SizedBox(height: 40),
                         Container(
@@ -42,10 +44,7 @@ class ResponsiveLayout extends StatelessWidget {
                 ),
               ],
             )
-          : PageContentMobile(
-              screenWidth: screenWidth,
-              isMobile: isMobile,
-            ),
+          : HomePage(),
     );
   }
 }

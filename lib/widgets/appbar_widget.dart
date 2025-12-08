@@ -24,16 +24,11 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
           style: const TextStyle(fontSize: 18, color: ThemeConfig.Font),
         ),
       ),
-      actions: leading ??
-          [
-            IconButton(
-              color: ThemeConfig.putih,
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () => Navigator.pop(context),
+      ),
+      actions: leading,
     );
   }
 

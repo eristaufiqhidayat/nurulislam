@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nurulislam/screens/home_screen.dart';
+import 'package:nurulislam/widgets/menu_drawer.dart';
 import '../api/auth_service.dart';
 //import '../models/user_model.dart';
 import '../utils/shared_prefs.dart';
@@ -67,6 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Form(
       key: _formKey,
       child: Scaffold(
+        appBar: MobileAppBar(judul: 'Login'),
+        endDrawer: MobileDrawer(),
         backgroundColor: Colors.grey[100],
         body: Center(
           child: SingleChildScrollView(
