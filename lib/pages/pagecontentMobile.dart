@@ -179,10 +179,20 @@ class _PageContentMobileState extends State<PageContentMobile> {
                       final item = items[index];
                       return SizedBox(
                         width: 230, // NEW SIZE
-                        child: KajianCard(
-                          title: item.title,
-                          description: item.description,
-                          assetPath: item.image,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => KajianDetailPage(kajian: item),
+                              ),
+                            );
+                          },
+                          child: KajianCard(
+                            title: item.title,
+                            description: item.description,
+                            assetPath: item.image,
+                          ),
                         ),
                       );
                     },

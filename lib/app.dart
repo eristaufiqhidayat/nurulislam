@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nurulislam/Home.dart';
-import 'package:nurulislam/pages/pagecontentMobile.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:nurulislam/widgets/header.dart';
 import 'package:nurulislam/widgets/footer.dart';

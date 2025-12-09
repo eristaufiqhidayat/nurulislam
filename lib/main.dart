@@ -11,6 +11,7 @@ import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/screens/login_screen.dart';
 import 'package:nurulislam/pages/donasi.dart';
 import 'package:nurulislam/pages/contact.dart';
+import 'package:nurulislam/screens/version_software.dart';
 
 /// ✅ Fix utama ada di sini:
 Future<void> main() async {
@@ -38,7 +39,7 @@ class MyApp2 extends StatelessWidget {
         '/': (context) => const ResponsiveLayout(),
         '/dkm': (context) => const dkm(),
         '/donasi': (context) => const donasi(),
-        '/contact': (context) => const contact(),
+        '/contact': (context) => ContactPage(),
         '/kegiatan': (context) => const kegiatan(),
         '/login': (context) => const LoginScreen(),
         '/admin': (context) => const AdminScreen(),
@@ -48,6 +49,7 @@ class MyApp2 extends StatelessWidget {
         '/pageInfo': (context) => const pagecontent_crud(),
         '/stokBarang': (context) => const pagecontent_crud(),
         '/barang': (context) => const BarangPage(),
+        '/version_software': (context) => const version_software(),
       },
     );
   }

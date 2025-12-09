@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/pages/pagecontentMobile.dart';
 import 'package:nurulislam/screens/surah_list.dart';
 import 'package:nurulislam/widgets/haditsviewscreen.dart';
-import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:nurulislam/widgets/rdviewscreen.dart';
 
 class HomePage extends StatelessWidget {
