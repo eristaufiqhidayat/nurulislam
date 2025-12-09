@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (savedUser != null) {
       setState(() {
-        _emailController.text = savedUser.email ?? '';
+        _emailController.text = savedUser.email;
       });
     }
   }

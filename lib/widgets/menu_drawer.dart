@@ -116,13 +116,13 @@ class MobileDrawer extends StatelessWidget {
               children: [
                 MosqueLogo(),
                 SizedBox(height: 10),
-                Text(
-                  'Masjid Nurul Islam',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
+                // Text(
+                //   'Masjid Nurul Islam',
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 18,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -136,20 +136,20 @@ class MobileDrawer extends StatelessWidget {
                 },
               )),
           const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[600],
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                // Donation action
-              },
-              child: const Text('Donasi Sekarang'),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   child: ElevatedButton(
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: Colors.green[600],
+          //       foregroundColor: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       Navigator.pop(context);
+          //       // Donation action
+          //     },
+          //     child: const Text('Donasi Sekarang'),
+          //   ),
+          // ),
         ],
       ),
     );

@@ -19,8 +19,7 @@ class _PageContentMobileState extends State<PageContentMobile> {
   late Future<List<PageinfoModel>> kegiatanItems;
   late Future<List<PageinfoModel>> kajianItems;
 
-  final PageController qurbanController =
-      PageController(viewportFraction: 0.85);
+  final PageController qurbanController = PageController(viewportFraction: 1.1);
   Timer? qurbanTimer;
   bool _timerStarted = false;
 

@@ -20,7 +20,7 @@ class MosqueLogo extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          judul ?? "Home",
+          judul ?? "Nurul Islam",
           style: TextStyle(
             color: Colors.white,
             fontSize: compact ? 16 : 20,
