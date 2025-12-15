@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/widgets/menu_drawer.dart';
 import '../../repositories/transaksi_repository.dart';
 
 class LaporanPage extends StatefulWidget {
@@ -27,6 +28,7 @@ class _LaporanPageState extends State<LaporanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Laporan Penjualan')),
+      endDrawer: const MobileDrawer(),
       body: ListView.builder(
         itemCount: laporan.length,
         itemBuilder: (_, i) {

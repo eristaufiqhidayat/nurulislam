@@ -155,21 +155,35 @@ class _BarangPageState extends State<BarangPage> {
 
             // 🔹 Widget tabel
             Expanded(
-              child: BarangTableWidget(
-                items: _items,
-                onEdit: (item) {
-                  Future.delayed(const Duration(milliseconds: 150), () {
-                    showBarangFormDialog(
-                      context: context,
-                      service: service,
-                      kategoriList: kategoriList,
-                      item: item, // ✅ kirim data item ke dialog
-                      onSaveSuccess: _loadData,
-                    );
-                  });
-                },
-                onDelete: (id) => _delete(id),
-              ),
+              child: isLoading
+                  ? const SizedBox() // biarkan kosong saat loading (karena overlay loading sudah muncul)
+                  : _items.isEmpty
+                      ? const Center(
+                          child: Text(
+                            "Data tidak ada",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
+                      : BarangTableWidget(
+                          items: _items,
+                          onEdit: (item) {
+                            Future.delayed(const Duration(milliseconds: 150),
+                                () {
+                              showBarangFormDialog(
+                                context: context,
+                                service: service,
+                                kategoriList: kategoriList,
+                                item: item,
+                                onSaveSuccess: _loadData,
+                              );
+                            });
+                          },
+                          onDelete: (id) => _delete(id),
+                        ),
             ),
 
             // 🔹 Pagination

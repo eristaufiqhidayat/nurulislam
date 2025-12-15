@@ -28,7 +28,7 @@ class BarangHargaService {
       headers: headers,
       body: jsonEncode(item.toJson()),
     );
-
+    print(res.body);
     if (res.statusCode != 201) {
       throw Exception('Gagal menambah data: ${res.body}');
     }

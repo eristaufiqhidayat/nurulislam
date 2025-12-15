@@ -18,7 +18,7 @@ class UserService {
     final headers = await _headers();
     final res = await http.get(Uri.parse('${ApiConstants.baseUrl}/api/users'),
         headers: headers);
-    print(res.body);
+    //print(res.body);
     if (res.statusCode == 200) {
       final jsonData = jsonDecode(res.body);
       final List list = jsonData;
@@ -41,13 +41,22 @@ class UserService {
     }
   }
 
-  Future<void> updateUser(UserModel user) async {
+  Future<void> updateUser(UserModel user, {String? password}) async {
     final headers = await _headers();
+
     final res = await http.put(
       Uri.parse('${ApiConstants.baseUrl}/api/users/${user.id}'),
       headers: headers,
-      body: json.encode(user.toJson(forUpdate: true)),
+      body: json.encode(
+        user.toJson(
+          forUpdate: true,
+          password: password, // ← hanya dikirim jika tidak null
+        ),
+      ),
     );
+    print("Password : ${password}");
+    print(
+        "Update payload: ${user.toJson(forUpdate: true, password: password)}");
 
     if (res.statusCode != 200) {
       throw Exception('Gagal mengupdate user: ${res.body}');

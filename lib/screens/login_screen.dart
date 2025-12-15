@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
-
+    print('Attempting login for: ${_emailController.text}');
     try {
       final user = await AuthService.login(
         _emailController.text.trim(),
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
       );
     } catch (e) {
-      //print(e);
+      print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('User Password Salah!'), backgroundColor: Colors.red),

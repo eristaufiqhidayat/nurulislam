@@ -46,36 +46,22 @@ class SupplierService {
     }
   }
 
-  Future<SupplierModel> create(SupplierModel p) async {
-    final url = Uri.parse('${ApiConstants.baseUrl}/api/supplier');
+  Future<void> create(SupplierModel item) async {
     final headers = await _headers();
-
-    final res = await http.post(
-      url,
+    final response = await http.post(
+      Uri.parse('${ApiConstants.baseUrl}/api/supplier'),
       headers: headers,
-      body: json.encode(p.toJson()),
+      body: jsonEncode(item.toJson()),
     );
 
-    print('Response code: ${res.statusCode}');
-    print('Response body: ${res.body}');
+    print("Response code: ${response.statusCode}");
+    print("Response body: ${response.body}");
 
-    if (res.statusCode == 201 || res.statusCode == 200) {
-      final decoded = json.decode(res.body);
-      final data = decoded['data'];
-      if (data is Map<String, dynamic>) {
-        return SupplierModel.fromJson(data);
-      } else {
-        // fallback: jika server hanya kirim penjualan_id
-        final id = decoded['penjualan_id'];
-        if (id is int) {
-          return SupplierModel(
-              id: id, nama: p.nama, alamat: p.alamat, telp: p.telp);
-        }
-        throw Exception('Response data not in expected format');
-      }
-    } else {
-      throw Exception('Gagal membuat penjualan (code: ${res.statusCode})');
+    if (response.statusCode != 201) {
+      throw Exception('Gagal menambahkan supplier: ${response.body}');
     }
+
+    // Jangan parse sebagai model, cukup selesai di sini
   }
 
   Future<void> update(int id, SupplierModel item) async {

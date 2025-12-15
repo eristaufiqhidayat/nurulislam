@@ -45,8 +45,8 @@ class _version_softwareState extends State<version_software> {
             const SizedBox(height: 20),
             ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
-                child: Image.network(
-                  "https://khandaq.lembaharafah.com/public/asset/dist/img/logoArafah.jpg",
+                child: Image.asset(
+                  "assets/images/masjid.png",
                   width: 200,
                   height: 200,
                   fit: BoxFit.contain,

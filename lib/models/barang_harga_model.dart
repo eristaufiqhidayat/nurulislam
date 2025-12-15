@@ -17,11 +17,13 @@ class BarangHarga {
 
   factory BarangHarga.fromJson(Map<String, dynamic> json) {
     return BarangHarga(
-      id: json['id'],
-      barangId: json['barang_id'],
-      tanggal: json['tanggal'],
-      hargaBeli: double.tryParse(json['harga_beli'].toString()) ?? 0.0,
-      hargaJual: double.tryParse(json['harga_jual'].toString()) ?? 0.0,
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()),
+      barangId: json['barang_id'] is int
+          ? json['barang_id']
+          : int.tryParse(json['barang_id'].toString()) ?? 0,
+      tanggal: json['tanggal'] ?? '',
+      hargaBeli: double.tryParse(json['harga_beli']?.toString() ?? '0') ?? 0,
+      hargaJual: double.tryParse(json['harga_jual']?.toString() ?? '0') ?? 0,
       barang: Barang.fromJson(json['barang']),
     );
   }

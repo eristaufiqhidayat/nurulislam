@@ -29,23 +29,27 @@ class _NavigationExampleState extends State<NavigationExample>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        animationCurve: Curves.easeInOutBack,
-        index: 0,
-        onTap: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        items: const <Widget>[
-          FaIcon(FontAwesomeIcons.house, size: 30, color: Colors.white),
-          FaIcon(FontAwesomeIcons.bookQuran, size: 30, color: Colors.white),
-          FaIcon(FontAwesomeIcons.bookOpen, size: 30, color: Colors.white),
-          FaIcon(FontAwesomeIcons.calendarCheck, size: 30, color: Colors.white)
-        ],
-        color: Colors.green,
-        backgroundColor: Colors.white,
-        height: 60.0,
+      bottomNavigationBar: SafeArea(
+        bottom: true,
+        child: CurvedNavigationBar(
+          animationCurve: Curves.easeInOutBack,
+          index: 0,
+          onTap: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          items: const <Widget>[
+            FaIcon(FontAwesomeIcons.house, size: 30, color: Colors.white),
+            FaIcon(FontAwesomeIcons.bookQuran, size: 30, color: Colors.white),
+            FaIcon(FontAwesomeIcons.bookOpen, size: 30, color: Colors.white),
+            FaIcon(FontAwesomeIcons.calendarCheck,
+                size: 30, color: Colors.white)
+          ],
+          color: Colors.green,
+          backgroundColor: Colors.white,
+          height: 60.0,
+        ),
       ),
 
       //endDrawer: MobileDrawer(),

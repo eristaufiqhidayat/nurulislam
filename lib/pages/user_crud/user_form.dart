@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/models/role_model.dart';
+import 'package:nurulislam/services/role_services.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Tambahkan di pubspec.yaml
 import '../../models/user_crud_model.dart';
 
@@ -20,6 +22,8 @@ class _UserFormState extends State<UserForm> {
   late TextEditingController confirmPasswordController;
   bool showPassword = false;
   bool showConfirmPassword = false;
+  List<RoleModel> roles = [];
+  RoleModel? selectedRole;
 
   @override
   void initState() {
@@ -30,6 +34,22 @@ class _UserFormState extends State<UserForm> {
         TextEditingController(text: widget.user?.roleId?.toString() ?? '');
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    fetchRoles();
+  }
+
+  Future<void> fetchRoles() async {
+    final data = await RoleService.getRoles();
+    setState(() {
+      roles = data;
+
+      // Jika edit, preselect role
+      if (widget.user != null) {
+        selectedRole = roles.firstWhere(
+          (r) => r.id == widget.user!.roleId,
+          orElse: () => roles.first,
+        );
+      }
+    });
   }
 
   @override
@@ -77,13 +97,39 @@ class _UserFormState extends State<UserForm> {
                 validator: (v) => v!.isEmpty ? 'Email wajib diisi' : null,
               ),
               const SizedBox(height: 8),
-              _buildField(
-                controller: roleController,
-                label: 'Role ID',
-                icon: Icons.admin_panel_settings,
-                keyboardType: TextInputType.number,
+              DropdownButtonFormField<RoleModel>(
+                value: selectedRole,
+                items: roles.map((role) {
+                  return DropdownMenuItem(
+                    value: role,
+                    child: Text(role.name),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: "Pilih Role",
+                  prefixIcon: Icon(Icons.admin_panel_settings,
+                      color: Colors.green.shade700),
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.green.shade600, width: 2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green.shade300),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    selectedRole = value;
+                  });
+                },
+                validator: (v) => v == null ? "Role wajib dipilih" : null,
               ),
               const SizedBox(height: 8),
+              // Jika tambah user → password wajib
               if (!isEdit) ...[
                 _buildPasswordField(
                   controller: passwordController,
@@ -91,6 +137,7 @@ class _UserFormState extends State<UserForm> {
                   icon: Icons.lock,
                   show: showPassword,
                   onToggle: () => setState(() => showPassword = !showPassword),
+                  validator: (v) => v!.isEmpty ? 'Password wajib diisi' : null,
                 ),
                 const SizedBox(height: 8),
                 _buildPasswordField(
@@ -102,13 +149,25 @@ class _UserFormState extends State<UserForm> {
                       () => showConfirmPassword = !showConfirmPassword),
                   validator: (v) {
                     if (v!.isEmpty) return 'Konfirmasi password wajib diisi';
-                    if (v != passwordController.text) {
+                    if (v != passwordController.text)
                       return 'Password tidak cocok';
-                    }
                     return null;
                   },
                 ),
-              ],
+              ]
+// Jika edit user → password opsional
+              else ...[
+                _buildPasswordField(
+                  controller: passwordController,
+                  label: 'Password Baru (optional)',
+                  icon: Icons.lock,
+                  show: showPassword,
+                  onToggle: () => setState(() => showPassword = !showPassword),
+                  validator: (v) {
+                    return null; // ← password tidak wajib pada edit
+                  },
+                ),
+              ]
             ],
           ),
         ),
@@ -121,36 +180,46 @@ class _UserFormState extends State<UserForm> {
           onPressed: () => Navigator.pop(context),
         ),
         ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green.shade600,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: const Icon(Icons.save),
-          label: const Text('Simpan'),
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              final newUser = UserModel(
-                id: widget.user?.id,
-                name: nameController.text,
-                email: emailController.text,
-                roleId: int.tryParse(roleController.text),
-              );
-              widget.onSubmit(
-                newUser,
-                passwordController.text.isNotEmpty
-                    ? passwordController.text
-                    : null,
-                confirmPasswordController.text.isNotEmpty
-                    ? confirmPasswordController.text
-                    : null,
-              );
-              Navigator.pop(context);
-            }
-          },
-        ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green.shade600,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+            ),
+            icon: const Icon(Icons.save),
+            label: const Text('Simpan'),
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                final newUser = UserModel(
+                  id: widget.user?.id,
+                  name: nameController.text,
+                  email: emailController.text,
+                  roleId: selectedRole?.id, // cukup ini
+                );
+
+                // create user → password wajib + confirm
+                if (widget.user == null) {
+                  widget.onSubmit(
+                    newUser,
+                    passwordController.text,
+                    confirmPasswordController.text,
+                  );
+                }
+                // edit user → password opsional (tanpa confirm)
+                else {
+                  widget.onSubmit(
+                    newUser,
+                    passwordController.text.isNotEmpty
+                        ? passwordController.text
+                        : null,
+                    null, // confirm tidak diperlukan saat edit
+                  );
+                }
+
+                Navigator.pop(context);
+              }
+            }),
       ],
     );
   }

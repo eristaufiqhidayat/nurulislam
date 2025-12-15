@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
+// import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
 //import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_page.dart';
-import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_inv.dart';
-import 'package:nurulislam/pages/almawa/harga/harga_page.dart';
-import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
+// import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_inv.dart';
+// import 'package:nurulislam/pages/almawa/harga/harga_page.dart';
+// import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
 //import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
 //import 'package:nurulislam/pages/almawa/penjualan/penjualan_form_page.dart';
-import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
-import 'package:nurulislam/pages/almawa/supplier/supplier_page.dart';
-import 'package:nurulislam/pages/menuRolepage.dart';
-import 'package:nurulislam/pages/page_info/page_info_crud.dart';
-import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
-import 'package:nurulislam/pages/rekap_page.dart';
-import 'package:nurulislam/pages/user_crud/user_page.dart';
+// import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
+// import 'package:nurulislam/pages/almawa/supplier/supplier_page.dart';
+// import 'package:nurulislam/pages/menuRolepage.dart';
+// import 'package:nurulislam/pages/page_info/page_info_crud.dart';
+// import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
+// import 'package:nurulislam/pages/rekap_page.dart';
+// import 'package:nurulislam/pages/user_crud/user_page.dart';
 //import 'package:nurulislam/widgets/menu_drawer.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
 import '../api/auth_service.dart';
 import '../utils/shared_prefs.dart';
-import 'admin_screen.dart';
+// import 'admin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final User? user;
@@ -172,9 +172,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _menuIcon(MenuItem item) {
     final Color itemColor = _parseColor(item.color); // default hijau
-
+    print(item.route);
     return InkWell(
-      onTap: () => _navigate(item),
+      //onTap: () => _navigate(item),
+      onTap: () {
+        if (item.route.isNotEmpty) {
+          Navigator.pushNamed(context, item.route);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Route ${item.route} belum tersedia")));
+        }
+      },
       borderRadius: BorderRadius.circular(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -213,34 +221,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _navigate(MenuItem item) {
-    final pages = {
-      '/admin': AdminScreen(),
-      '/pagecontent_crud': pagecontent_crud(),
-      '/menuRole': MenuRolePage(),
-      '/pageInfo': PageInfoPage(),
-      //'/barangMasuk': BarangMasukPage(),
-      '/barangMasuk': BarangMasukInv(),
-      '/barang': BarangPage(),
-      '/pembeli': PembeliPage(),
-      '/penjualan': PenjualanPage(),
-      '/userCrud': UserPage(),
-      '/hargaBarang': HargaPage(),
-      '/rekapPenjualan': RekapPenjualanPage(),
-      '/suppliers': SupplierPage(),
-    };
+  // void _navigate(MenuItem item) {
+  //   final pages = {
+  //     '/admin': AdminScreen(),
+  //     '/pagecontent_crud': pagecontent_crud(),
+  //     '/menuRole': MenuRolePage(),
+  //     '/pageInfo': PageInfoPage(),
+  //     //'/barangMasuk': BarangMasukPage(),
+  //     '/barangMasuk': BarangMasukInv(),
+  //     '/barang': BarangPage(),
+  //     '/pembeli': PembeliPage(),
+  //     '/penjualan': PenjualanPage(),
+  //     '/userCrud': UserPage(),
+  //     '/hargaBarang': HargaPage(),
+  //     '/rekapPenjualan': RekapPenjualanPage(),
+  //     '/suppliers': SupplierPage(),
+  //   };
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-            pages[item.route] ??
-            Scaffold(
-                body: Center(
-                    child: Text("Halaman ${item.route} belum tersedia"))),
-      ),
-    );
-  }
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (_) =>
+  //           pages[item.route] ??
+  //           Scaffold(
+  //               body: Center(
+  //                   child: Text("Halaman ${item.route} belum tersedia"))),
+  //     ),
+  //   );
+  // }
 
   Widget _icon(String urlOrAsset) {
     return _loadNetworkImage(urlOrAsset);

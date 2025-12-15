@@ -15,6 +15,7 @@ class UserModel {
     this.createdAt,
   });
 
+  // ------------ FROM JSON ------------
   factory UserModel.fromJson(Map<String, dynamic> json) {
     int? parseInt(dynamic value) {
       if (value == null) return null;
@@ -33,14 +34,27 @@ class UserModel {
     );
   }
 
-  Map<String, dynamic> toJson({bool forUpdate = false}) {
-    final data = {
+  // ------------ TO JSON ------------
+  Map<String, dynamic> toJson({bool forUpdate = false, String? password}) {
+    final Map<String, dynamic> data = {
       'name': name,
       'email': email,
-      'role_id': roleId?.toString() ?? '0',
+      'role_id': roleId, // kirim integer saja
     };
 
-    if (!forUpdate) data['password'] = '123456'; // default password
+    // CREATE USER
+    if (!forUpdate) {
+      if (password == null || password.isEmpty) {
+        throw Exception("Password wajib untuk create user");
+      }
+      data['password'] = password;
+    }
+
+    // UPDATE USER → password opsional
+    if (forUpdate && password != null && password.isNotEmpty) {
+      data['password'] = password;
+    }
+
     return data;
   }
 }

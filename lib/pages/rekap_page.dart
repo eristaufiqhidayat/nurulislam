@@ -180,60 +180,129 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
       color: Colors.green[100],
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<int>(
-                decoration: const InputDecoration(
-                  labelText: 'Bulan',
-                  prefixIcon: Icon(Icons.calendar_today),
-                  border: OutlineInputBorder(),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Jika layar sempit (misalnya iPhone), ubah menjadi column
+            bool isSmall = constraints.maxWidth < 420;
+
+            if (isSmall) {
+              return Column(
+                children: [
+                  DropdownButtonFormField<int>(
+                    decoration: const InputDecoration(
+                      labelText: 'Bulan',
+                      prefixIcon: Icon(Icons.calendar_today),
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedMonth,
+                    items: List.generate(12, (index) {
+                      final m = index + 1;
+                      return DropdownMenuItem(
+                        value: m,
+                        child: Text(getMonthName(m)),
+                      );
+                    }),
+                    onChanged: (v) => setState(() => selectedMonth = v),
+                  ),
+                  const SizedBox(height: 10),
+                  DropdownButtonFormField<int>(
+                    decoration: const InputDecoration(
+                      labelText: 'Tahun',
+                      prefixIcon: Icon(Icons.calendar_month),
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedYear,
+                    items: List.generate(5, (index) {
+                      final year = DateTime.now().year - index;
+                      return DropdownMenuItem(
+                        value: year,
+                        child: Text(year.toString()),
+                      );
+                    }),
+                    onChanged: (v) => setState(() => selectedYear = v),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[700],
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: fetchRekap,
+                      icon: const Icon(Icons.search),
+                      label: const Text('Filter'),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            // Jika layar lebar → gunakan Row biasa
+            return Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<int>(
+                    decoration: const InputDecoration(
+                      labelText: 'Bulan',
+                      prefixIcon: Icon(Icons.calendar_today),
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedMonth,
+                    items: List.generate(12, (index) {
+                      final m = index + 1;
+                      return DropdownMenuItem(
+                        value: m,
+                        child: Text(getMonthName(m)),
+                      );
+                    }),
+                    onChanged: (v) => setState(() => selectedMonth = v),
+                  ),
                 ),
-                value: selectedMonth,
-                items: List.generate(12, (index) {
-                  final month = index + 1;
-                  return DropdownMenuItem(
-                    value: month,
-                    child: Text(getMonthName(month)),
-                  );
-                }),
-                onChanged: (value) => setState(() => selectedMonth = value),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: DropdownButtonFormField<int>(
-                decoration: const InputDecoration(
-                  labelText: 'Tahun',
-                  prefixIcon: Icon(Icons.calendar_month),
-                  border: OutlineInputBorder(),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: DropdownButtonFormField<int>(
+                    decoration: const InputDecoration(
+                      labelText: 'Tahun',
+                      prefixIcon: Icon(Icons.calendar_month),
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedYear,
+                    items: List.generate(5, (index) {
+                      final year = DateTime.now().year - index;
+                      return DropdownMenuItem(
+                        value: year,
+                        child: Text(year.toString()),
+                      );
+                    }),
+                    onChanged: (v) => setState(() => selectedYear = v),
+                  ),
                 ),
-                value: selectedYear,
-                items: List.generate(5, (index) {
-                  final year = DateTime.now().year - index;
-                  return DropdownMenuItem(
-                    value: year,
-                    child: Text(year.toString()),
-                  );
-                }),
-                onChanged: (value) => setState(() => selectedYear = value),
-              ),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[700],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[700],
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: fetchRekap,
+                    icon: const Icon(Icons.search, size: 20),
+                    label: const Text(
+                      'Filter',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              ),
-              onPressed: fetchRekap,
-              icon: const Icon(Icons.search),
-              label: const Text('Filter'),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

@@ -32,6 +32,7 @@ class _HargaPageState extends State<HargaPage> {
       if (e.toString().contains('401') || e.toString().contains('500')) {
         AuthHelper.handle401(context);
       } else {
+        print('❌ Gagal memuat data: $e');
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Gagal memuat ee data: $e')));
       }

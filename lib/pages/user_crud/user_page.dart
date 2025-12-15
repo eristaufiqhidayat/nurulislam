@@ -45,7 +45,7 @@ class _UserPageState extends State<UserPage> {
             if (user == null) {
               await _service.createUser(newUser, password: password);
             } else {
-              await _service.updateUser(newUser);
+              await _service.updateUser(newUser, password: password);
             }
             await loadData();
           } catch (e) {
@@ -84,23 +84,23 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green.shade700,
-        iconTheme: const IconThemeData(color: Colors.white), // panah putih
-        title: const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Data User',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        centerTitle: false,
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.green.shade700,
+      //   iconTheme: const IconThemeData(color: Colors.white), // panah putih
+      //   title: const Align(
+      //     alignment: Alignment.centerLeft,
+      //     child: Text(
+      //       'Data User',
+      //       style: TextStyle(
+      //         color: Colors.white,
+      //         fontSize: 16,
+      //         fontWeight: FontWeight.w500,
+      //       ),
+      //     ),
+      //   ),
+      //   centerTitle: false,
+      //   elevation: 0,
+      // ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () => showForm(),

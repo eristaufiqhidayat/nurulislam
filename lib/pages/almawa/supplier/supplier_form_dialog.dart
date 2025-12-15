@@ -96,18 +96,18 @@ Future<void> showFormDialog({
             label: const Text("Simpan",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
-              final newItem = SupplierModel(
-                //id: int.parse(id.text),
+              final supplier = SupplierModel(
+                id: item?.id, // <-- kalau edit ada ID, kalau create null
                 nama: nama.text,
                 alamat: alamat.text,
                 telp: telp.text,
               );
-              print('Saving supplier: ${newItem.toJson()}');
+              print('Saving supplier: ${supplier.toJson()}');
               // ignore: unnecessary_null_comparison
               if (item == null) {
-                await service.create(newItem);
+                await service.create(supplier);
               } else {
-                await service.update(item.id!, newItem);
+                await service.update(item.id!, supplier);
               }
 
               Navigator.pop(context);

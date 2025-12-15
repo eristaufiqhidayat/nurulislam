@@ -12,11 +12,11 @@ class ResponsiveLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 700;
+    final isMobile = screenWidth < 1000;
 
     return Scaffold(
-      appBar: isMobile ? MobileAppBar() : null,
-      endDrawer: isMobile ? const MobileDrawer() : null,
+      appBar: MobileAppBar(),
+      endDrawer: MobileDrawer(),
       body: kIsWeb
           ? Column(
               children: [

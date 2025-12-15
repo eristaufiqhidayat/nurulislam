@@ -97,34 +97,96 @@ class _PageInfoPageState extends State<PageInfoPage> {
       context: context,
       builder: (_) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: Text(item == null ? 'Tambah' : 'Edit'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            item == null ? 'Tambah Data' : 'Edit Data',
+            style: const TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           content: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Title
                 TextField(
-                    controller: title,
-                    decoration: const InputDecoration(labelText: 'Title')),
-                const SizedBox(height: 8),
+                  controller: title,
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                    labelStyle: const TextStyle(color: Colors.green),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // Description
                 TextField(
                   controller: desc,
-                  decoration: const InputDecoration(
-                      labelText: 'Description', border: OutlineInputBorder()),
-                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    labelStyle: const TextStyle(color: Colors.green),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   minLines: 3,
                   maxLines: 6,
                 ),
+                const SizedBox(height: 12),
+
+                // Image URL
                 TextField(
-                    controller: img,
-                    decoration: const InputDecoration(labelText: 'Image URL')),
+                  controller: img,
+                  decoration: InputDecoration(
+                    labelText: 'Image URL',
+                    labelStyle: const TextStyle(color: Colors.green),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+
                 if (img.text.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Image.network(img.text,
-                        height: 100,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        img.text,
+                        height: 120,
+                        fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) =>
-                            const Icon(Icons.broken_image)),
+                            const Icon(Icons.broken_image, size: 50),
+                      ),
+                    ),
                   ),
+
+                // Upload button
                 ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   icon: const Icon(Icons.upload),
                   label: const Text("Upload Image"),
                   onPressed: () async {
@@ -132,29 +194,63 @@ class _PageInfoPageState extends State<PageInfoPage> {
                       type: FileType.image,
                       withData: true,
                     );
+
                     if (result != null) {
                       final url = await uploadImage(result.files.first);
-                      setState(() =>
-                          img.text = url.replaceFirst('http://', 'http://'));
+                      setState(() => img.text = url);
+
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Upload berhasil')));
+                        const SnackBar(
+                          content: Text('Upload berhasil'),
+                        ),
+                      );
                     }
                   },
                 ),
+
+                const SizedBox(height: 12),
+
+                // Icon
                 TextField(
-                    controller: icon,
-                    decoration: const InputDecoration(labelText: 'Icon')),
+                  controller: icon,
+                  decoration: InputDecoration(
+                    labelText: 'Icon',
+                    labelStyle: const TextStyle(color: Colors.green),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // Category Dropdown
                 DropdownButtonFormField(
                   value: selectedCategory,
                   items: categories
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Category',
+                    labelStyle: const TextStyle(color: Colors.green),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   onChanged: (v) => setState(() => selectedCategory = v!),
-                  decoration: const InputDecoration(labelText: 'Category'),
                 ),
               ],
             ),
           ),
+
+          // ACTION BUTTONS
           actions: [
             TextButton(
               onPressed: () async {
@@ -172,14 +268,25 @@ class _PageInfoPageState extends State<PageInfoPage> {
                 } else {
                   await service.update(item.id!, newItem);
                 }
+
                 Navigator.pop(context);
                 await _loadData();
               },
-              child: const Text('Simpan'),
+              child: const Text(
+                'Simpan',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Batal')),
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'Batal',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
           ],
         ),
       ),
