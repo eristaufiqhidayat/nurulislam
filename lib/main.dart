@@ -5,7 +5,6 @@ import 'package:nurulislam/pages/access_management/access_management_page.dart';
 import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
 import 'package:nurulislam/pages/almawa/barang_masuk/barang_masuk_inv.dart';
 import 'package:nurulislam/pages/almawa/harga/harga_page.dart';
-//import 'package:nurulislam/pages/almawa/laporan_page.dart';
 import 'package:nurulislam/pages/almawa/pembeli/pembeli_crud_page.dart';
 import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
 import 'package:nurulislam/pages/almawa/supplier/supplier_page.dart';
@@ -15,7 +14,6 @@ import 'package:nurulislam/pages/menuRolepage.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
 import 'package:nurulislam/pages/rekap_page.dart';
-import 'package:nurulislam/pages/user_crud/user_page.dart';
 import 'package:nurulislam/screens/admin_screen.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/screens/login_screen.dart';
@@ -31,10 +29,10 @@ Future<void> main() async {
   // ✅ Inisialisasi data lokal untuk tanggal Indonesia
   await initializeDateFormatting('id_ID', null);
 
-  runApp(MyApp2());
+  runApp(MyApp());
 }
 
-class MyApp2 extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
