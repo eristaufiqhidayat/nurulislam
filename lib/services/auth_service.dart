@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
-import 'api_constants.dart';
+import '../config/api_constants.dart';
 import '../models/pageinfo_model.dart';
 
 class AuthService {

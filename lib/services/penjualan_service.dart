@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/utils/shared_prefs.dart';
-import '../api/api_constants.dart';
+import '../config/api_constants.dart';
 import '../models/penjualan_model.dart';
 import '../models/penjualan_detil_model.dart';
 

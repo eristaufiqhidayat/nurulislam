@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, deprecated_member_use, avoid_print
+
 import 'package:flutter/material.dart';
 import '../../../models/barang_harga_model.dart';
 import '../../../models/barang_model.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class MenuRole {
   final int id;
   final int roleId;

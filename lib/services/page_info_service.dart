@@ -1,7 +1,7 @@
 import 'dart:convert';
 //import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/api/api_constants.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import '../models/pageinfo_model.dart';
 //import 'dart:convert';
 import 'package:flutter/foundation.dart'; // untuk kIsWeb

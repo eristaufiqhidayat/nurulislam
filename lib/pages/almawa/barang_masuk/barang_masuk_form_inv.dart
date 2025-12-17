@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+
 import 'dart:convert';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/api/api_constants.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/barang_masuk_inv_model.dart';
 import 'package:nurulislam/models/supplier_model.dart';
 import 'package:nurulislam/pages/almawa/barang_masuk/detail_barang_masuk_page.dart';

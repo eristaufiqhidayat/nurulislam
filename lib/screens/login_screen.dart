@@ -1,8 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api, unnecessary_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
-import '../api/auth_service.dart';
+import '../services/auth_service.dart';
 //import '../models/user_model.dart';
 import '../utils/shared_prefs.dart';
 

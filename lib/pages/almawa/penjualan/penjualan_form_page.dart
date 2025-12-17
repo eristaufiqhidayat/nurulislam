@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../api/api_constants.dart';
+import '../../../config/api_constants.dart';
 import '../../../models/penjualan_model.dart';
 import '../../../models/pembeli_model.dart';
 import '../../../services/penjualan_service.dart';

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/api/api_constants.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/menuRole_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 

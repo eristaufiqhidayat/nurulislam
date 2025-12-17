@@ -6,7 +6,7 @@ import 'package:nurulislam/pages/almawa/penjualan/penjualan_page.dart';
 import 'package:nurulislam/services/penjualan_service.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../api/api_constants.dart';
+import '../../../config/api_constants.dart';
 import '../../../models/barang_model.dart';
 import '../../../models/detail_penjualan_model.dart';
 import '../../../services/detail_penjualan_service.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/models/detail_penjualan_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
-import '../api/api_constants.dart';
+import '../config/api_constants.dart';
 
 class DetailPenjualanService {
   static const String base =

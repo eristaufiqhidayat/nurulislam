@@ -81,6 +81,7 @@ class _DetailFormBarangMasukDialogState
             child: Column(
               children: [
                 DropdownButtonFormField<int>(
+                  // ignore: deprecated_member_use
                   value: barangId,
                   decoration: const InputDecoration(labelText: 'Barang'),
                   items: barangList.map((b) {

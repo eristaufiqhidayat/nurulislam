@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, control_flow_in_finally, deprecated_member_use, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:nurulislam/models/barang_masuk_inv_model.dart';
 import 'package:nurulislam/models/barang_masuk_model.dart';

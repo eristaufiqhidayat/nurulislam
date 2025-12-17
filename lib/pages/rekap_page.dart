@@ -1,8 +1,10 @@
+// ignore_for_file: use_super_parameters, use_build_context_synchronously, deprecated_member_use
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/api/api_constants.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';

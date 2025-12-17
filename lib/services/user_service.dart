@@ -1,8 +1,10 @@
+// ignore_for_file: avoid_print, unnecessary_brace_in_string_interps
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/user_crud_model.dart';
-import '../api/api_constants.dart';
+import '../config/api_constants.dart';
 
 class UserService {
   static Future<Map<String, String>> _headers() async {

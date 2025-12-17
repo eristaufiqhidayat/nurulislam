@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 //import 'package:nurulislam/widgets/menu_drawer.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
-import '../api/auth_service.dart';
+import '../services/auth_service.dart';
 import '../utils/shared_prefs.dart';
 // import 'admin_screen.dart';
 

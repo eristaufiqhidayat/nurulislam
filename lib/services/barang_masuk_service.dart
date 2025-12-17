@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../api/api_constants.dart';
+import '../config/api_constants.dart';
 import '../models/barang_masuk_model.dart';
 import '../utils/shared_prefs.dart';
 

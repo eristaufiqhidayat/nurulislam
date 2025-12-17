@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:nurulislam/models/detail_penjualan_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/barang_harga_model.dart';
-import '../api/api_constants.dart'; // pastikan file ini berisi baseUrl & headers()
+import '../config/api_constants.dart'; // pastikan file ini berisi baseUrl & headers()
 
 class BarangHargaService {
   Future<List<BarangHarga>> fetchAll() async {

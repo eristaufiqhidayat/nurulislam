@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Delay 3 detik lalu pindah ke HomePage
-    Timer(const Duration(seconds: 6), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacementNamed(context, '/home');
     });
   }
