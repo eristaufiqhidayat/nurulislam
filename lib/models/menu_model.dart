@@ -20,3 +20,46 @@ class MenuItem {
     );
   }
 }
+
+class MenuModel {
+  final int? id;
+  final String title;
+  final String? route;
+  final String? icon;
+  final int? parentId;
+  final int order;
+  final String? color;
+
+  MenuModel({
+    this.id,
+    required this.title,
+    this.route,
+    this.icon,
+    this.parentId,
+    required this.order,
+    this.color,
+  });
+
+  factory MenuModel.fromJson(Map<String, dynamic> json) {
+    return MenuModel(
+      id: json['id'],
+      title: json['title'],
+      route: json['route'],
+      icon: json['icon'],
+      parentId: json['parent_id'],
+      order: json['order'] ?? 0,
+      color: json['color'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'route': route,
+      'icon': icon,
+      'parent_id': parentId,
+      'order': order,
+      'color': color,
+    };
+  }
+}

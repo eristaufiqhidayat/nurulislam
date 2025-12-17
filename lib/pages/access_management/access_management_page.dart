@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/pages/group_users/group_users.dart';
-import 'package:nurulislam/pages/menus/menus_page.dart';
+import 'package:nurulislam/pages/menus/menu_page.dart';
 import 'package:nurulislam/pages/roles/roles_pages.dart';
 import 'package:nurulislam/pages/user_crud/user_page.dart';
 //import 'group_user/group_user_page.dart';
@@ -13,7 +12,7 @@ class AccessManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.green.shade700,
@@ -28,7 +27,6 @@ class AccessManagementPage extends StatelessWidget {
             unselectedLabelColor: Colors.white70,
             tabs: [
               Tab(icon: Icon(Icons.person), text: 'User'),
-              Tab(icon: Icon(Icons.group), text: 'Group User'),
               Tab(icon: Icon(Icons.menu), text: 'Menus'),
               Tab(icon: Icon(Icons.security), text: 'Role'),
             ],
@@ -36,8 +34,7 @@ class AccessManagementPage extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            UserPage(), // ✅ tab 1
-            GroupUserPage(), // ✅ tab 2
+            UserPage(), // ✅ tab// ✅ tab 2
             MenuPage(), // ✅ tab 3
             RolePage(), // ✅ tab 4
           ],

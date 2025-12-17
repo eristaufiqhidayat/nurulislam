@@ -2,15 +2,45 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/menuRole_model.dart';
+import 'package:nurulislam/models/menu_check_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
 class MenuRoleService {
   final String baseUrl = ApiConstants.baseUrl; // Base URL for API
-  // final String token;
+  Future<List<MenuCheckModel>> fetchMenus(int roleId) async {
+    final token = await SharedPrefs.getToken();
+    final res =
+        await http.get(Uri.parse('$baseUrl/api/roles/$roleId/menus'), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    print(res.body);
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body) as List;
+      return data.map((e) => MenuCheckModel.fromJson(e)).toList();
+    } else {
+      throw Exception('Gagal load menu');
+    }
+  }
 
-  // MenuRoleService(this.token);
-  // final String baseUrl =
-  //     'http://localhost:8000/api/menu-roles'; // ganti sesuai server
+  Future<void> saveMenus(int roleId, List<int> menuIds) async {
+    final token = await SharedPrefs.getToken();
+    final res = await http.post(
+      Uri.parse('$baseUrl/api/roles/$roleId/menus'),
+      headers: {
+        'Content-Type': 'application/json',
+        // jika pakai auth:
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'menu_ids': menuIds,
+      }),
+    );
+    print(res.body);
+    if (res.statusCode != 200) {
+      throw Exception('Gagal simpan menu role');
+    }
+  }
 
   Future<List<MenuRole>> fetchAll() async {
     final token = await SharedPrefs.getToken();
