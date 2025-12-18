@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names h
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
