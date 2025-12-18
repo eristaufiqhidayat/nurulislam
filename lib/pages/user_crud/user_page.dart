@@ -3,7 +3,6 @@ import 'package:nurulislam/pages/user_crud/user_table_mobile.dart';
 import '../../models/user_crud_model.dart';
 import '../../services/user_service.dart';
 import 'user_form.dart';
-import 'user_table.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
