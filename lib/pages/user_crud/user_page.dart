@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/pages/user_crud/user_table_mobile.dart';
 import '../../models/user_crud_model.dart';
 import '../../services/user_service.dart';
 import 'user_form.dart';
@@ -84,23 +85,6 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.green.shade700,
-      //   iconTheme: const IconThemeData(color: Colors.white), // panah putih
-      //   title: const Align(
-      //     alignment: Alignment.centerLeft,
-      //     child: Text(
-      //       'Data User',
-      //       style: TextStyle(
-      //         color: Colors.white,
-      //         fontSize: 16,
-      //         fontWeight: FontWeight.w500,
-      //       ),
-      //     ),
-      //   ),
-      //   centerTitle: false,
-      //   elevation: 0,
-      // ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () => showForm(),
@@ -108,33 +92,30 @@ class _UserPageState extends State<UserPage> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding:
-                  const EdgeInsets.all(16.0), // padding seperti halaman harga
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Daftar User', // judul sebelum tabel
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'Daftar User',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: UserTable(
-                        items: users,
-                        onEdit: (user) => showForm(user: user),
-                        onDelete: deleteUser,
-                      ),
-                    ),
+                ),
+
+                // 🔥 INI KUNCI UTAMA
+                Expanded(
+                  child: UserTableMobile(
+                    items: users,
+                    onEdit: (user) => showForm(user: user),
+                    onDelete: deleteUser,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
     );
   }

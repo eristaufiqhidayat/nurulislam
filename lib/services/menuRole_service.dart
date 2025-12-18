@@ -7,6 +7,15 @@ import 'package:nurulislam/utils/shared_prefs.dart';
 
 class MenuRoleService {
   final String baseUrl = ApiConstants.baseUrl; // Base URL for API
+  static Future<Map<String, String>> _headers() async {
+    final token = await SharedPrefs.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
+
   Future<List<MenuCheckModel>> fetchMenus(int roleId) async {
     final token = await SharedPrefs.getToken();
     final res =
@@ -49,7 +58,7 @@ class MenuRoleService {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    print('Menu roles service ${response.body}');
+    //print('Menu roles service ${response.body}');
     //print('$baseUrl/api/menu-roles?token=$token');
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);
@@ -59,24 +68,26 @@ class MenuRoleService {
     }
   }
 
-  Future<void> create(MenuRole menuRole) async {
-    final token = await SharedPrefs.getToken();
+  Future<void> create(String name) async {
+    final headers = await _headers();
+    print('create');
     final response = await http.post(
-      Uri.parse('$baseUrl/api/menu-roles?token=$token'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(menuRole.toJson()),
+      Uri.parse('$baseUrl/api/roles'),
+      headers: headers,
+      body: jsonEncode({'name': name}),
     );
+    print(response.body);
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception('Failed to create');
     }
   }
 
-  Future<void> update(int id, MenuRole menuRole) async {
+  Future<void> update(int id, String name) async {
     final token = await SharedPrefs.getToken();
     final response = await http.put(
       Uri.parse('$baseUrl/api/menu-roles/$id?token=$token'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(menuRole.toJson()),
+      body: {'name': name},
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to update');
@@ -85,8 +96,8 @@ class MenuRoleService {
 
   Future<void> delete(int id) async {
     final token = await SharedPrefs.getToken();
-    final response = await http
-        .delete(Uri.parse('$baseUrl/api/menu-roles/$id?token=$token'));
+    final response =
+        await http.delete(Uri.parse('$baseUrl/api/roles/$id?token=$token'));
     if (response.statusCode != 200) {
       throw Exception('Failed to delete');
     }

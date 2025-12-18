@@ -3,6 +3,7 @@ import '../../models/menu_model.dart';
 import '../../services/menu_service.dart';
 import 'menu_form.dart';
 import 'menu_table.dart';
+import 'menu_table_mobile.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -31,6 +32,7 @@ class _MenuPageState extends State<MenuPage> {
   void openForm({MenuModel? menu}) async {
     final result = await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => MenuForm(menu: menu),
     );
 
@@ -44,6 +46,8 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Manajemen Menu')),
       floatingActionButton: FloatingActionButton(
@@ -52,11 +56,17 @@ class _MenuPageState extends State<MenuPage> {
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : MenuTable(
-              items: menus,
-              onEdit: (m) => openForm(menu: m),
-              onDelete: delete,
-            ),
+          : isMobile
+              ? MenuTableMobile(
+                  items: menus,
+                  onEdit: (m) => openForm(menu: m),
+                  onDelete: delete,
+                )
+              : MenuTable(
+                  items: menus,
+                  onEdit: (m) => openForm(menu: m),
+                  onDelete: delete,
+                ),
     );
   }
 }
