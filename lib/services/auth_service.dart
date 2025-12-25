@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nurulislam/services/page_info_service.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/user_model.dart';
 import '../models/menu_model.dart';
 import '../config/api_constants.dart';
 import '../models/pageinfo_model.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class AuthService {
   static Future<User?> login(String email, String password) async {
@@ -75,18 +78,98 @@ class AuthService {
 }
 
 class ApiService {
-  Future<List<PageinfoModel>> fetchPosts(String category) async {
-    final url =
-        Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category");
-    //print(url);
+  static Database? _db;
+  Future<Database> get database async {
+    if (_db != null) return _db!;
+    _db = await _initDb();
+    return _db!;
+  }
 
-    final response = await http.get(url);
+  // 🔥 DATABASE DIBUAT DI SINI
+  Future<Database> _initDb() async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, 'nurulislam.db');
+    print(path);
 
-    if (response.statusCode == 200) {
-      final List jsonData = json.decode(response.body);
-      return jsonData.map((item) => PageinfoModel.fromJson(item)).toList();
-    } else {
-      throw Exception("Failed to load posts: ${response.statusCode}");
+    return await openDatabase(
+      path,
+      version: 3,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE pageinfo (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            image TEXT NOT NULL,
+            icon TEXT,
+            category TEXT NOT NULL,
+            created_at TEXT,
+            updated_at TEXT
+          )
+        ''');
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        // ⬅️ dipanggil SAAT version naik
+        if (oldVersion < 3) {
+          await db.execute('''
+          DROP TABLE IF EXISTS categories
+        ''');
+        }
+      },
+    );
+  }
+
+  Future<List<PageinfoModel>> getByCategory(String category) async {
+    final db = await database;
+
+    final result = await db.query(
+      'pageinfo',
+      where: 'category = ?',
+      whereArgs: [category],
+      orderBy: 'id DESC',
+    );
+
+    return result.map((e) => PageinfoModel.fromJson(e)).toList();
+  }
+
+  Future<void> upsertAll(List<PageinfoModel> list) async {
+    final db = await database;
+
+    final batch = db.batch();
+
+    for (var item in list) {
+      batch.insert(
+        'pageinfo',
+        item.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
+
+    await batch.commit(noResult: true);
+  }
+
+  Future<List<PageinfoModel>> fetchPosts(String category) async {
+    try {
+      final url = Uri.parse(
+        "${ApiConstants.baseUrl}/api/pageinfo?category=$category",
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List jsonData = json.decode(response.body);
+
+        final posts =
+            jsonData.map((item) => PageinfoModel.fromJson(item)).toList();
+
+        await upsertAll(posts);
+        return posts;
+      }
+    } catch (_) {
+      print("API GAGAL");
+      // ❌ API gagal → ambil dari SQLite
+    }
+
+    return await getByCategory(category);
   }
 }

@@ -23,7 +23,7 @@ class MenuRoleService {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    print(res.body);
+    //print(res.body);
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body) as List;
       return data.map((e) => MenuCheckModel.fromJson(e)).toList();
@@ -45,7 +45,7 @@ class MenuRoleService {
         'menu_ids': menuIds,
       }),
     );
-    print(res.body);
+    //print(res.body);
     if (res.statusCode != 200) {
       throw Exception('Gagal simpan menu role');
     }
@@ -70,13 +70,13 @@ class MenuRoleService {
 
   Future<void> create(String name) async {
     final headers = await _headers();
-    print('create');
+    //print('create');
     final response = await http.post(
       Uri.parse('$baseUrl/api/roles'),
       headers: headers,
       body: jsonEncode({'name': name}),
     );
-    print(response.body);
+    //print(response.body);
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception('Failed to create');
     }
