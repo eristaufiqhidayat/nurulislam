@@ -50,20 +50,20 @@ class PenjualanRepository {
     }
   }
 
-  Future<List<Penjualan>> fetchPenjualan() async {
+  Future<List<PenjualanModel>> fetchPenjualan() async {
     final headers = await _headers();
 
     final res = await http.get(
       Uri.parse('${ApiConstants.baseUrl}/api/penjualan'),
       headers: headers,
     );
-
+    //print(res.body);
     if (res.statusCode != 200) {
       throw Exception('Gagal memuat data penjualan');
     }
 
     final List data = jsonDecode(res.body);
-    return data.map((e) => Penjualan.fromJson(e)).toList();
+    return data.map((e) => PenjualanModel.fromJson(e)).toList();
   }
 
   Future<PenjualanModel> fetchPenjualanBy(id) async {

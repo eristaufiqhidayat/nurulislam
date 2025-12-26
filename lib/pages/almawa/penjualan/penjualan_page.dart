@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nurulislam/models/penjualan_model.dart';
 import 'package:nurulislam/pages/almawa/penjualan/detail_penjualan_page.dart';
 import 'package:nurulislam/pages/almawa/penjualan/penjualan_form_page.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../models/penjualan_detil_model.dart';
 import '../../../services/penjualan_service.dart';
 
 class PenjualanPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class PenjualanPage extends StatefulWidget {
 }
 
 class _PenjualanPageState extends State<PenjualanPage> {
-  late Future<List<Penjualan>> _futurePenjualan;
+  late Future<List<PenjualanModel>> _futurePenjualan;
 
   @override
   void initState() {
@@ -28,12 +28,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
       try {
         _futurePenjualan = PenjualanService().fetchPenjualan();
       } catch (e) {
-        if (e.toString().contains('401')) {
-          AuthHelper.handle401(context);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Gagal memuat ee data: $e')));
-        }
+        print('Error loading penjualan: $e');
       }
     });
   }
@@ -54,16 +49,16 @@ class _PenjualanPageState extends State<PenjualanPage> {
     );
   }
 
-  void _editPenjualan(Penjualan penjualan) {
+  void _editPenjualan(PenjualanModel penjualan) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => DetailPenjualanPage(penjualanId: penjualan.id),
+        builder: (_) => DetailPenjualanPage(penjualanId: penjualan.id!),
       ),
     );
   }
 
-  void _hapusPenjualan(Penjualan penjualan) async {
+  void _hapusPenjualan(PenjualanModel penjualan) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -86,7 +81,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
     if (confirm == true) {
       //await PenjualanService().deletePenjualan(penjualan.id);
       _loadPenjualan();
-      PenjualanService().deletePenjualan(penjualan.id).then((_) {
+      PenjualanService().deletePenjualan(penjualan.id!).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Penjualan berhasil dihapus.")),
         );
@@ -133,7 +128,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
           ),
 
           Expanded(
-            child: FutureBuilder<List<Penjualan>>(
+            child: FutureBuilder<List<PenjualanModel>>(
               future: _futurePenjualan,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -141,14 +136,19 @@ class _PenjualanPageState extends State<PenjualanPage> {
                 }
 
                 if (snapshot.hasError) {
-                  if (snapshot.toString().contains('401')) {
-                    AuthHelper.handle401(context);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content:
-                            Text('Gagal memuat ee data: ${snapshot.error}')));
+                  if (snapshot.error.toString().contains('401')) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!mounted) return;
+                      AuthHelper.handle401(context);
+                    });
                   }
-                  return Center(child: Text("Error: ${snapshot.error}"));
+
+                  return const Center(
+                    child: Text(
+                      'Terjadi kesalahan saat memuat data',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  );
                 }
 
                 final data = snapshot.data ?? [];
@@ -175,7 +175,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                "Nama Pembeli : ${penjualan.pembeli.nama}",
+                                "Nama Pembeli : ${penjualan.pembeli?.nama ?? 'N/A'}",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
@@ -200,14 +200,14 @@ class _PenjualanPageState extends State<PenjualanPage> {
                           ],
                         ),
                         subtitle: Text(
-                          "${penjualan.tglTransaksi}\nTotal: ${formatRupiah(penjualan.totalHarga)}",
+                          "${penjualan.tglTransaksi}\nTotal: ${formatRupiah(penjualan.totalHarga ?? 0)}",
                           style: const TextStyle(color: Colors.grey),
                         ),
-                        children: penjualan.details.map((detail) {
+                        children: penjualan.details!.map((detail) {
                           return ListTile(
                             leading: const Icon(Icons.shopping_bag_outlined,
                                 color: Colors.green),
-                            title: Text(detail.barang.namaBarang),
+                            title: Text(detail.barang!.namaBarang),
                             subtitle: Text(
                               "${detail.jumlah} pcs × ${formatRupiah(detail.hargaJual)}",
                             ),

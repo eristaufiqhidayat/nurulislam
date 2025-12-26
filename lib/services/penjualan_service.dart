@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/repositories/penjualan_repository.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../config/api_constants.dart';
 import '../models/penjualan_model.dart';
-import '../models/penjualan_detil_model.dart';
 
 class PenjualanService {
   // from api_constants.dart
@@ -22,18 +22,9 @@ class PenjualanService {
     return await _repo.create(p);
   }
 
-  Future<List<Penjualan>> fetchPenjualan() async {
-    final headers = await _headers();
-    final res = await http.get(
-        Uri.parse('${ApiConstants.baseUrl}/api/penjualan'),
-        headers: headers);
-    //print(res.body);
-    if (res.statusCode == 200) {
-      List data = jsonDecode(res.body);
-      return data.map((e) => Penjualan.fromJson(e)).toList();
-    } else {
-      throw Exception("Gagal memuat data penjualan (${res.statusCode})");
-    }
+  Future<List<PenjualanModel>> fetchPenjualan() {
+    //final headers = await _headers();
+    return _repo.fetchPenjualan();
   }
 
   Future<PenjualanModel> fetchPenjualanBy(id) async {

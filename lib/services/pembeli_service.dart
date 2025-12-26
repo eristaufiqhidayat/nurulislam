@@ -13,7 +13,7 @@ class PembeliService {
       Uri.parse('${ApiConstants.baseUrl}/api/pembeli?page=$page'),
       headers: {'Authorization': 'Bearer $token'},
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       final List data = jsonData['data'] ?? jsonData;
