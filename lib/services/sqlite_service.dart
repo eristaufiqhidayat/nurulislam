@@ -1,86 +1,33 @@
+import 'package:nurulislam/repositories/sqllite_repository.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 class SqliteService {
-  static Database? _db;
+  final _repo = SqlliteRepository();
 
-  Future<Database> get database async {
-    if (_db != null) return _db!;
-    _db = await _initDb();
-    return _db!;
-  }
-
+  // ignore: unused_element
   Future<Database> _initDb() async {
-    final path = join(await getDatabasesPath(), 'nurulislam.db');
-
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-        CREATE TABLE pageinfo (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          title TEXT NOT NULL,
-          description TEXT NOT NULL,
-          image TEXT NOT NULL,
-          icon TEXT,
-          category TEXT NOT NULL CHECK (
-            category IN ('qurban', 'kegiatan', 'kajian', 'taksin')
-          ),
-          created_at TEXT,
-          updated_at TEXT
-        )
-        ''');
-      },
-    );
+    return await _repo.initDb();
   }
 
   // ================= CRUD =================
 
   Future<int> insert(Map<String, dynamic> data) async {
-    final db = await database;
-    return await db.insert(
-      'pageinfo',
-      {
-        ...data,
-        'created_at': DateTime.now().toIso8601String(),
-        'updated_at': DateTime.now().toIso8601String(),
-      },
-    );
+    return _repo.insert(data);
   }
 
   Future<List<Map<String, dynamic>>> getAll() async {
-    final db = await database;
-    return await db.query(
-      'pageinfo',
-      orderBy: 'id DESC',
-    );
+    return _repo.getAll();
   }
 
   Future<int> update(int id, Map<String, dynamic> data) async {
-    final db = await database;
-    return await db.update(
-      'pageinfo',
-      {
-        ...data,
-        'updated_at': DateTime.now().toIso8601String(),
-      },
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return _repo.update(id, data);
   }
 
   Future<int> delete(int id) async {
-    final db = await database;
-    return await db.delete(
-      'pageinfo',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return _repo.delete(id);
   }
 
   Future<void> clear() async {
-    final db = await database;
-    await db.delete('pageinfo');
+    return _repo.clear();
   }
 }

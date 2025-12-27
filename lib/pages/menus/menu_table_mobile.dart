@@ -35,6 +35,7 @@ class MenuTableMobile extends StatelessWidget {
                 if (menu.route != null) Text('Route: ${menu.route}'),
                 Text('Parent ID: ${menu.parentId ?? "-"}'),
                 Text('Order: ${menu.order}'),
+                Text('Icon: ${menu.icon ?? "-"}'),
               ],
             ),
             trailing: PopupMenuButton<String>(

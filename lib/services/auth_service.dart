@@ -10,21 +10,21 @@ class AuthService {
     return await _repo.login(email, password);
   }
 
-  static Future<List<MenuItem>> getUserMenu(String role) async {
-    return await AuthRepository.getUserMenu(role);
+  Future<List<MenuItem>> getUserMenu(String role) async {
+    return await _repo.getUserMenu(role);
   }
 
-  static Future<User?> getUser() async {
-    return await AuthRepository.getUser();
+  Future<User?> getUser() async {
+    return await _repo.getUser();
   }
 
-  static Future<bool> isLoggedIn() async {
-    return await AuthRepository.isLoggedIn();
+  Future<bool> isLoggedIn() async {
+    return await _repo.isLoggedIn();
   }
 
-  static Future<void> logout() async {
+  Future<void> logout() async {
     // ignore: unused_local_variable
-    return await AuthRepository.logout();
+    return await _repo.logout();
   }
 }
 

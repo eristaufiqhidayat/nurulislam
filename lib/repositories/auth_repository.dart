@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -41,7 +43,7 @@ class AuthRepository {
     }
   }
 
-  static Future<List<MenuItem>> getUserMenu(String role) async {
+  Future<List<MenuItem>> getUserMenu(String role) async {
     try {
       final token = await SharedPrefs.getToken();
       final response = await http.post(
@@ -70,17 +72,17 @@ class AuthRepository {
     }
   }
 
-  static Future<User?> getUser() async {
+  Future<User?> getUser() async {
     final user = await SharedPrefs.getUser();
     return user;
   }
 
-  static Future<bool> isLoggedIn() async {
+  Future<bool> isLoggedIn() async {
     final prefs = await SharedPrefs.getToken();
     return prefs != null;
   }
 
-  static Future<void> logout() async {
+  Future<void> logout() async {
     // ignore: unused_local_variable
     final prefs = await SharedPrefs.clear();
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
@@ -27,16 +28,29 @@ class MenuRepository {
     throw Exception('Gagal load menu');
   }
 
-  Future<void> create(MenuModel menu) async {
-    final headers = await _headers();
-    final res = await http.post(
-      Uri.parse(baseUrl),
-      headers: headers,
-      body: jsonEncode(menu.toJson()),
+  Future<void> create(MenuModel menu, File? icon) async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl/menus'),
     );
 
-    if (res.statusCode != 201) {
-      throw Exception('Gagal tambah menu');
+    request.fields['title'] = menu.title;
+    request.fields['route'] = menu.route ?? '';
+    request.fields['order'] = menu.order.toString();
+
+    if (icon != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'icon',
+          icon.path,
+        ),
+      );
+    }
+
+    final response = await request.send();
+
+    if (response.statusCode != 200) {
+      throw Exception('Gagal simpan menu');
     }
   }
 

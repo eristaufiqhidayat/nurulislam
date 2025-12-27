@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<List<MenuItem>> _menuFuture;
   List<MenuItem> _menuItems = [];
   bool _isDarkMode = false;
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
-    _menuFuture = AuthService.getUserMenu(widget.user!.role);
+    _menuFuture = _authService.getUserMenu(widget.user!.role);
     _menuFuture.then((m) => setState(() => _menuItems = m));
   }
 
