@@ -1,41 +1,28 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/utils/shared_prefs.dart';
+import 'package:nurulislam/repositories/almawa_repository.dart';
 
-class ApiService {
-  static const String baseUrl =
-      ApiConstants.baseUrl; // ubah ke IP server Laravel
-
+class AlmawaService {
   static Future<dynamic> get(String endpoint) async {
-    final token = await SharedPrefs.getToken();
-    final response = await http.get(Uri.parse('$baseUrl/$endpoint'), headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-    return _handleResponse(response);
+    return AlmawaRepository.get(endpoint);
   }
 
   static Future<dynamic> post(
       String endpoint, Map<String, dynamic> data) async {
-    final token = await SharedPrefs.getToken();
-    final response = await http.post(
-      Uri.parse('$baseUrl/$endpoint'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token'
-      },
-      body: jsonEncode(data),
-    );
-    print(data);
-    return _handleResponse(response);
+    return AlmawaRepository.post(endpoint, data);
   }
 
-  static dynamic _handleResponse(http.Response response) {
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Error: ${response.statusCode}, ${response.body}');
-    }
+  Future<dynamic> getLaporan() async {
+    return await get('transaksi/laporan');
+  }
+
+  Future<dynamic> cekStok() async {
+    return await get('transaksi/cek-stok');
+  }
+
+  Future<dynamic> tambahPenjualan(
+      int pembeliId, List<Map<String, dynamic>> barang) async {
+    return await post('transaksi/penjualan', {
+      'pembeli_id': pembeliId,
+      'barang': barang,
+    });
   }
 }

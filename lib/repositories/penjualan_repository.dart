@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/detail_penjualan_model.dart';
 import 'package:nurulislam/models/penjualan_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
@@ -72,8 +71,6 @@ class PenjualanRepository {
       Uri.parse('${ApiConstants.baseUrl}/api/penjualan/$id'),
       headers: headers,
     );
-
-    print(res.body);
 
     if (res.statusCode == 200) {
       final Map<String, dynamic> decoded = jsonDecode(res.body);

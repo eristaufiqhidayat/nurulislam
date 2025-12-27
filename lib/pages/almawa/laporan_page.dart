@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/services/almawa_service.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
-import '../../repositories/transaksi_repository.dart';
 
 class LaporanPage extends StatefulWidget {
   const LaporanPage({super.key});
@@ -10,7 +10,7 @@ class LaporanPage extends StatefulWidget {
 }
 
 class _LaporanPageState extends State<LaporanPage> {
-  final repo = TransaksiRepository();
+  final repo = AlmawaService();
   List laporan = [];
 
   @override

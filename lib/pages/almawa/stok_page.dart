@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../repositories/transaksi_repository.dart';
+import '../../services/almawa_service.dart';
 
 class StokPage extends StatefulWidget {
   const StokPage({super.key});
@@ -9,7 +9,7 @@ class StokPage extends StatefulWidget {
 }
 
 class _StokPageState extends State<StokPage> {
-  final repo = TransaksiRepository();
+  final repo = AlmawaService();
   List stokHabis = [];
 
   @override

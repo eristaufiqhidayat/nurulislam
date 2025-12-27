@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
   bool _isLoading = false;
 
   @override
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
     print('Attempting login for: ${_emailController.text}');
     try {
-      final user = await AuthService.login(
+      final user = await _authService.login(
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );

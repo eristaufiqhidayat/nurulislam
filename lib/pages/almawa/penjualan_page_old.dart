@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../repositories/transaksi_repository.dart';
+import '../../services/almawa_service.dart';
 
 class PenjualanPage extends StatefulWidget {
   const PenjualanPage({super.key});
@@ -9,7 +9,7 @@ class PenjualanPage extends StatefulWidget {
 }
 
 class _PenjualanPageState extends State<PenjualanPage> {
-  final repo = TransaksiRepository();
+  final repo = AlmawaService();
   final pembeliIdController = TextEditingController();
   final barangIdController = TextEditingController();
   final jumlahController = TextEditingController();
