@@ -1,3 +1,4 @@
+import 'package:nurulislam/models/jamaah_model.dart';
 import 'tabungan_qurban_detail_model.dart';
 
 class TabunganQurbanModel {
@@ -9,6 +10,7 @@ class TabunganQurbanModel {
   final double totalSetoran;
   final String status;
   final List<TabunganQurbanDetailModel> detail;
+  final JamaahModel? jamaah;
 
   TabunganQurbanModel({
     required this.id,
@@ -19,6 +21,7 @@ class TabunganQurbanModel {
     required this.totalSetoran,
     required this.status,
     required this.detail,
+    this.jamaah,
   });
 
   factory TabunganQurbanModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +33,8 @@ class TabunganQurbanModel {
       targetNominal: double.parse(json['target_nominal'].toString()),
       totalSetoran: double.parse(json['total_setoran'].toString()),
       status: json['status'].toString(),
+      jamaah:
+          json['jamaah'] != null ? JamaahModel.fromJson(json['jamaah']) : null,
       detail: json['detail'] != null
           ? (json['detail'] as List)
               .map((e) => TabunganQurbanDetailModel.fromJson(e))

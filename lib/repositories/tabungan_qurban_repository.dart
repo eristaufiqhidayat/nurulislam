@@ -29,7 +29,7 @@ class TabunganQurbanRepository {
 
   Future<Map<String, dynamic>> fetchById(int id) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/tabungan-qurban/$id'),
+      Uri.parse('$baseUrl/api/tabungan-qurban/$id'),
     );
 
     if (response.statusCode == 200) {
@@ -53,7 +53,7 @@ class TabunganQurbanRepository {
 
   Future<void> update(int id, Map<String, dynamic> data) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/tabungan-qurban/$id'),
+      Uri.parse('$baseUrl/api/tabungan-qurban/$id'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(data),
     );
@@ -65,7 +65,7 @@ class TabunganQurbanRepository {
 
   Future<void> delete(int id) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/tabungan-qurban/$id'),
+      Uri.parse('$baseUrl/api/tabungan-qurban/$id'),
     );
 
     if (response.statusCode != 200) {
@@ -75,11 +75,11 @@ class TabunganQurbanRepository {
 
   Future<void> addSetoran(Map<String, dynamic> data) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/tabungan-qurban/setoran'),
-      headers: {'Content-Type': 'application/json'},
+      Uri.parse('$baseUrl/api/tabungan-qurban/setoran'),
+      headers: await _headers(),
       body: json.encode(data),
     );
-
+    print(response.body);
     if (response.statusCode != 201) {
       throw Exception('Failed to add setoran');
     }

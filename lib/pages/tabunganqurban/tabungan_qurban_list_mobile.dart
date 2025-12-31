@@ -18,7 +18,7 @@ class TabunganQurbanListMobile extends StatelessWidget {
         return Card(
           margin: const EdgeInsets.all(8),
           child: ListTile(
-            title: Text('Jamaah #${e.jamaahId}'),
+            title: Text('Jamaah #${e.jamaah?.name}'),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
