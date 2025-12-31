@@ -10,6 +10,10 @@ class UserService {
     return _repo.fetchUsers();
   }
 
+  Future<List<Map<String, dynamic>>> fetchUsersmap() async {
+    return _repo.fetchUsersmap();
+  }
+
   Future<void> createUser(UserModel user, {String? password}) async {
     return _repo.createUser(user, password: password);
   }

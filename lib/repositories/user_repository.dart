@@ -29,14 +29,29 @@ class UserRepository {
     }
   }
 
+  Future<List<Map<String, dynamic>>> fetchUsersmap() async {
+    final headers = await _headers();
+    final res = await http.get(Uri.parse('${ApiConstants.baseUrl}/api/users'),
+        headers: headers);
+    //print(res.body);
+    if (res.statusCode == 200) {
+      final jsonData = jsonDecode(res.body);
+      final List list = jsonData;
+      return list.map((e) => e as Map<String, dynamic>).toList();
+    } else {
+      throw Exception('Gagal memuat data user ${res.statusCode}');
+    }
+  }
+
   Future<void> createUser(UserModel user, {String? password}) async {
     final headers = await _headers();
     final res = await http.post(
       Uri.parse('${ApiConstants.baseUrl}/api/users'),
       headers: headers,
-      body: json.encode(user.toJson()),
+      body: json.encode(user.toJson(forUpdate: false, password: password)),
     );
     print(res.body);
+    print("Password : ${password}");
     if (res.statusCode != 201) {
       throw Exception('Gagal menambah user: ${res.body}');
     }

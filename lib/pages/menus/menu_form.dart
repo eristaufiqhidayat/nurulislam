@@ -54,8 +54,8 @@ class _MenuFormState extends State<MenuForm> {
       title: _title.text,
       route: _route.text,
       order: int.parse(_order.text),
+      icon: _icon.text,
     );
-
     if (widget.menu == null) {
       await _service.create(menu, _iconImage);
     } else {

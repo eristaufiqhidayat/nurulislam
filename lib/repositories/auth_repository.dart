@@ -21,6 +21,27 @@ class AuthRepository {
     };
   }
 
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    final response = await http.post(
+      Uri.parse('${ApiConstants.baseUrl}/change-password'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer TOKEN_LOGIN',
+      },
+      body: jsonEncode({
+        'old_password': oldPassword,
+        'new_password': newPassword,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Gagal mengubah password');
+    }
+  }
+
   Future<User?> login(String email, String password) async {
     try {
       final response = await http.post(

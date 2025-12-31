@@ -1,14 +1,11 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'dart:io';
-
-import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/repositories/menu_repository.dart';
 import '../models/menu_model.dart';
 
 class MenuService {
   final _repo = MenuRepository();
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/menus';
 
   Future<List<MenuModel>> fetchMenus() async {
     return await _repo.fetchMenus();

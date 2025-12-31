@@ -84,12 +84,19 @@ class MenuroleRepository {
   }
 
   Future<void> update(int id, String name) async {
-    final token = await SharedPrefs.getToken();
+    final headers = await _headers();
+
     final response = await http.put(
-      Uri.parse('$baseUrl/api/menu-roles/$id?token=$token'),
-      headers: {'Content-Type': 'application/json'},
-      body: {'name': name},
+      Uri.parse('$baseUrl/api/roles/$id'),
+      headers: headers,
+      body: jsonEncode({
+        'name': name,
+      }),
     );
+
+    print('STATUS CODE: ${response.statusCode}');
+    print('RESPONSE BODY: ${response.body}');
+
     if (response.statusCode != 200) {
       throw Exception('Failed to update');
     }
