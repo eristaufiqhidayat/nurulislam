@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:nurulislam/pages/tabunganqurban/tabungan_form.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../services/tabungan_qurban_service.dart';
 import '../../models/tabungan_qurban_model.dart';
 import 'tabungan_qurban_table_web.dart';
@@ -29,7 +33,13 @@ class _TabunganQurbanPageState extends State<TabunganQurbanPage> {
 
   Future<void> loadData() async {
     setState(() => loading = true);
-    data = await service.fetchList(page: page);
+    try {
+      data = await service.fetchList(
+        page: page,
+      );
+    } catch (e) {
+      AuthHelper.handle401(context);
+    }
     setState(() => loading = false);
   }
 
@@ -57,8 +67,20 @@ class _TabunganQurbanPageState extends State<TabunganQurbanPage> {
     final isMobile = MediaQuery.of(context).size.width < 800;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tabungan Qurban'),
+      appBar: AppBarCustom(
+        title: 'Tabungan Qurban',
+        leading: [
+          IconButton(
+            tooltip: 'Refresh',
+            icon: const Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              await loadData();
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => tabunganForm(isMobile),

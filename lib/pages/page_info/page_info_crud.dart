@@ -49,12 +49,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
         isLastPage = data.length < 10;
       });
     } catch (e) {
-      if (e.toString().contains('401') || e.toString().contains('500')) {
-        AuthHelper.handle401(context);
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Gagal memuat ee data: $e')));
-      }
+      AuthHelper.handle401(context);
     }
   }
 

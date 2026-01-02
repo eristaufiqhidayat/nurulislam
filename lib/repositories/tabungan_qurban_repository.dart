@@ -19,7 +19,6 @@ class TabunganQurbanRepository {
       Uri.parse('$baseUrl/api/tabungan-qurban?page=$page'),
       headers: await _headers(),
     );
-    print(response.body);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

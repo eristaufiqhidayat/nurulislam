@@ -90,4 +90,18 @@ class UserRepository {
       throw Exception('Gagal menghapus user');
     }
   }
+
+  Future<void> changePassword(String old_password, String new_password) async {
+    final headers = await _headers();
+
+    final res = await http.post(
+      Uri.parse('${ApiConstants.baseUrl}/api/change-password'),
+      headers: headers,
+      body: json
+          .encode({"old_password": old_password, "new_password": new_password}),
+    );
+    if (res.statusCode != 200) {
+      throw Exception('Gagal mengupdate user: ${res.body}');
+    }
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/repositories/user_repository.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -26,6 +28,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
     try {
       /// 🔗 Panggil API di sini
+      await UserRepository().changePassword(
+        _oldController.text,
+        _newController.text,
+      );
       await Future.delayed(const Duration(seconds: 2));
 
       if (!mounted) return;
@@ -46,9 +52,36 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    InputDecoration inputDecoration({
+      required String label,
+      required IconData icon,
+      required Widget suffix,
+    }) {
+      return InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: Colors.green.shade700),
+        suffixIcon: suffix,
+        labelStyle: TextStyle(color: Colors.green.shade700),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.green.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.green.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.green.shade600, width: 1.5),
+        ),
+      );
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ganti Password'),
+      appBar: AppBarCustom(
+        title: 'Ganti Password',
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -56,6 +89,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 400),
             child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(
+                  color: Colors.green.shade300,
+                  width: 1.3,
+                ),
+              ),
+              color: const Color(0xFFF1F8F4),
               elevation: 3,
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -68,14 +109,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       TextFormField(
                         controller: _oldController,
                         obscureText: _obscureOld,
-                        decoration: InputDecoration(
-                          labelText: 'Password Lama',
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
+                        decoration: inputDecoration(
+                          label: 'Password Lama',
+                          icon: Icons.lock_outline,
+                          suffix: IconButton(
                             icon: Icon(
                               _obscureOld
                                   ? Icons.visibility_off
                                   : Icons.visibility,
+                              color: Colors.green,
                             ),
                             onPressed: () =>
                                 setState(() => _obscureOld = !_obscureOld),
@@ -91,10 +133,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       TextFormField(
                         controller: _newController,
                         obscureText: _obscureNew,
-                        decoration: InputDecoration(
-                          labelText: 'Password Baru',
-                          prefixIcon: const Icon(Icons.lock),
-                          suffixIcon: IconButton(
+                        decoration: inputDecoration(
+                          label: 'Password Baru',
+                          icon: Icons.lock_outline,
+                          suffix: IconButton(
                             icon: Icon(
                               _obscureNew
                                   ? Icons.visibility_off
@@ -121,10 +163,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       TextFormField(
                         controller: _confirmController,
                         obscureText: _obscureConfirm,
-                        decoration: InputDecoration(
-                          labelText: 'Konfirmasi Password',
-                          prefixIcon: const Icon(Icons.lock),
-                          suffixIcon: IconButton(
+                        decoration: inputDecoration(
+                          label: 'Konfirmasi Password',
+                          icon: Icons.lock_outline,
+                          suffix: IconButton(
                             icon: Icon(
                               _obscureConfirm
                                   ? Icons.visibility_off
@@ -147,6 +189,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green.shade600,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                           onPressed: _loading ? null : submit,
                           child: _loading
                               ? const SizedBox(
@@ -157,7 +207,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : const Text('Simpan'),
+                              : const Text(
+                                  'Simpan',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
                         ),
                       ),
                     ],

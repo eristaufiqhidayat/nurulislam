@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/services/tabungan_qurban_service.dart';
 import 'package:nurulislam/services/user_service.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:nurulislam/widgets/dropdown_search_map.dart';
 
 class TabunganFormPage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _TabunganFormPageState extends State<TabunganFormPage> {
   Widget build(BuildContext context) {
     return widget.isMobile
         ? Scaffold(
-            appBar: AppBar(title: const Text('Tambah Tabungan Jamaah')),
+            appBar: AppBarCustom(title: 'Tambah Tabungan Jamaah'),
             body: Padding(
               padding: const EdgeInsets.all(16),
               child: _form(),

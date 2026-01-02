@@ -1,8 +1,13 @@
+import 'package:nurulislam/models/tabungan_qurban_detail_model.dart';
+
 import '../models/tabungan_qurban_model.dart';
 import '../repositories/tabungan_qurban_repository.dart';
+import '../repositories/tabungan_qurban_detail_repository.dart';
 
 class TabunganQurbanService {
   final TabunganQurbanRepository _repo = TabunganQurbanRepository();
+  final TabunganQurbanDetailRepository _detailRepo =
+      TabunganQurbanDetailRepository();
 
   Future<List<TabunganQurbanModel>> fetchList({int page = 1}) async {
     final response = await _repo.fetchPaginated(page: page);
@@ -14,6 +19,10 @@ class TabunganQurbanService {
   Future<TabunganQurbanModel> fetchDetail(int id) async {
     final data = await _repo.fetchById(id);
     return TabunganQurbanModel.fromJson(data);
+  }
+
+  Future<List<TabunganQurbanDetailModel>> fetchDetailDetail(int id) async {
+    return await _detailRepo.fetchPaginated(id: id);
   }
 
   Future<void> create(Map<String, dynamic> data) async {
@@ -37,6 +46,10 @@ class TabunganQurbanService {
 
   Future<void> delete(int id) async {
     await _repo.delete(id);
+  }
+
+  Future<void> deleteDetail(int id) async {
+    await _detailRepo.delete(id);
   }
 
   Future<void> addSetoran({
