@@ -203,12 +203,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 16),
 
                   // Forgot Password
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Lupa Password?',
-                      style: TextStyle(color: Colors.green),
-                    ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Lupa Password?',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
+                        child: Text(
+                          'Register?',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

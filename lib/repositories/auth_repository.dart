@@ -21,6 +21,41 @@ class AuthRepository {
     };
   }
 
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+    required String role,
+  }) async {
+    final res =
+        await http.post(Uri.parse('${ApiConstants.baseUrl}/api/register'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              'name': name,
+              'email': email,
+              'password': password,
+              'password_confirmation': password,
+              'role_id': role,
+            }));
+    print('Register response: ${res.body} $role');
+    //var token = res['token']; // ✅ AUTO LOGIN
+  }
+
+  Future<void> verifyOtp(String email, String otp) async {
+    await http.post(Uri.parse('${ApiConstants.baseUrl}/api/verify-otp'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode({
+          'email': email,
+          'otp': otp,
+        }));
+  }
+
   Future<void> changePassword({
     required String oldPassword,
     required String newPassword,

@@ -15,6 +15,7 @@ import 'package:nurulislam/pages/kegiatan.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
 import 'package:nurulislam/pages/password/change_password_page.dart';
+import 'package:nurulislam/pages/register/register_dialog.dart';
 import 'package:nurulislam/pages/rekap_page.dart';
 import 'package:nurulislam/pages/tabunganqurban/tabungan_qurban_page.dart';
 import 'package:nurulislam/screens/admin_screen.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/home': (context) => const ResponsiveLayout(),
+        '/register': (context) => const RegisterDialog(),
         '/dkm': (context) => const dkm(),
         '/donasi': (context) => const donasi(),
         '/contact': (context) => ContactPage(),

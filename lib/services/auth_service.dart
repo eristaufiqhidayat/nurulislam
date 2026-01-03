@@ -6,8 +6,29 @@ import 'package:sqflite/sqflite.dart';
 
 class AuthService {
   final _repo = AuthRepository();
+  // ✅ Menyimpan token setelah registrasi
   Future<User?> login(String email, String password) async {
     return await _repo.login(email, password);
+  }
+
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+    required String role,
+  }) async {
+    if (role == 'jamaah') {
+      role = '4';
+    } else if (role == 'panitia') {
+      role = '3';
+    }
+    await _repo.register(
+        name: name, email: email, password: password, role: role);
+    // ✅ AUTO LOGIN
+  }
+
+  Future<void> verifyOtp(String email, String otp) async {
+    return await _repo.verifyOtp(email, otp);
   }
 
   Future<List<MenuItem>> getUserMenu(String role) async {
