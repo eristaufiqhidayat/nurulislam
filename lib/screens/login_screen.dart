@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
-    print('Attempting login for: ${_emailController.text}');
+    //print('Attempting login for: ${_emailController.text}');
     try {
       final user = await _authService.login(
         _emailController.text.trim(),
@@ -50,16 +50,16 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await SharedPrefs.saveUser(user!);
-
+      if (user.message != null && user.message!.isNotEmpty) {
+        throw Exception(user.message);
+      }
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
       );
     } catch (e) {
-      print(e);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('User Password Salah!'), backgroundColor: Colors.red),
+        SnackBar(content: Text('${e}'), backgroundColor: Colors.red),
       );
     } finally {
       setState(() => _isLoading = false);

@@ -16,7 +16,7 @@ class _RegisterDialogState extends State<RegisterDialog> {
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
-
+  final confirmPassCtrl = TextEditingController();
   String role = 'jamaah';
   bool loading = false;
 
@@ -30,7 +30,8 @@ class _RegisterDialogState extends State<RegisterDialog> {
         name: nameCtrl.text,
         email: emailCtrl.text,
         password: passCtrl.text,
-        role: role,
+        role: 'jamaah',
+        //role: role,
       );
 
       if (!mounted) return;
@@ -76,16 +77,18 @@ class _RegisterDialogState extends State<RegisterDialog> {
               const SizedBox(height: 12),
               _input(passCtrl, 'Password', obscure: true),
               const SizedBox(height: 12),
-              DropdownButtonFormField(
-                value: role,
-                items: const [
-                  DropdownMenuItem(value: 'jamaah', child: Text('Jamaah')),
-                  DropdownMenuItem(value: 'panitia', child: Text('Panitia')),
-                ],
-                onChanged: (v) => setState(() => role = v!),
-                decoration: _decoration('Role'),
-              ),
-              const SizedBox(height: 20),
+              _confirmPasswordInput(),
+              const SizedBox(height: 12),
+              // DropdownButtonFormField(
+              //   value: role,
+              //   items: const [
+              //     DropdownMenuItem(value: 'jamaah', child: Text('Jamaah')),
+              //     DropdownMenuItem(value: 'panitia', child: Text('Panitia')),
+              //   ],
+              //   onChanged: (v) => setState(() => role = v!),
+              //   decoration: _decoration('Role'),
+              // ),
+              // const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF43A047),
@@ -94,7 +97,10 @@ class _RegisterDialogState extends State<RegisterDialog> {
                 onPressed: loading ? null : _submit,
                 child: loading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text('DAFTAR'),
+                    : const Text(
+                        'DAFTAR',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             ],
           ),
@@ -109,6 +115,23 @@ class _RegisterDialogState extends State<RegisterDialog> {
       obscureText: obscure,
       validator: (v) => v!.isEmpty ? '$label wajib diisi' : null,
       decoration: _decoration(label),
+    );
+  }
+
+  Widget _confirmPasswordInput() {
+    return TextFormField(
+      controller: confirmPassCtrl,
+      obscureText: true,
+      validator: (v) {
+        if (v == null || v.isEmpty) {
+          return 'Konfirmasi password wajib diisi';
+        }
+        if (v != passCtrl.text) {
+          return 'Password tidak sama';
+        }
+        return null;
+      },
+      decoration: _decoration('Konfirmasi Password'),
     );
   }
 

@@ -18,16 +18,16 @@ class AuthService {
     required String role,
   }) async {
     if (role == 'jamaah') {
-      role = '4';
+      role = '10';
     } else if (role == 'panitia') {
-      role = '3';
+      role = '11';
     }
     await _repo.register(
         name: name, email: email, password: password, role: role);
     // ✅ AUTO LOGIN
   }
 
-  Future<void> verifyOtp(String email, String otp) async {
+  Future<User> verifyOtp(String email, String otp) async {
     return await _repo.verifyOtp(email, otp);
   }
 

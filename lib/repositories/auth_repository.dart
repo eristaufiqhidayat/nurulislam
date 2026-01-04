@@ -44,16 +44,19 @@ class AuthRepository {
     //var token = res['token']; // ✅ AUTO LOGIN
   }
 
-  Future<void> verifyOtp(String email, String otp) async {
-    await http.post(Uri.parse('${ApiConstants.baseUrl}/api/verify-otp'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode({
-          'email': email,
-          'otp': otp,
-        }));
+  Future<User> verifyOtp(String email, String otp) async {
+    final res =
+        await http.post(Uri.parse('${ApiConstants.baseUrl}/api/verify-otp'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              'email': email,
+              'otp': otp,
+            }));
+    print('Verify OTP response: ${res.body}');
+    return User.fromJson(json.decode(res.body));
   }
 
   Future<void> changePassword({
@@ -86,16 +89,15 @@ class AuthRepository {
           'password': password,
         },
       );
-      //print('Response status: ${response.body}');
-      if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      if (response.statusCode == 200 || response.statusCode == 205) {
         final data = json.decode(response.body);
-        //print("auth_service : $data");
         return User.fromJson(data);
       } else {
-        throw Exception('Login failed: ${response.body}');
+        throw Exception('Failed to login: ${response.body}');
       }
     } catch (e) {
-      throw Exception('Error during login: $e');
+      throw Exception('Error during login: ${e.toString()}');
     }
   }
 
