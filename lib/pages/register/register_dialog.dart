@@ -35,19 +35,17 @@ class _RegisterDialogState extends State<RegisterDialog> {
       );
 
       if (!mounted) return;
-
       Navigator.pop(context);
-
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => OtpDialog(email: emailCtrl.text),
-      );
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       setState(() => loading = false);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => OtpDialog(email: emailCtrl.text),
+      );
     }
   }
 

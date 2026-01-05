@@ -34,95 +34,100 @@ class _UserTableMobileState extends State<UserTableMobile> {
 
     final pageItems = widget.items.sublist(startIndex, endIndex);
 
-    return Column(
-      children: [
-        // 🔹 LIST CARD
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: pageItems.length,
-          itemBuilder: (context, index) {
-            final user = pageItems[index];
-            final number = startIndex + index + 1;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // 🔹 LIST CARD
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: pageItems.length,
+            itemBuilder: (context, index) {
+              final user = pageItems[index];
+              final number = startIndex + index + 1;
 
-            return Card(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '#$number',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.green),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.blue),
-                              onPressed: () => widget.onEdit(user),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => widget.onDelete(user),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-
-                    const Divider(),
-
-                    _rowInfo('Nama', user.name),
-                    _rowInfo('Email', user.email),
-                    _rowInfo('Role', user.roleName ?? '-'),
-                  ],
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-            );
-          },
-        ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '#$number',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon:
+                                    const Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () => widget.onEdit(user),
+                              ),
+                              IconButton(
+                                icon:
+                                    const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => widget.onDelete(user),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
 
-        const SizedBox(height: 8),
+                      const Divider(),
 
-        // 🔹 PAGINATION
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Hal $currentPage / $totalPages',
-                style: const TextStyle(fontSize: 12),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.chevron_left),
-                    onPressed: currentPage > 1
-                        ? () => setState(() => currentPage--)
-                        : null,
+                      _rowInfo('Nama', user.name),
+                      _rowInfo('Email', user.email),
+                      _rowInfo('Role', user.roleName ?? '-'),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right),
-                    onPressed: currentPage < totalPages
-                        ? () => setState(() => currentPage++)
-                        : null,
-                  ),
-                ],
-              )
-            ],
+                ),
+              );
+            },
           ),
-        ),
-      ],
+
+          const SizedBox(height: 8),
+
+          // 🔹 PAGINATION
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Hal $currentPage / $totalPages',
+                  style: const TextStyle(fontSize: 12),
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.chevron_left),
+                      onPressed: currentPage > 1
+                          ? () => setState(() => currentPage--)
+                          : null,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.chevron_right),
+                      onPressed: currentPage < totalPages
+                          ? () => setState(() => currentPage++)
+                          : null,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

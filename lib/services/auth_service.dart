@@ -27,6 +27,13 @@ class AuthService {
     // ✅ AUTO LOGIN
   }
 
+  Future<void> resendOtp({
+    required String email,
+  }) async {
+    await _repo.resendOtp(email: email);
+    // ✅ AUTO LOGIN
+  }
+
   Future<User> verifyOtp(String email, String otp) async {
     return await _repo.verifyOtp(email, otp);
   }

@@ -44,6 +44,20 @@ class AuthRepository {
     //var token = res['token']; // ✅ AUTO LOGIN
   }
 
+  Future<void> resendOtp({
+    required String email,
+  }) async {
+    final res =
+        await http.post(Uri.parse('${ApiConstants.baseUrl}/api/resend-otp'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({'email': email}));
+    print('Register response: ${res.body} ');
+    //var token = res['token']; // ✅ AUTO LOGIN
+  }
+
   Future<User> verifyOtp(String email, String otp) async {
     final res =
         await http.post(Uri.parse('${ApiConstants.baseUrl}/api/verify-otp'),

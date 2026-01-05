@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nurulislam/pages/register/otp_dialog.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
 import '../services/auth_service.dart';
@@ -58,9 +59,25 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${e}'), backgroundColor: Colors.red),
-      );
+      if (e.toString().contains('Unauthorized')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Login gagal: Cek email dan password Anda'),
+              backgroundColor: Colors.red),
+        );
+        return;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${e}'), backgroundColor: Colors.red),
+        );
+      }
+      if (e.toString().contains('verifikasi')) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => OtpDialog(email: _emailController.text),
+        );
+      }
     } finally {
       setState(() => _isLoading = false);
     }
