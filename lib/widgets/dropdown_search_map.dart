@@ -28,24 +28,28 @@ class DropdownSearchMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownSearch<Map<String, dynamic>>(
-      items: (String filter, LoadProps? props) async {
-        return await fetchData();
-      },
-      selectedItem: selectedItem,
-      itemAsString: (item) => item[textKey].toString(),
-      compareFn: (a, b) => a[idKey].toString() == b[idKey].toString(),
-      onChanged: onChanged,
-      validator: validator,
-      decoratorProps: DropDownDecoratorProps(
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(Icons.person, color: Colors.green.shade700),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+    try {
+      return DropdownSearch<Map<String, dynamic>>(
+        items: (String filter, LoadProps? props) async {
+          return await fetchData();
+        },
+        selectedItem: selectedItem,
+        itemAsString: (item) => item[textKey].toString(),
+        compareFn: (a, b) => a[idKey].toString() == b[idKey].toString(),
+        onChanged: onChanged,
+        validator: validator,
+        decoratorProps: DropDownDecoratorProps(
+          decoration: InputDecoration(
+            labelText: label,
+            prefixIcon: Icon(Icons.person, color: Colors.green.shade700),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      return Text('Error loading data: $e');
+    }
   }
 }

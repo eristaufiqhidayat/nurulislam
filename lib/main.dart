@@ -16,6 +16,7 @@ import 'package:nurulislam/pages/kegiatan.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
 import 'package:nurulislam/pages/password/change_password_page.dart';
+import 'package:nurulislam/pages/product/product_list_page.dart';
 import 'package:nurulislam/pages/register/register_dialog.dart';
 import 'package:nurulislam/pages/rekap_page.dart';
 import 'package:nurulislam/pages/tabunganqurban/tabungan_qurban_page.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
         '/userCrud': (context) => const AccessManagementPage(),
         '/changePassword': (context) => const ChangePasswordPage(),
         '/tabunganQurban': (context) => const TabunganQurbanPage(),
+        '/product': (context) => const ProductListPage(),
       },
     );
   }
