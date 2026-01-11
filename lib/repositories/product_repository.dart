@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/product_model.dart';
@@ -12,6 +15,26 @@ class ProductRepository {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     };
+  }
+
+  Future<String> uploadImage(File file) async {
+    final token = await SharedPrefs.getToken();
+    final uri = Uri.parse('${ApiConstants.baseUrl}/api/upload-image');
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['Authorization'] = 'Bearer $token'
+      ..headers['Accept'] = 'application/json';
+
+    request.files.add(await http.MultipartFile.fromPath('image', file.path!));
+
+    final response = await request.send();
+    //print(request);
+    if (response.statusCode == 200) {
+      final respStr = await response.stream.bytesToString();
+      final jsonData = jsonDecode(respStr);
+      return jsonData['url'];
+    } else {
+      throw Exception('Gagal upload (${response.statusCode})');
+    }
   }
 
   Future<List<ProductModel>> fetchProducts() async {

@@ -39,6 +39,7 @@ class _ProductListPageState extends State<ProductListPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () async {
           await Navigator.push(
             context,
@@ -60,16 +61,68 @@ class _ProductListPageState extends State<ProductListPage> {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final p = data[index];
-              return Card(
-                child: ListTile(
-                  title: Text(p.name),
-                  subtitle: Text('Rp ${p.price} | Stock: ${p.stock}'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () async {
-                      await service.delete(p.id);
-                      refresh();
-                    },
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.green.shade400,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    title: Text(
+                      p.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Rp ${p.price}',
+                            style: TextStyle(
+                              color: Colors.green.shade700,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade100,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'Stock: ${p.stock}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.green.shade900,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      color: Colors.red.shade400,
+                      onPressed: () async {
+                        await service.delete(p.id);
+                        refresh();
+                      },
+                    ),
                   ),
                 ),
               );
