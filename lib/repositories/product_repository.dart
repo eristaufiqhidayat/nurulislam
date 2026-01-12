@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/utils/shared_prefs.dart';
 import '../models/product_model.dart';
@@ -24,14 +22,15 @@ class ProductRepository {
       ..headers['Authorization'] = 'Bearer $token'
       ..headers['Accept'] = 'application/json';
 
-    request.files.add(await http.MultipartFile.fromPath('image', file.path!));
+    request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
     final response = await request.send();
-    //print(request);
+    print(response.statusCode);
     if (response.statusCode == 200) {
+      print('Image uploaded successfully');
       final respStr = await response.stream.bytesToString();
       final jsonData = jsonDecode(respStr);
-      return jsonData['url'];
+      return jsonData['filename'];
     } else {
       throw Exception('Gagal upload (${response.statusCode})');
     }

@@ -2,15 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nurulislam/models/product_model.dart';
 import 'package:nurulislam/services/category_service.dart';
 import 'package:nurulislam/services/shop_service.dart';
 import 'package:nurulislam/widgets/dropdown_search_map.dart';
 import '../../services/product_service.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class ProductFormPage extends StatefulWidget {
-  const ProductFormPage({super.key});
+  final ProductModel? product;
+
+  const ProductFormPage({super.key, this.product});
 
   @override
   State<ProductFormPage> createState() => _ProductFormPageState();
@@ -37,6 +41,35 @@ class _ProductFormPageState extends State<ProductFormPage> {
   Map<String, dynamic>? selectedShop;
   Map<String, dynamic>? selectedCategory;
   bool loading = false;
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.product != null) {
+      final p = widget.product!;
+      nameCtrl.text = p.name;
+      descCtrl.text = p.description ?? '';
+      priceCtrl.text = p.price.toString();
+      stockCtrl.text = p.stock.toString();
+      uploadedImageName = p.image; // ⬅️ image lama
+      // 🔥 INI KUNCI UTAMA
+      //print('shop name ${p.shopName}');
+      selectedShop = {
+        'id': p.shopId,
+        'name': p.shopName, // pastikan ada di model
+      };
+
+      selectedCategory = {
+        'id': p.categoryId,
+        'name': p.categoryName,
+      };
+
+      selectedStatus = statusList.firstWhere(
+        (e) => e['id'] == p.status,
+      );
+    }
+  }
+
   Future<XFile> convertHeicToJpg(File file) async {
     final dir = await getTemporaryDirectory();
     final targetPath =
@@ -61,14 +94,15 @@ class _ProductFormPageState extends State<ProductFormPage> {
       );
 
       if (image == null) return;
-
+      final fileNameOnly = path.basename(image.path);
+      print('Filename only: $fileNameOnly');
       setState(() {
         selectedImage = File(image.path);
         uploadingImage = true;
       });
-
+      print('Uploaded image ');
       final filename = await service.uploadImage(selectedImage!);
-
+      print('Uploaded image filename: $filename');
       setState(() {
         uploadedImageName = filename;
         uploadingImage = false;
@@ -84,7 +118,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Product')),
+      appBar: AppBar(
+        title: Text(widget.product == null ? 'Add Product' : 'Edit Product'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -94,6 +130,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
               label: 'Shop',
               idKey: 'id',
               textKey: 'name',
+              selectedItem: selectedShop,
+              initialId: widget.product?.shopId,
               onChanged: (value) {
                 selectedShop = value;
                 // Handle category selection
@@ -102,9 +140,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
             SizedBox(height: 16),
             DropdownSearchMap(
               fetchData: serviceCategory.getCategories,
+              selectedItem: selectedCategory,
               label: 'Category',
               idKey: 'id',
               textKey: 'name',
+              initialId: widget.product?.categoryId,
               onChanged: (value) {
                 selectedCategory = value;
                 // Handle category selection
@@ -113,6 +153,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
             SizedBox(height: 24),
             DropdownSearchMap(
               fetchData: () async => statusList,
+              selectedItem: selectedStatus,
               label: 'Status',
               idKey: 'id',
               textKey: 'name',
@@ -177,32 +218,49 @@ class _ProductFormPageState extends State<ProductFormPage> {
               onPressed: loading
                   ? null
                   : () async {
-                      if (selectedImage == null) {
+                      if (uploadedImageName == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Image wajib diupload')),
+                          const SnackBar(content: Text('Image belum tersedia')),
                         );
                         return;
                       }
 
                       setState(() => loading = true);
 
-                      await service.save(
-                        shopId: selectedShop!['id'],
-                        categoryId: selectedCategory!['id'],
-                        name: nameCtrl.text,
-                        desc: descCtrl.text,
-                        price: double.parse(priceCtrl.text),
-                        stock: int.parse(stockCtrl.text),
-                        status: selectedStatus!['id'],
-                        imageFile: selectedImage, // ⬅️ tambah ini
-                      );
+                      if (widget.product == null) {
+                        // ✅ CREATE
+                        await service.save(
+                          shopId: selectedShop!['id'],
+                          categoryId: selectedCategory!['id'],
+                          name: nameCtrl.text,
+                          desc: descCtrl.text,
+                          price: double.parse(priceCtrl.text),
+                          stock: int.parse(stockCtrl.text),
+                          status: selectedStatus!['id'],
+                          imageFile: uploadedImageName!,
+                        );
+                      } else {
+                        // ✅ UPDATE
+                        // await service.update(
+                        //   id: widget.product!.id,
+                        //   shopId: selectedShop?['id'] ?? widget.product!.shopId,
+                        //   categoryId:
+                        //       selectedCategory?['id'] ?? widget.product!.categoryId,
+                        //   name: nameCtrl.text,
+                        //   desc: descCtrl.text,
+                        //   price: double.parse(priceCtrl.text),
+                        //   stock: int.parse(stockCtrl.text),
+                        //   status: selectedStatus?['id'] ?? widget.product!.status,
+                        //   image: uploadedImageName!,
+                        // );
+                      }
 
                       setState(() => loading = false);
                       Navigator.pop(context);
                     },
               child: loading
                   ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text('Save'),
+                  : Text(widget.product == null ? 'Save' : 'Update'),
             ),
           ],
         ),

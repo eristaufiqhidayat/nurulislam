@@ -12,6 +12,7 @@ class DropdownSearchMap extends StatelessWidget {
   final String idKey;
   final String textKey;
   final IconData? icon;
+  final int? initialId;
   final String? Function(Map<String, dynamic>?)? validator;
 
   const DropdownSearchMap({
@@ -24,10 +25,13 @@ class DropdownSearchMap extends StatelessWidget {
     this.textKey = 'name',
     this.icon,
     this.validator,
+    this.initialId,
   });
 
   @override
   Widget build(BuildContext context) {
+    print("selectedItem = $selectedItem , initialid = $initialId");
+
     try {
       return DropdownSearch<Map<String, dynamic>>(
         items: (String filter, LoadProps? props) async {

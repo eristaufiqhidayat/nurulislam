@@ -27,7 +27,7 @@ class ProductService {
     required int stock,
     required String status,
     required String desc,
-    required File? imageFile,
+    required String? imageFile,
   }) async {
     if (stock < 0) {
       throw Exception('Stock tidak boleh negatif');
@@ -40,7 +40,8 @@ class ProductService {
       "description": desc,
       "price": price,
       "stock": stock,
-      "status": status
+      "status": status,
+      "image": imageFile
     });
   }
 }

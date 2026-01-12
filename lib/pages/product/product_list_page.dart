@@ -115,13 +115,32 @@ class _ProductListPageState extends State<ProductListPage> {
                         ],
                       ),
                     ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline),
-                      color: Colors.red.shade400,
-                      onPressed: () async {
-                        await service.delete(p.id);
-                        refresh();
-                      },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          color: Colors.orange.shade700,
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProductFormPage(
+                                    product: p), // ⬅️ kirim data
+                              ),
+                            );
+                            refresh();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline),
+                          color: Colors.red.shade400,
+                          onPressed: () async {
+                            await service.delete(p.id);
+                            refresh();
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),
