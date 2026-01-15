@@ -7,7 +7,7 @@ class ProductService {
   final ProductRepository repo = ProductRepository();
 
   Future<List<ProductModel>> getProducts() {
-    print('Fetching products from ProductService');
+    //print('Fetching products from ProductService');
     return repo.fetchProducts();
   }
 
@@ -34,8 +34,35 @@ class ProductService {
     }
 
     await repo.storeProduct({
-      "shop_id": 1,
-      "category_id": 1,
+      "shop_id": shopId,
+      "category_id": categoryId,
+      "name": name,
+      "description": desc,
+      "price": price,
+      "stock": stock,
+      "status": status,
+      "image": imageFile
+    });
+  }
+
+  Future<void> update({
+    required int id,
+    required int shopId,
+    required int categoryId,
+    required String name,
+    required double price,
+    required int stock,
+    required String status,
+    required String desc,
+    required String? imageFile,
+  }) async {
+    if (stock < 0) {
+      throw Exception('Stock tidak boleh negatif');
+    }
+
+    await repo.updateProduct(id, {
+      "shop_id": shopId,
+      "category_id": categoryId,
       "name": name,
       "description": desc,
       "price": price,

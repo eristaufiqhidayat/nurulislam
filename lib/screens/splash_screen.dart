@@ -29,29 +29,29 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             ClipOval(
               child: Image.asset(
-                'assets/images/masjid_nuris.jpg',
+                'assets/images/splashscreen.png',
                 width: 300,
                 height: 300, // wajib sama dengan width
                 fit: BoxFit.cover, // supaya gambar tidak gepeng
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              "DKM Masjid",
-              style: TextStyle(
-                color: Colors.green,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Text(
-              "Nurul Islam Pondok Kopi",
-              style: TextStyle(
-                color: Colors.green,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            //const SizedBox(height: 20),
+            // const Text(
+            //   "DKM Masjid",
+            //   style: TextStyle(
+            //     color: Colors.green,
+            //     fontSize: 20,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // const Text(
+            //   "Nurul Islam Pondok Kopi",
+            //   style: TextStyle(
+            //     color: Colors.green,
+            //     fontSize: 18,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
           ],
         ),
       ),

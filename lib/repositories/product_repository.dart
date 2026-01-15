@@ -27,7 +27,7 @@ class ProductRepository {
     final response = await request.send();
     print(response.statusCode);
     if (response.statusCode == 200) {
-      print('Image uploaded successfully');
+      //print('Image uploaded successfully');
       final respStr = await response.stream.bytesToString();
       final jsonData = jsonDecode(respStr);
       return jsonData['filename'];
@@ -40,8 +40,8 @@ class ProductRepository {
     final response = await http.get(
         Uri.parse('${ApiConstants.baseUrl}/api/products'),
         headers: await _headers());
-    print('Response code: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    //print('Response code: ${response.statusCode}');
+    //print('Response body: ${response.body}');
     final body = json.decode(response.body);
     final List data = body['data']['data'];
 
@@ -69,5 +69,6 @@ class ProductRepository {
       headers: await _headers(),
       body: json.encode(payload),
     );
+    print("Update nih.  $payload");
   }
 }

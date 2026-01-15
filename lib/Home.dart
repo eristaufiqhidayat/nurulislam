@@ -47,7 +47,9 @@ class _NavigationExampleState extends State<NavigationExample>
             FaIcon(FontAwesomeIcons.bookQuran, size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.bookOpen, size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.calendarCheck,
-                size: 30, color: Colors.white)
+                size: 30, color: Colors.white),
+            FaIcon(FontAwesomeIcons.shoppingCart,
+                size: 30, color: Colors.white),
           ],
           color: Colors.green,
           backgroundColor: Colors.white,
@@ -60,6 +62,7 @@ class _NavigationExampleState extends State<NavigationExample>
         const PageContentMobile(),
         SurahListPage(),
         HaditsViewScreen(),
+        RdViewScreen(),
         RdViewScreen(),
       ][currentPageIndex],
     );
