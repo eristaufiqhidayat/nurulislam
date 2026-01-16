@@ -15,6 +15,13 @@ class ProductRepository {
     };
   }
 
+  static Future<Map<String, String>> _headersList() async {
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+  }
+
   Future<String> uploadImage(File file) async {
     final token = await SharedPrefs.getToken();
     final uri = Uri.parse('${ApiConstants.baseUrl}/api/upload-image');
@@ -40,6 +47,18 @@ class ProductRepository {
     final response = await http.get(
         Uri.parse('${ApiConstants.baseUrl}/api/products'),
         headers: await _headers());
+    //print('Response code: ${response.statusCode}');
+    //print('Response body: ${response.body}');
+    final body = json.decode(response.body);
+    final List data = body['data']['data'];
+
+    return data.map((e) => ProductModel.fromJson(e)).toList();
+  }
+
+  Future<List<ProductModel>> fetchProductsList() async {
+    final response = await http.get(
+        Uri.parse('${ApiConstants.baseUrl}/api/productsList'),
+        headers: await _headersList());
     //print('Response code: ${response.statusCode}');
     //print('Response body: ${response.body}');
     final body = json.decode(response.body);

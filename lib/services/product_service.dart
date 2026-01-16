@@ -11,6 +11,11 @@ class ProductService {
     return repo.fetchProducts();
   }
 
+  Future<List<ProductModel>> getProductsList() {
+    //print('Fetching products from ProductService');
+    return repo.fetchProductsList();
+  }
+
   Future<String> uploadImage(File file) async {
     return repo.uploadImage(file);
   }

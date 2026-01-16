@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nurulislam/pages/forgot_password_page.dart';
+//import 'package:nurulislam/pages/forgot_password_page.dart';
 import 'package:nurulislam/pages/register/otp_dialog.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
@@ -68,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         return;
       } else {
+        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('${e}'), backgroundColor: Colors.red),
         );

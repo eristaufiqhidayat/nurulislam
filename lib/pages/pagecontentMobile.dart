@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
+import 'package:nurulislam/pages/product/product_list_home.dart';
 import 'package:nurulislam/services/auth_service.dart';
 import 'package:nurulislam/pages/kajian_detil_crud.dart';
 import 'package:nurulislam/widgets/card.dart';
@@ -48,26 +49,27 @@ class _PageContentMobileState extends State<PageContentMobile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ProductListHome(), //<---- ditambahkan di sini
             // ================= TITLE ==================
-            Text(
-              'Selamat Datang',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.green[800],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22, // NEW SIZE
-                  ),
-            ),
-            const SizedBox(height: 20),
+            // Text(
+            //   'Selamat Datang',
+            //   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            //         color: Colors.green[800],
+            //         fontWeight: FontWeight.bold,
+            //         fontSize: 22, // NEW SIZE
+            //       ),
+            // ),
+            // const SizedBox(height: 20),
 
-            const Text(
-              'Masjid Nurul Islam adalah pusat kegiatan keislaman yang berlokasi di Pondok Kopi. '
-              'Kami menyelenggarakan berbagai kegiatan ibadah, pendidikan, dan sosial untuk umat.',
-              style: TextStyle(
-                fontSize: 15, // NEW SIZE
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 30),
+            // const Text(
+            //   'Masjid Nurul Islam adalah pusat kegiatan keislaman yang berlokasi di Pondok Kopi. '
+            //   'Kami menyelenggarakan berbagai kegiatan ibadah, pendidikan, dan sosial untuk umat.',
+            //   style: TextStyle(
+            //     fontSize: 15, // NEW SIZE
+            //     height: 1.5,
+            //   ),
+            // ),
+            //const SizedBox(height: 10),
 
             Text(
               'Sekilas Info',
@@ -77,7 +79,7 @@ class _PageContentMobileState extends State<PageContentMobile> {
                     fontSize: 20, // NEW SIZE
                   ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 8),
 
             // ================= SLIDER QURBAN ==================
             SizedBox(
