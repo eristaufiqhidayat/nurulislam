@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/product_model.dart';
+import 'package:nurulislam/pages/product/cart_page.dart';
+import 'package:nurulislam/providers/cart_provider.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
+import 'package:provider/provider.dart';
 import '../../services/product_service.dart';
 import 'product_card.dart';
 
@@ -25,15 +28,53 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarCustom(
-        routeName: 'Produk',
-        leading: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      // appBar: AppBarCustom(
+      //   title: 'Product',
+      //   routeName: 'Produk',
+      //   leading: [
+      //     IconButton(
+      //       icon: const Icon(Icons.arrow_back),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //     Stack(
+      //       children: [
+      //         IconButton(
+      //           icon: const Icon(Icons.shopping_cart),
+      //           onPressed: () {
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (_) => const CartPage(),
+      //               ),
+      //             );
+      //           },
+      //         ),
+      //         Positioned(
+      //           right: 6,
+      //           top: 6,
+      //           child: Consumer<CartProvider>(
+      //             builder: (_, cart, __) {
+      //               if (cart.totalItems == 0) return const SizedBox();
+      //               return CircleAvatar(
+      //                 radius: 8,
+      //                 backgroundColor: Colors.red,
+      //                 child: Text(
+      //                   cart.totalItems.toString(),
+      //                   style: const TextStyle(
+      //                     fontSize: 10,
+      //                     color: Colors.white,
+      //                   ),
+      //                 ),
+      //               );
+      //             },
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      // ),
       backgroundColor: Colors.grey.shade100,
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -74,13 +115,13 @@ class _ProductListPageState extends State<ProductListPage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        onPressed: () {
-          // TODO: ke halaman tambah produk
-        },
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.green,
+      //   onPressed: () {
+      //     // TODO: ke halaman tambah produk
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }

@@ -27,6 +27,8 @@ import 'package:nurulislam/pages/donasi.dart';
 import 'package:nurulislam/pages/contact.dart';
 import 'package:nurulislam/screens/splash_screen.dart';
 import 'package:nurulislam/screens/version_software.dart';
+import 'package:provider/provider.dart';
+import 'providers/cart_provider.dart';
 
 /// ✅ Fix utama ada di sini:
 Future<void> main() async {
@@ -35,7 +37,12 @@ Future<void> main() async {
   // ✅ Inisialisasi data lokal untuk tanggal Indonesia
   await initializeDateFormatting('id_ID', null);
 
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CartProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

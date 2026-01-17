@@ -39,7 +39,7 @@ class _ProductListHomeState extends State<ProductListHome> {
         const SizedBox(height: 4),
 
         SizedBox(
-          height: 240,
+          height: 270,
           child: FutureBuilder<List<ProductModel>>(
             future: futureProducts,
             builder: (context, snapshot) {

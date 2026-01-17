@@ -4,11 +4,15 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:nurulislam/pages/checkout/checkout_page.dart';
 import 'package:nurulislam/pages/pagecontentMobile.dart';
+import 'package:nurulislam/pages/product/cart_page.dart';
 import 'package:nurulislam/pages/product/product_list_card.dart';
+import 'package:nurulislam/providers/cart_provider.dart';
 import 'package:nurulislam/screens/surah_list.dart';
 import 'package:nurulislam/widgets/haditsviewscreen.dart';
 import 'package:nurulislam/widgets/rdviewscreen.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -43,14 +47,40 @@ class _NavigationExampleState extends State<NavigationExample>
               currentPageIndex = index;
             });
           },
-          items: const <Widget>[
+          items: <Widget>[
             FaIcon(FontAwesomeIcons.house, size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.bookQuran, size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.bookOpen, size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.calendarCheck,
                 size: 30, color: Colors.white),
-            FaIcon(FontAwesomeIcons.shoppingCart,
-                size: 30, color: Colors.white),
+            FaIcon(FontAwesomeIcons.list, size: 30, color: Colors.white),
+            FaIcon(FontAwesomeIcons.person, size: 30, color: Colors.white),
+            // Stack(
+            //   children: [
+            //     FaIcon(FontAwesomeIcons.shoppingCart,
+            //         size: 30, color: Colors.white),
+            //     Positioned(
+            //       right: 0,
+            //       top: 0,
+            //       child: Consumer<CartProvider>(
+            //         builder: (_, cart, __) {
+            //           if (cart.totalItems == 0) return const SizedBox();
+            //           return CircleAvatar(
+            //             radius: 8,
+            //             backgroundColor: Colors.red,
+            //             child: Text(
+            //               cart.totalItems.toString(),
+            //               style: const TextStyle(
+            //                 fontSize: 10,
+            //                 color: Colors.white,
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
           color: Colors.green,
           backgroundColor: Colors.white,
@@ -65,6 +95,7 @@ class _NavigationExampleState extends State<NavigationExample>
         HaditsViewScreen(),
         RdViewScreen(),
         ProductListPage(),
+        CartPage(),
       ][currentPageIndex],
     );
   }
