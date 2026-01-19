@@ -1,14 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, unnecessary_import
 
 import 'package:flutter/material.dart';
-import 'package:nurulislam/Home.dart';
 import 'package:nurulislam/app.dart';
 import 'package:nurulislam/pages/register/otp_dialog.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
-import '../services/auth_service.dart';
 import '../utils/shared_prefs.dart';
 
 class LoginScreen extends StatefulWidget {

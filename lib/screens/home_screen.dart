@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/providers/auth_provider.dart';
-import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import '../models/menu_model.dart';
 import '../services/auth_service.dart';
