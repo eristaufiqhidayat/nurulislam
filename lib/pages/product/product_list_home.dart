@@ -23,64 +23,87 @@ class _ProductListHomeState extends State<ProductListHome> {
     futureProducts = _service.getProductsList();
   }
 
+  Map<String, List<ProductModel>> groupByCategoryId(
+      List<ProductModel> products) {
+    final Map<String, List<ProductModel>> map = {};
+
+    for (var product in products) {
+      map.putIfAbsent(product.categoryName, () => []);
+      map[product.categoryName]!.add(product);
+    }
+
+    return map;
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // ================= TITLE ==================
-        Text(
-          'Nuris Shop',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.green[800],
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 4),
+    return FutureBuilder<List<ProductModel>>(
+      future: futureProducts,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-        SizedBox(
-          height: 270,
-          child: FutureBuilder<List<ProductModel>>(
-            future: futureProducts,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
 
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
+        final products = snapshot.data ?? [];
+        if (products.isEmpty) {
+          return const Center(child: Text('Produk belum tersedia'));
+        }
 
-              final products = snapshot.data ?? [];
+        final grouped = groupByCategoryId(products);
+        final sortedCategoryIds = grouped.keys.toList()..sort();
 
-              if (products.isEmpty) {
-                return const Center(child: Text('Produk belum tersedia'));
-              }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: sortedCategoryIds.map((categoryId) {
+            final items = grouped[categoryId]!;
 
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 170,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ProductCard(
-                        product: products[index],
-                        imageBaseUrl: imageBaseUrl,
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ===== CATEGORY TITLE =====
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    'Nuris ${items.first.categoryName}', // aman
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Colors.green[800],
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
 
-        const SizedBox(height: 8),
-      ],
+                // ===== PRODUCT LIST =====
+                SizedBox(
+                  height: 230,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: 170,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ProductCard(
+                            product: items[index],
+                            imageBaseUrl: imageBaseUrl,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+              ],
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

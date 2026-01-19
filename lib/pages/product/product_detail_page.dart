@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nurulislam/models/product_model.dart';
@@ -17,7 +18,11 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
-
+    final rupiah = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Detail Produk',
@@ -67,7 +72,7 @@ class ProductDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Rp ${product.price}',
+                    rupiah.format(product.price),
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.green[800],

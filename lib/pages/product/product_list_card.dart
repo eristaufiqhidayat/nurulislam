@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/product_model.dart';
-import 'package:nurulislam/pages/product/cart_page.dart';
-import 'package:nurulislam/providers/cart_provider.dart';
-import 'package:nurulislam/widgets/appbar_widget.dart';
-import 'package:provider/provider.dart';
 import '../../services/product_service.dart';
 import 'product_card.dart';
 
