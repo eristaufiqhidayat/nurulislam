@@ -4,44 +4,56 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:nurulislam/pages/checkout/checkout_page.dart';
 import 'package:nurulislam/pages/pagecontentMobile.dart';
-import 'package:nurulislam/pages/product/cart_page.dart';
 import 'package:nurulislam/pages/product/product_list_card.dart';
-import 'package:nurulislam/providers/cart_provider.dart';
+import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/screens/surah_list.dart';
 import 'package:nurulislam/widgets/haditsviewscreen.dart';
+import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:nurulislam/widgets/rdviewscreen.dart';
-import 'package:provider/provider.dart';
+//import 'package:nurulislam/widgets/rdviewscreen.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+// class HomePage extends StatelessWidget {
+//   const HomePage({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//         home: NavigationExample(), debugShowCheckedModeBanner: false);
+//   }
+// }
+
+class HomePage extends StatefulWidget {
+  final int initialIndex;
+  const HomePage({super.key, this.initialIndex = 0});
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-        home: NavigationExample(), debugShowCheckedModeBanner: false);
-  }
+  State<HomePage> createState() => _HomePage();
 }
 
-class NavigationExample extends StatefulWidget {
-  const NavigationExample({super.key});
-  @override
-  State<NavigationExample> createState() => _NavigationExampleState();
-}
-
-class _NavigationExampleState extends State<NavigationExample>
-    with SingleTickerProviderStateMixin {
-  late String alamatweb;
+class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
+  //late String alamatweb;
   int currentPageIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    currentPageIndex = widget.initialIndex; // ✅ PENTING
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBarCustom(
+      //   title: 'Nuris',
+      //   showBack: false,
+      //   leading: [
+      //     AppBarCustom.cartIcon(context),
+      //   ],
+      // ),
+      endDrawer: MobileDrawer(),
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: CurvedNavigationBar(
           animationCurve: Curves.easeInOutBack,
-          index: 0,
+          index: currentPageIndex,
           onTap: (int index) {
             setState(() {
               currentPageIndex = index;
@@ -55,32 +67,6 @@ class _NavigationExampleState extends State<NavigationExample>
                 size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.list, size: 30, color: Colors.white),
             FaIcon(FontAwesomeIcons.person, size: 30, color: Colors.white),
-            // Stack(
-            //   children: [
-            //     FaIcon(FontAwesomeIcons.shoppingCart,
-            //         size: 30, color: Colors.white),
-            //     Positioned(
-            //       right: 0,
-            //       top: 0,
-            //       child: Consumer<CartProvider>(
-            //         builder: (_, cart, __) {
-            //           if (cart.totalItems == 0) return const SizedBox();
-            //           return CircleAvatar(
-            //             radius: 8,
-            //             backgroundColor: Colors.red,
-            //             child: Text(
-            //               cart.totalItems.toString(),
-            //               style: const TextStyle(
-            //                 fontSize: 10,
-            //                 color: Colors.white,
-            //               ),
-            //             ),
-            //           );
-            //         },
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
           color: Colors.green,
           backgroundColor: Colors.white,
@@ -95,7 +81,7 @@ class _NavigationExampleState extends State<NavigationExample>
         HaditsViewScreen(),
         RdViewScreen(),
         ProductListPage(),
-        CartPage(),
+        DashBoard(),
       ][currentPageIndex],
     );
   }

@@ -12,10 +12,6 @@ class CartProvider extends ChangeNotifier {
   double get totalPrice =>
       _items.values.fold(0, (sum, item) => sum + item.subtotal);
 
-  //final Map<int, CartItem> _items = {};
-
-  //Map<int, CartItem> get items => _items;
-
   int? get currentShopId {
     if (_items.isEmpty) return null;
     return _items.values.first.product.shopId;

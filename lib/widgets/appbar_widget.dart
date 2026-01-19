@@ -1,34 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/theme_config.dart';
+import 'package:nurulislam/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
-  final String routeName;
   final String title;
   final List<Widget>? leading;
+  final bool showBack; // ✅ kontrol back arrow
+  final String routeName;
 
   const AppBarCustom({
     super.key,
-    this.routeName = "",
     this.title = "Phase 3",
-    this.leading, // Default judul
+    this.leading,
+    this.showBack = true, // ✅ default: TIDAK ADA back arrow
+    this.routeName = "",
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: ThemeConfig.basicColor,
+      automaticallyImplyLeading: false, // ⬅️ penting
       title: Align(
-        alignment: Alignment.centerLeft, // Sesuaikan jika perlu
+        alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: const TextStyle(fontSize: 18, color: ThemeConfig.Font),
+          style: const TextStyle(
+            fontSize: 18,
+            color: ThemeConfig.Font,
+          ),
         ),
       ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () => Navigator.pop(context),
-      ),
+
+      // ✅ back arrow hanya muncul kalau diminta
+      leading: showBack
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            )
+          : null,
+
       actions: leading,
+    );
+  }
+
+  static Widget cartIcon(BuildContext context) {
+    return Consumer<CartProvider>(
+      builder: (context, cart, _) {
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.shopping_cart_outlined),
+              onPressed: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+            ),
+            if (cart.totalItems > 0)
+              Positioned(
+                right: 6,
+                top: 6,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 18,
+                    minHeight: 18,
+                  ),
+                  child: Text(
+                    cart.totalItems.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 

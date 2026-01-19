@@ -72,7 +72,7 @@ class _OtpDialogState extends State<OtpDialog> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
+        MaterialPageRoute(builder: (_) => DashBoard()),
       );
     } catch (_) {
       if (!mounted) return;

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:nurulislam/Home.dart';
 import 'package:nurulislam/app.dart';
 import 'package:nurulislam/pages/access_management/access_management_page.dart';
 import 'package:nurulislam/pages/almawa/barang/barang_crud_page.dart';
@@ -16,10 +17,12 @@ import 'package:nurulislam/pages/kegiatan.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
 import 'package:nurulislam/pages/password/change_password_page.dart';
+import 'package:nurulislam/pages/product/cart_page.dart';
 import 'package:nurulislam/pages/product/product_list_page.dart';
 import 'package:nurulislam/pages/register/register_dialog.dart';
 import 'package:nurulislam/pages/rekap_page.dart';
 import 'package:nurulislam/pages/tabunganqurban/tabungan_qurban_page.dart';
+import 'package:nurulislam/providers/auth_provider.dart';
 import 'package:nurulislam/screens/admin_screen.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/screens/login_screen.dart';
@@ -38,8 +41,11 @@ Future<void> main() async {
   await initializeDateFormatting('id_ID', null);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => CartProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()..loadUser()),
+      ],
       child: MyApp(),
     ),
   );
@@ -59,8 +65,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/forgot-password': (context) => const ForgotPasswordPage(),
         '/home': (context) => const ResponsiveLayout(),
+        '/homepage': (context) => const HomePage(),
+        '/dashboard': (context) => const DashBoard(), //DashBoard
+        '/forgot-password': (context) => const ForgotPasswordPage(),
         '/register': (context) => const RegisterDialog(),
         '/dkm': (context) => const dkm(),
         '/donasi': (context) => const donasi(),
@@ -69,7 +77,6 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/admin': (context) => const AdminScreen(),
         '/pagecontent_crud': (context) => const pagecontent_crud(),
-        '/homepage': (context) => const HomeScreen(),
         '/pageInfo': (context) => const PageInfoPage(),
         '/stokBarang': (context) => const pagecontent_crud(),
         '/barang': (context) => const BarangPage(),
@@ -84,6 +91,7 @@ class MyApp extends StatelessWidget {
         '/changePassword': (context) => const ChangePasswordPage(),
         '/tabunganQurban': (context) => const TabunganQurbanPage(),
         '/product': (context) => const ProductListPage(),
+        '/cart': (context) => const CartPage(),
       },
     );
   }

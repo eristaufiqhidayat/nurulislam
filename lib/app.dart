@@ -7,7 +7,8 @@ import 'package:nurulislam/widgets/footer.dart';
 import 'package:nurulislam/pages/pagecontentWeb.dart';
 
 class ResponsiveLayout extends StatelessWidget {
-  const ResponsiveLayout({super.key});
+  final int initialIndex;
+  const ResponsiveLayout({super.key, this.initialIndex = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class ResponsiveLayout extends StatelessWidget {
                 ),
               ],
             )
-          : HomePage(),
+          : HomePage(initialIndex: initialIndex),
     );
   }
 }

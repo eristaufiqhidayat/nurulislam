@@ -41,10 +41,18 @@ class ProductDetailPage extends StatelessWidget {
             style: TextStyle(fontSize: 16),
           ),
           onPressed: () {
-            cart.addToCart(product);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Produk ditambahkan ke keranjang')),
-            );
+            try {
+              cart.addToCart(product);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content: Text('Produk ditambahkan ke keranjang')),
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Cart Tidak Boleh Beda Shop'),
+                backgroundColor: Colors.red,
+              ));
+            }
           },
         ),
       ),
