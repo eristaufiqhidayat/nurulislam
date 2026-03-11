@@ -9,7 +9,7 @@ import '../providers/auth_provider.dart';
 import '../utils/shared_prefs.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();

@@ -98,7 +98,7 @@ class _UserFormState extends State<UserForm> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<RoleModel>(
-                value: selectedRole,
+                initialValue: selectedRole,
                 items: roles.map((role) {
                   return DropdownMenuItem(
                     value: role,
@@ -149,8 +149,9 @@ class _UserFormState extends State<UserForm> {
                       () => showConfirmPassword = !showConfirmPassword),
                   validator: (v) {
                     if (v!.isEmpty) return 'Konfirmasi password wajib diisi';
-                    if (v != passwordController.text)
+                    if (v != passwordController.text) {
                       return 'Password tidak cocok';
+                    }
                     return null;
                   },
                 ),

@@ -8,6 +8,7 @@ class HargaTableWidget extends StatelessWidget {
   final Function(int) onDelete;
 
   const HargaTableWidget({
+    super.key,
     required this.items,
     required this.onEdit,
     required this.onDelete,

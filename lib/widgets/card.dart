@@ -6,11 +6,11 @@ class KajianCard extends StatelessWidget {
   final String assetPath;
 
   const KajianCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.assetPath,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../services/product_service.dart';
 import '../../models/product_model.dart';
@@ -17,7 +18,11 @@ class _ProductListPageState extends State<ProductListPage> {
   final ProductService service = ProductService();
   late Future<List<ProductModel>> future;
   String imageBaseUrl = '${ApiConstants.baseUrl}/storage/uploads/';
-
+  final rupiah = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
   @override
   void initState() {
     super.initState();
@@ -71,7 +76,7 @@ class _ProductListPageState extends State<ProductListPage> {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final p = data[index];
-              //print('$imageBaseUrl${p.image}');
+              print('$imageBaseUrl${p.image}');
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -91,7 +96,6 @@ class _ProductListPageState extends State<ProductListPage> {
                     ),
 
                     // ✅ IMAGE DI KIRI
-
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: p.image != null && p.image!.isNotEmpty
@@ -133,7 +137,7 @@ class _ProductListPageState extends State<ProductListPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Rp ${p.price}',
+                            rupiah.format(p.price),
                             style: TextStyle(
                               color: Colors.green.shade700,
                               fontWeight: FontWeight.w600,

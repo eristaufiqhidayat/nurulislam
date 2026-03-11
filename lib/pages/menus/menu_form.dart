@@ -100,7 +100,7 @@ class _MenuFormState extends State<MenuForm> {
                   ? Image.file(_iconImage!, fit: BoxFit.cover)
                   : widget.menu?.icon != null
                       ? Image.network(
-                          '${baseUrl}/storage/uploads/${widget.menu!.icon}',
+                          '$baseUrl/storage/uploads/${widget.menu!.icon}',
                           fit: BoxFit.cover,
                         )
                       : const Center(child: Text('Upload Icon')),

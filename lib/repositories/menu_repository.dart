@@ -36,7 +36,7 @@ class MenuRepository {
 
     final request = http.MultipartRequest(
       'POST',
-      Uri.parse('$baseUrl'),
+      Uri.parse(baseUrl),
     );
 
     // ✅ HEADERS

@@ -51,7 +51,7 @@ class UserRepository {
       body: json.encode(user.toJson(forUpdate: false, password: password)),
     );
     print(res.body);
-    print("Password : ${password}");
+    print("Password : $password");
     if (res.statusCode != 201) {
       throw Exception('Gagal menambah user: ${res.body}');
     }
@@ -70,7 +70,7 @@ class UserRepository {
         ),
       ),
     );
-    print("Password : ${password}");
+    print("Password : $password");
     print(
         "Update payload: ${user.toJson(forUpdate: true, password: password)}");
 
@@ -91,14 +91,14 @@ class UserRepository {
     }
   }
 
-  Future<void> changePassword(String old_password, String new_password) async {
+  Future<void> changePassword(String oldPassword, String newPassword) async {
     final headers = await _headers();
 
     final res = await http.post(
       Uri.parse('${ApiConstants.baseUrl}/api/change-password'),
       headers: headers,
       body: json
-          .encode({"old_password": old_password, "new_password": new_password}),
+          .encode({"old_password": oldPassword, "new_password": newPassword}),
     );
     if (res.statusCode != 200) {
       throw Exception('Gagal mengupdate user: ${res.body}');

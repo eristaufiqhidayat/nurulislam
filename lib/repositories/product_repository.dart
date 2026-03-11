@@ -59,8 +59,9 @@ class ProductRepository {
     final response = await http.get(
         Uri.parse('${ApiConstants.baseUrl}/api/productsList'),
         headers: await _headersList());
-    //print('Response code: ${response.statusCode}');
-    //print('Response body: ${response.body}');
+    print('${ApiConstants.baseUrl}/api/productsList');
+    print('Response code: ${response.statusCode}');
+    print('Response body: ${response.body}');
     final body = json.decode(response.body);
     final List data = body['data']['data'];
 

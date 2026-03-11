@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nurulislam/pages/product/cart_page.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nurulislam/models/product_model.dart';
@@ -26,6 +27,52 @@ class ProductDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Detail Produk',
+        leading: [
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const CartPage(),
+                    ),
+                  );
+                },
+              ),
+              Positioned(
+                right: 6,
+                top: 6,
+                child: Consumer<CartProvider>(
+                  builder: (_, cart, __) {
+                    if (cart.totalItems == 0) return const SizedBox();
+                    return CircleAvatar(
+                      radius: 8,
+                      backgroundColor: Colors.red,
+                      child: Text(
+                        cart.totalItems.toString(),
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu, color: Colors.white),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),

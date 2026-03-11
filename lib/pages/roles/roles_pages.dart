@@ -61,7 +61,7 @@ class _RolePageState extends State<RolePage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Hapus Role'),
-        content: Text('Yakin ingin menghapus role "${role}"?'),
+        content: Text('Yakin ingin menghapus role "$role"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

@@ -249,6 +249,7 @@ class ApiRepository {
         return posts;
       }
     } catch (_) {
+      print('${ApiConstants.baseUrl}/api/pageinfo?category=$category');
       print("API GAGAL");
       // ❌ API gagal → ambil dari SQLite
     }

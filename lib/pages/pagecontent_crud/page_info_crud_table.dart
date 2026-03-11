@@ -234,7 +234,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
                     controller: icon,
                     decoration: const InputDecoration(labelText: 'Icon')),
                 DropdownButtonFormField(
-                  value: selectedCategory,
+                  initialValue: selectedCategory,
                   items: categories
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -323,7 +323,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
                       ? const Center(child: CircularProgressIndicator())
                       : DataTable(
                           headingRowColor:
-                              MaterialStateProperty.all(Colors.green),
+                              WidgetStateProperty.all(Colors.green),
                           headingTextStyle:
                               const TextStyle(color: Colors.white),
                           dataRowMinHeight: 40, // tinggi minimal

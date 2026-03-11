@@ -71,7 +71,7 @@ class SupplierRepository {
       headers: headers,
       body: jsonEncode(item.toJson()),
     );
-    print('Print Service supplier ${id}');
+    print('Print Service supplier $id');
     //print(res.statusCode);
     if (res.statusCode != 200) {
       throw Exception('Gagal mengubah barang: ${res.body}');

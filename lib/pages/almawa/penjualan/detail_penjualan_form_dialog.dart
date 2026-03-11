@@ -132,7 +132,7 @@ class _DetailPenjualanFormDialogState extends State<DetailPenjualanFormDialog> {
         children: [
           // 🟩 Dropdown Barang
           DropdownButtonFormField<int>(
-            value: _barangId,
+            initialValue: _barangId,
             items: widget.barangOptions.map((b) {
               return DropdownMenuItem<int>(
                 value: b.id,

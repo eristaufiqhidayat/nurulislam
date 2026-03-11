@@ -53,10 +53,10 @@ class DetilPenjualanRepository {
         Uri.parse('$base/detail-penjualan?penjualan_id=$id'),
         headers: headers);
 
-    print("Print Load Data" + res.body);
+    print("Print Load Data${res.body}");
     if (res.statusCode == 200) {
       final List data = json.decode(res.body);
-      print("Print Load Data Decoded" + data.toString());
+      print("Print Load Data Decoded$data");
       return data.map((e) => DetailPenjualan.fromJson(e)).toList();
     }
     throw Exception('Failed to load ${res.statusCode}');

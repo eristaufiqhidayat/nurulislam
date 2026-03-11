@@ -361,21 +361,21 @@ class _DetilForm1State extends State<DetilForm1> {
     );
   }
 
-  Widget _buildDropdownField(String label, List<String> items, var _data) {
-    _jenisKelamin = _controllers[_data]?.text;
+  Widget _buildDropdownField(String label, List<String> items, var data) {
+    _jenisKelamin = _controllers[data]?.text;
     _jenisKelamin = _jenisKelamin?.toLowerCase();
 
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(labelText: label),
-      value: _jenisKelamin,
+      initialValue: _jenisKelamin,
       items: items.map((item) {
         return DropdownMenuItem(value: item, child: Text(item));
       }).toList(),
       onChanged: (value) {
         setState(() {
           _jenisKelamin = value;
-          _controllers[_data]?.text = _jenisKelamin!;
-          print(_controllers[_data]);
+          _controllers[data]?.text = _jenisKelamin!;
+          print(_controllers[data]);
         });
       },
       validator: (value) =>

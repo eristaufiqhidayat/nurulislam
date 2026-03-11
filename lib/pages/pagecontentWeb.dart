@@ -18,6 +18,7 @@ class _PageContentState extends State<PageContent> {
   late Future<List<PageinfoModel>> kegiatanItems;
   late Future<List<PageinfoModel>> kajianItems;
 
+  @override
   void initState() {
     super.initState();
     qurbanItems = ApiService().fetchPosts('qurban');

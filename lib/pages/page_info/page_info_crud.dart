@@ -224,7 +224,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
 
                 // Category Dropdown
                 DropdownButtonFormField(
-                  value: selectedCategory,
+                  initialValue: selectedCategory,
                   items: categories
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -327,7 +327,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: const Text("New",
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold)),
