@@ -36,6 +36,7 @@ class _SupplierPageState extends State<SupplierPage> {
     try {
       final data = await service.fetch();
       //print('Loaded supplier data: ${data} items');
+
       setState(() {
         _items = data.toList();
         isLastPage = data.length < 10;

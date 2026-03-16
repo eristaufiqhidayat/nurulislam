@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/menu_model.dart';
@@ -231,7 +232,7 @@ class ApiRepository {
     await batch.commit(noResult: true);
   }
 
-  Future<List<PageinfoModel>> fetchPosts(String category) async {
+  Future<List<PageinfoModel>> fetchPostsBak(String category) async {
     try {
       final url = Uri.parse(
         "${ApiConstants.baseUrl}/api/pageinfo?category=$category",
@@ -252,6 +253,38 @@ class ApiRepository {
       print('${ApiConstants.baseUrl}/api/pageinfo?category=$category');
       print("API GAGAL");
       // ❌ API gagal → ambil dari SQLite
+    }
+
+    return await getByCategory(category);
+  }
+
+  Future<List<PageinfoModel>> fetchPosts(String category) async {
+    try {
+      final url =
+          Uri.parse("${ApiConstants.baseUrl}/api/pageinfo?category=$category");
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List jsonData = json.decode(response.body);
+
+        final posts =
+            jsonData.map((item) => PageinfoModel.fromJson(item)).toList();
+
+        // ❗ hanya simpan ke SQLite jika bukan Web
+        if (!kIsWeb) {
+          await upsertAll(posts);
+        }
+
+        return posts;
+      }
+    } catch (_) {
+      print("API GAGAL");
+    }
+
+    // ❗ Web tidak punya SQLite
+    if (kIsWeb) {
+      return [];
     }
 
     return await getByCategory(category);

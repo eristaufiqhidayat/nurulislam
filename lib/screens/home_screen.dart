@@ -184,31 +184,43 @@ class _DashBoardState extends State<DashBoard> {
                 );
               }
 
-              return SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) {
-                    final item = snapshot.data![i];
-                    return InkWell(
-                      onTap: () => Navigator.pushNamed(context, item.route),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _menuIcon(item.icon),
-                          const SizedBox(height: 6),
-                          Text(
-                            item.title,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  childCount: snapshot.data!.length,
-                ),
+              return SliverLayoutBuilder(
+                builder: (context, constraints) {
+                  final double maxWidth = constraints.crossAxisExtent;
+
+                  // 🔧 atur ukuran item (fix)
+                  const double itemWidth = 110;
+
+                  int crossAxisCount = (maxWidth / itemWidth).floor();
+                  if (crossAxisCount < 2) crossAxisCount = 2;
+
+                  return SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 0.9,
+                    ),
+                    delegate: SliverChildBuilderDelegate((context, i) {
+                      final item = snapshot.data![i];
+                      return InkWell(
+                        onTap: () => Navigator.pushNamed(context, item.route),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _menuIcon(item.icon),
+                            const SizedBox(height: 6),
+                            Text(
+                              item.title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      );
+                    }, childCount: snapshot.data!.length),
+                  );
+                },
               );
             },
           ),

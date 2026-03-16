@@ -41,8 +41,8 @@ class _PageContentMobileState extends State<PageContentMobile> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = widget.isMobile ?? true;
-
+    //final bool isMobile = widget.isMobile ?? true;
+    double scale = 0.7;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -82,8 +82,10 @@ class _PageContentMobileState extends State<PageContentMobile> {
             const SizedBox(height: 8),
 
             // ================= SLIDER QURBAN ==================
+
             SizedBox(
-              height: isMobile ? 280 : 400,
+              width: 800 * scale,
+              height: 600 * scale,
               child: FutureBuilder<List<PageinfoModel>>(
                 future: qurbanItems,
                 builder: (context, snapshot) {
@@ -160,7 +162,10 @@ class _PageContentMobileState extends State<PageContentMobile> {
             const SizedBox(height: 10),
 
             SizedBox(
-              height: 300, // NEW SIZE lebih proporsional
+              //aspectRatio: 14 / 3,
+              height: 300,
+              //width: 300,
+              // NEW SIZE lebih proporsional
               child: FutureBuilder<List<PageinfoModel>>(
                 future: kegiatanItems,
                 builder: (context, snapshot) {

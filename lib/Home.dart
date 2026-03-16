@@ -76,7 +76,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
       //endDrawer: MobileDrawer(),
       body: <Widget>[
-        const PageContentMobile(),
+        PageContentMobile(),
         SurahListPage(),
         HaditsViewScreen(),
         RdViewScreen(),

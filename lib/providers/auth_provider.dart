@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import '../utils/shared_prefs.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _service = AuthService();
+  bool _tokenExpired = false;
 
+  bool get tokenExpired => _tokenExpired;
   User? _user;
   User? get user => _user;
 
@@ -25,6 +28,28 @@ class AuthProvider extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  void checkResponse(BuildContext context, http.Response response) {
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      _tokenExpired = true;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Session habis, silakan login kembali"),
+          backgroundColor: Colors.red,
+        ),
+      );
+
+      notifyListeners();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Session ok"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   Future<void> logout() async {
