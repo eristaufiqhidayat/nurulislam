@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nurulislam/Home.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
-import 'package:nurulislam/widgets/header.dart';
-import 'package:nurulislam/widgets/footer.dart';
-import 'package:nurulislam/pages/pagecontentWeb.dart';
+// import 'package:nurulislam/widgets/header.dart';
+// import 'package:nurulislam/widgets/footer.dart';
+// import 'package:nurulislam/pages/pagecontentWeb.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final int initialIndex;
