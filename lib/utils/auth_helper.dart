@@ -12,7 +12,7 @@ class AuthHelper {
 
     CustomToast.show(
       context,
-      message1: "Waktu habis !!!",
+      message1: message,
       message2: "Silahkan Login ulang.",
       backgroundColor: Colors.red,
       duration: Duration(seconds: 5),

@@ -133,7 +133,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
                 if (snapshot.hasError) {
                   AuthHelper.handle401(context,
                       message:
-                          "Gagal memuat data penjualan. Silakan login ulang.");
+                          "Sesi Anda telah berakhir. Silakan login kembali untuk melihat data penjualan.");
                 }
 
                 final data = snapshot.data ?? [];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/product_model.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import '../../services/product_service.dart';
 import 'product_card.dart';
 
@@ -24,53 +25,6 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBarCustom(
-      //   title: 'Product',
-      //   routeName: 'Produk',
-      //   leading: [
-      //     IconButton(
-      //       icon: const Icon(Icons.arrow_back),
-      //       onPressed: () {
-      //         Navigator.pop(context);
-      //       },
-      //     ),
-      //     Stack(
-      //       children: [
-      //         IconButton(
-      //           icon: const Icon(Icons.shopping_cart),
-      //           onPressed: () {
-      //             Navigator.push(
-      //               context,
-      //               MaterialPageRoute(
-      //                 builder: (_) => const CartPage(),
-      //               ),
-      //             );
-      //           },
-      //         ),
-      //         Positioned(
-      //           right: 6,
-      //           top: 6,
-      //           child: Consumer<CartProvider>(
-      //             builder: (_, cart, __) {
-      //               if (cart.totalItems == 0) return const SizedBox();
-      //               return CircleAvatar(
-      //                 radius: 8,
-      //                 backgroundColor: Colors.red,
-      //                 child: Text(
-      //                   cart.totalItems.toString(),
-      //                   style: const TextStyle(
-      //                     fontSize: 10,
-      //                     color: Colors.white,
-      //                   ),
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
       backgroundColor: Colors.grey.shade100,
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -82,9 +36,14 @@ class _ProductListPageState extends State<ProductListPage> {
             }
 
             if (snapshot.hasError) {
-              return Center(
-                child: Text("Error: ${snapshot.error}"),
-              );
+              if (snapshot.error.toString().contains('401')) {
+                AuthHelper.handle401(context,
+                    message:
+                        "Sesi Anda telah berakhir. Silakan login kembali untuk melihat data penjualan.");
+              } else {
+                AuthHelper.handle401(context,
+                    message: "Error memuat produk: ${snapshot.error}");
+              }
             }
 
             final List<ProductModel> products = snapshot.data ?? [];
