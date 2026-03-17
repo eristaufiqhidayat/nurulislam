@@ -25,11 +25,7 @@ class _PenjualanPageState extends State<PenjualanPage> {
 
   void _loadPenjualan() {
     setState(() {
-      try {
-        _futurePenjualan = PenjualanService().fetchPenjualan();
-      } catch (e) {
-        print('Error loading penjualan: $e');
-      }
+      _futurePenjualan = PenjualanService().fetchPenjualan();
     });
   }
 
@@ -134,21 +130,10 @@ class _PenjualanPageState extends State<PenjualanPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-
                 if (snapshot.hasError) {
-                  if (snapshot.error.toString().contains('401')) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (!mounted) return;
-                      AuthHelper.handle401(context);
-                    });
-                  }
-
-                  return const Center(
-                    child: Text(
-                      'Terjadi kesalahan saat memuat data',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  );
+                  AuthHelper.handle401(context,
+                      message:
+                          "Gagal memuat data penjualan. Silakan login ulang.");
                 }
 
                 final data = snapshot.data ?? [];

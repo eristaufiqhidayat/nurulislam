@@ -5,6 +5,8 @@ import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/penjualan_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
+import '../core/api_client.dart';
+
 class PenjualanRepository {
   static Future<Map<String, String>> _headers() async {
     final token = await SharedPrefs.getToken();
@@ -52,8 +54,8 @@ class PenjualanRepository {
   Future<List<PenjualanModel>> fetchPenjualan() async {
     final headers = await _headers();
 
-    final res = await http.get(
-      Uri.parse('${ApiConstants.baseUrl}/api/penjualan'),
+    final res = await ApiClient.get(
+      '${ApiConstants.baseUrl}/api/penjualan',
       headers: headers,
     );
     //print(res.body);

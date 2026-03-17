@@ -191,6 +191,7 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
               return Column(
                 children: [
                   DropdownButtonFormField<int>(
+                    isExpanded: true,
                     decoration: const InputDecoration(
                       labelText: 'Bulan',
                       prefixIcon: Icon(Icons.calendar_today),
@@ -208,6 +209,7 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
                   ),
                   const SizedBox(height: 10),
                   DropdownButtonFormField<int>(
+                    isExpanded: true,
                     decoration: const InputDecoration(
                       labelText: 'Tahun',
                       prefixIcon: Icon(Icons.calendar_month),
@@ -248,6 +250,7 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<int>(
+                    isExpanded: true,
                     decoration: const InputDecoration(
                       labelText: 'Bulan',
                       prefixIcon: Icon(Icons.calendar_today),
@@ -267,6 +270,7 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: DropdownButtonFormField<int>(
+                    isExpanded: true,
                     decoration: const InputDecoration(
                       labelText: 'Tahun',
                       prefixIcon: Icon(Icons.calendar_month),
@@ -284,7 +288,7 @@ class _RekapPenjualanPageState extends State<RekapPenjualanPage> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Flexible(
+                Expanded(
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[700],

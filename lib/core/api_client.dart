@@ -1,33 +1,44 @@
 import 'dart:convert';
-import 'package:nurulislam/utils/shared_prefs.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/providers/auth_provider.dart';
+import 'package:nurulislam/core/SnackBarService.dart';
 
 class ApiClient {
-  final AuthProvider authProvider;
-
-  ApiClient(this.authProvider);
-
-  Future<dynamic> get(BuildContext context, String url) async {
-    final token = await SharedPrefs.getToken();
+  static Future<http.Response> get(String url,
+      {Map<String, String>? headers}) async {
     final response = await http.get(
       Uri.parse(url),
-      headers: {"Authorization": "Bearer $token", "Accept": "application/json"},
+      headers: headers,
+    );
+    print("dari service: ${response.statusCode}");
+    _handleError(response);
+
+    return response;
+  }
+
+  static Future<http.Response> post(String url, Map data,
+      {Map<String, String>? headers}) async {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(data),
     );
 
+    _handleError(response);
+
+    return response;
+  }
+
+  static void _handleError(http.Response response) {
     if (response.statusCode == 401) {
-      authProvider.logout();
+      SnackBarService.show("Session expired, silakan login kembali");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Session expired, silakan login kembali"),
-        ),
-      );
-
-      return null;
+      throw Exception("401 Unauthorized");
     }
-
-    return jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      SnackBarService.show("suksesssss ");
+    }
+    if (response.statusCode >= 400) {
+      throw Exception("HTTP Error ${response.statusCode}");
+    }
   }
 }
