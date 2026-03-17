@@ -76,7 +76,7 @@ class _ProductListPageState extends State<ProductListPage> {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final p = data[index];
-              print('$imageBaseUrl${p.image}');
+              //print('$imageBaseUrl${p.image}');
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

@@ -1,10 +1,19 @@
 import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 
 import '../repositories/product_repository.dart';
 import '../models/product_model.dart';
 
 class ProductService {
   final ProductRepository repo = ProductRepository();
+  Future<List<String>> uploadMultipleImages({
+    List<File>? files,
+    List<Uint8List>? webBytes,
+  }) {
+    return repo.uploadMultipleImages(files: files, webBytes: webBytes);
+  }
 
   Future<List<ProductModel>> getProducts() {
     //print('Fetching products from ProductService');
@@ -32,12 +41,13 @@ class ProductService {
     required int stock,
     required String status,
     required String desc,
-    required String? imageFile,
+    required List<String> images,
   }) async {
     if (stock < 0) {
       throw Exception('Stock tidak boleh negatif');
     }
-
+    print(
+        'Menyimpan produk baru dengan data: shopId=$shopId, categoryId=$categoryId, name=$name, price=$price, stock=$stock, status=$status, desc=$desc, images=$images');
     await repo.storeProduct({
       "shop_id": shopId,
       "category_id": categoryId,
@@ -46,7 +56,8 @@ class ProductService {
       "price": price,
       "stock": stock,
       "status": status,
-      "image": imageFile
+      "image": images.isNotEmpty ? images[0] : null,
+      "imageJson": images
     });
   }
 
@@ -59,7 +70,7 @@ class ProductService {
     required int stock,
     required String status,
     required String desc,
-    required String? imageFile,
+    required List<String> images,
   }) async {
     if (stock < 0) {
       throw Exception('Stock tidak boleh negatif');
@@ -73,7 +84,7 @@ class ProductService {
       "price": price,
       "stock": stock,
       "status": status,
-      "image": imageFile
+      "image": images
     });
   }
 }

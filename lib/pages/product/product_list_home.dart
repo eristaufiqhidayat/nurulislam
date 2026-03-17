@@ -36,7 +36,6 @@ class _ProductListHomeState extends State<ProductListHome> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ProductModel>>(
       future: futureProducts,

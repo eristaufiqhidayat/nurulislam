@@ -109,8 +109,8 @@ class ProductDetailPage extends StatelessWidget {
           children: [
             Image.network(
               '$imageBaseUrl${product.image}',
-              height: 250,
-              width: double.infinity,
+              //height: 250,
+              //width: double.infinity,
               fit: BoxFit.cover,
             ),
             Padding(

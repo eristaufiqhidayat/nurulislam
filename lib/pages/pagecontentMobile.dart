@@ -50,26 +50,6 @@ class _PageContentMobileState extends State<PageContentMobile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ProductListHome(), //<---- ditambahkan di sini
-            // ================= TITLE ==================
-            // Text(
-            //   'Selamat Datang',
-            //   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            //         color: Colors.green[800],
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 22, // NEW SIZE
-            //       ),
-            // ),
-            // const SizedBox(height: 20),
-
-            // const Text(
-            //   'Masjid Nurul Islam adalah pusat kegiatan keislaman yang berlokasi di Pondok Kopi. '
-            //   'Kami menyelenggarakan berbagai kegiatan ibadah, pendidikan, dan sosial untuk umat.',
-            //   style: TextStyle(
-            //     fontSize: 15, // NEW SIZE
-            //     height: 1.5,
-            //   ),
-            // ),
-            //const SizedBox(height: 10),
 
             Text(
               'Sekilas Info',

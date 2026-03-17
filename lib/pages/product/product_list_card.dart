@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/product_model.dart';
-import 'package:nurulislam/utils/auth_helper.dart';
-import '../../services/product_service.dart';
+import 'package:nurulislam/services/product_service.dart';
 import 'product_card.dart';
 
 class ProductListPage extends StatefulWidget {
@@ -15,68 +14,101 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPageState extends State<ProductListPage> {
   final ProductService _service = ProductService();
   late Future<List<ProductModel>> futureProducts;
-  String imageBaseUrl = '${ApiConstants.baseUrl}/storage/uploads/';
+
+  final String imageBaseUrl = '${ApiConstants.baseUrl}/storage/uploads/';
+
   @override
   void initState() {
     super.initState();
     futureProducts = _service.getProductsList();
   }
 
+  Map<String, List<ProductModel>> groupByCategoryId(
+      List<ProductModel> products) {
+    final Map<String, List<ProductModel>> map = {};
+
+    for (var product in products) {
+      map.putIfAbsent(product.categoryName, () => []);
+      map[product.categoryName]!.add(product);
+    }
+
+    return map;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: FutureBuilder<List<ProductModel>>(
-          future: futureProducts,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    return FutureBuilder<List<ProductModel>>(
+      future: futureProducts,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-            if (snapshot.hasError) {
-              if (snapshot.error.toString().contains('401')) {
-                AuthHelper.handle401(context,
-                    message:
-                        "Sesi Anda telah berakhir. Silakan login kembali untuk melihat data penjualan.");
-              } else {
-                AuthHelper.handle401(context,
-                    message: "Error memuat produk: ${snapshot.error}");
-              }
-            }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
 
-            final List<ProductModel> products = snapshot.data ?? [];
+        final products = snapshot.data ?? [];
+        if (products.isEmpty) {
+          return const Center(child: Text('Produk belum tersedia'));
+        }
 
-            if (products.isEmpty) {
-              return const Center(child: Text("Produk kosong"));
-            }
+        final grouped = groupByCategoryId(products);
+        final sortedCategoryIds = grouped.keys.toList()..sort();
 
-            return GridView.builder(
-              itemCount: products.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.62,
-              ),
-              itemBuilder: (context, index) {
-                return ProductCard(
-                  product: products[index],
-                  imageBaseUrl: imageBaseUrl,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: sortedCategoryIds.map((categoryId) {
+                final items = grouped[categoryId]!;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ===== CATEGORY TITLE =====
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'Nuris ${items.first.categoryName}', // aman
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: Colors.green[800],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ),
+
+                    // ===== PRODUCT LIST =====
+                    SizedBox(
+                      height: 230,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: 170,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ProductCard(
+                                product: items[index],
+                                imageBaseUrl: imageBaseUrl,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+                  ],
                 );
-              },
-            );
-          },
-        ),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.green,
-      //   onPressed: () {
-      //     // TODO: ke halaman tambah produk
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
