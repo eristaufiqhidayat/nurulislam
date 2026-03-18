@@ -46,8 +46,7 @@ class ProductService {
     if (stock < 0) {
       throw Exception('Stock tidak boleh negatif');
     }
-    print(
-        'Menyimpan produk baru dengan data: shopId=$shopId, categoryId=$categoryId, name=$name, price=$price, stock=$stock, status=$status, desc=$desc, images=$images');
+
     await repo.storeProduct({
       "shop_id": shopId,
       "category_id": categoryId,
@@ -75,7 +74,7 @@ class ProductService {
     if (stock < 0) {
       throw Exception('Stock tidak boleh negatif');
     }
-
+    print('Updating product with id: $id');
     await repo.updateProduct(id, {
       "shop_id": shopId,
       "category_id": categoryId,
@@ -84,7 +83,8 @@ class ProductService {
       "price": price,
       "stock": stock,
       "status": status,
-      "image": images
+      "image": images.isNotEmpty ? images[0] : null,
+      "imageJson": images
     });
   }
 }

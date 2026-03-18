@@ -24,3 +24,13 @@ rsync -avz /Users/user/Project/flutter/nurulislam/nurulislam/build/web/ root@10.
 ## import database cli
 docker exec -i mysql_container mysql -u root -p nama_database < backup.sql
 
+#### DEVELOPEMENT PROSES ######
+
+18 Maret 2026
+Pembuatan upload multepleImage
+- Peubahan di API (Product)
+
+Next
+Pembiatan New Product Untuk Anggota Koperasi
+
+

@@ -11,9 +11,9 @@ import '../../services/product_service.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart'; // untuk kIsWeb
-import 'dart:io';
+//import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 //import 'package:path/path.dart' as path;
 
 class ProductFormPage extends StatefulWidget {
@@ -56,8 +56,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
   @override
   void initState() {
     super.initState();
+
     if (widget.product != null) {
       final p = widget.product!;
+      if (p.imageJson != null && p.imageJson!.isNotEmpty) {
+        uploadedImages = p.imageJson!.map((e) => e.toString()).toList();
+      }
       nameCtrl.text = p.name;
       descCtrl.text = p.description ?? '';
       priceCtrl.text = p.price.toString();
@@ -96,60 +100,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
     return result!;
   }
 
-  // Future<void> pickImageold() async {
-  //   try {
-  //     final XFile? image = await _picker.pickImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 80,
-  //       requestFullMetadata: false, // ⬅️ FIX HEIC
-  //     );
-
-  //     if (image == null) return;
-  //     //final fileNameOnly = path.basename(image.path);
-  //     //print('Filename only: $fileNameOnly');
-  //     setState(() {
-  //       selectedImage = File(image.path);
-  //       uploadingImage = true;
-  //     });
-  //     //print('Uploaded image ');
-  //     final filename = await service.uploadImage(selectedImage!);
-  //     //print('Uploaded image filename: $filename');
-  //     setState(() {
-  //       uploadedImageName = filename;
-  //       uploadingImage = false;
-  //     });
-  //   } catch (e) {
-  //     setState(() => uploadingImage = false);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Gagal mengambil gambar')),
-  //     );
-  //   }
-  // }
-
-  Future<void> pickImage() async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.gallery,
-    );
-
-    if (image == null) return;
-
-    if (kIsWeb) {
-      // 🌐 WEB → ambil bytes
-      final bytes = await image.readAsBytes();
-
-      setState(() {
-        webImageBytes = bytes;
-        selectedImage = null;
-      });
-    } else {
-      // 📱 MOBILE → pakai File
-      setState(() {
-        selectedImage = File(image.path);
-        webImageBytes = null;
-      });
-    }
-  }
-
   Future<void> pickImages() async {
     final List<XFile> images = await _picker.pickMultiImage();
 
@@ -164,8 +114,22 @@ class _ProductFormPageState extends State<ProductFormPage> {
         webImages.addAll(bytesList);
       });
     } else {
+      List<File> files = [];
+
+      for (var img in images) {
+        File file = File(img.path);
+
+        // 🔥 HANDLE HEIC
+        if (img.path.toLowerCase().endsWith('.heic')) {
+          final converted = await convertHeicToJpg(file);
+          files.add(File(converted.path));
+        } else {
+          files.add(file);
+        }
+      }
+
       setState(() {
-        mobileImages.addAll(images.map((e) => File(e.path)));
+        mobileImages.addAll(files);
       });
     }
   }
@@ -342,7 +306,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                             status:
                                 selectedStatus?['id'] ?? widget.product!.status,
                             images:
-                                finalImages!, // 🔥 tetap pakai yang lama kalau tidak diganti
+                                finalImages, // 🔥 tetap pakai yang lama kalau tidak diganti
                           );
                         }
                         if (uploadingImage)
@@ -363,88 +327,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
         ),
       ),
     );
-  }
-
-  Widget _imagePlaceholder() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Icon(
-          Icons.image,
-          size: 40,
-          color: Colors.green,
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Tap to upload image',
-          style: TextStyle(color: Colors.green),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildImagePreviewOld() {
-    // 1️⃣ Image baru dipilih
-    if (selectedImage != null) {
-      return Image.file(
-        selectedImage!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-      );
-    }
-
-    // 2️⃣ Edit mode + image lama ada
-    if (uploadedImageName != null && uploadedImageName!.isNotEmpty) {
-      return Image.network(
-        '$imageBaseUrl$uploadedImageName',
-        //fit: BoxFit.cover,
-        //width: double.infinity,
-        errorBuilder: (context, error, stackTrace) {
-          return _imagePlaceholder();
-        },
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return const Center(
-            child: CircularProgressIndicator(strokeWidth: 2),
-          );
-        },
-      );
-    }
-
-    // 3️⃣ Tidak ada image sama sekali
-    return _imagePlaceholder();
-  }
-
-  Widget _buildImagePreview() {
-    // 🌐 WEB
-    if (kIsWeb && webImageBytes != null) {
-      return Image.memory(
-        webImageBytes!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-      );
-    }
-
-    // 📱 MOBILE
-    if (!kIsWeb && selectedImage != null) {
-      return Image.file(
-        selectedImage!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-      );
-    }
-
-    // 🖼️ IMAGE LAMA (SERVER)
-    if (uploadedImageName != null && uploadedImageName!.isNotEmpty) {
-      return Image.network(
-        '$imageBaseUrl$uploadedImageName',
-        fit: BoxFit.cover,
-        width: double.infinity,
-      );
-    }
-
-    // DEFAULT
-    return _imagePlaceholder();
   }
 
   Widget buildImageGrid() {

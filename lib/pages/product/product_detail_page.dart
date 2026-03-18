@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:nurulislam/models/product_model.dart';
 import 'package:nurulislam/providers/cart_provider.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
   final String imageBaseUrl;
 
@@ -17,6 +17,26 @@ class ProductDetailPage extends StatelessWidget {
   });
 
   @override
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  String? selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final images = [
+      if (widget.product.image != null && widget.product.image!.isNotEmpty)
+        widget.product.image!,
+      ...(widget.product.imageJson ?? []),
+    ];
+
+    selectedImage = images.isNotEmpty ? images.first : null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
     final rupiah = NumberFormat.currency(
@@ -24,6 +44,16 @@ class ProductDetailPage extends StatelessWidget {
       symbol: 'Rp ',
       decimalDigits: 0,
     );
+    final List<String> images = [
+      if (widget.product.image != null && widget.product.image!.isNotEmpty)
+        widget.product.image!,
+      ...(widget.product.imageJson ?? []),
+    ];
+    // String? selectedImage;
+    // final String? mainImage = images.isNotEmpty ? images.first : null;
+    // selectedImage = images.isNotEmpty ? images.first : null;
+    print("IMAGE JSON: ${widget.product.imageJson}");
+    print("TOTAL IMAGE: ${widget.product.imageJson?.length}");
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Detail Produk',
@@ -89,7 +119,7 @@ class ProductDetailPage extends StatelessWidget {
           ),
           onPressed: () {
             try {
-              cart.addToCart(product);
+              cart.addToCart(widget.product);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                     content: Text('Produk ditambahkan ke keranjang')),
@@ -107,19 +137,65 @@ class ProductDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              '$imageBaseUrl${product.image}',
-              //height: 250,
-              //width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+            selectedImage != null
+                ? Image.network(
+                    '${widget.imageBaseUrl}$selectedImage',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 250,
+                  )
+                : Container(
+                    height: 250,
+                    color: Colors.grey[300],
+                    child: const Center(child: Icon(Icons.image)),
+                  ),
+            if (images.isNotEmpty)
+              SizedBox(
+                height: 80,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    final img = images[index];
+                    final isSelected = img == selectedImage;
+
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedImage = img;
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color:
+                                isSelected ? Colors.green : Colors.transparent,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Image.network(
+                            '${widget.imageBaseUrl}$img',
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.name,
+                    widget.product.name,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -127,7 +203,7 @@ class ProductDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    rupiah.format(product.price),
+                    rupiah.format(widget.product.price),
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.green[800],
@@ -140,7 +216,7 @@ class ProductDetailPage extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 6),
-                  Text(product.description ?? '-'),
+                  Text(widget.product.description ?? '-'),
                 ],
               ),
             ),

@@ -51,6 +51,7 @@ class ProductRepository {
         headers: await _headers());
     //print('Response code: ${response.statusCode}');
     //print('Response body: ${response.body}');
+
     final body = json.decode(response.body);
     final List data = body['data']['data'];
 
@@ -63,7 +64,7 @@ class ProductRepository {
         headers: await _headersList());
     //print('${ApiConstants.baseUrl}/api/productsList');
     //print('Response code: ${response.statusCode}');
-    //print('Response body: ${response.body}');
+    print('Response body: ${response.body}');
     final body = json.decode(response.body);
     final List data = body['data']['data'];
 
@@ -75,6 +76,7 @@ class ProductRepository {
       Uri.parse('${ApiConstants.baseUrl}/api/products/$id'),
       headers: await _headers(),
     );
+    print('Deleted product with id: $id');
   }
 
   Future<void> storeProduct(Map<String, dynamic> payload) async {
