@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../services/product_service.dart';
 import '../../models/product_model.dart';
@@ -70,7 +71,11 @@ class _ProductListPageState extends State<ProductListPage> {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-
+          if (snapshot.hasError) {
+            AuthHelper.handle401(context,
+                message:
+                    "Sesi Anda telah berakhir, Silakan login kembali untuk melihat data produk.");
+          }
           final data = snapshot.data!;
           return ListView.builder(
             itemCount: data.length,

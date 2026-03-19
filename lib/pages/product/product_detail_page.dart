@@ -26,6 +26,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showMyModal(context);
+    });
 
     final images = [
       if (widget.product.image != null && widget.product.image!.isNotEmpty)
@@ -52,8 +55,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     // String? selectedImage;
     // final String? mainImage = images.isNotEmpty ? images.first : null;
     // selectedImage = images.isNotEmpty ? images.first : null;
-    print("IMAGE JSON: ${widget.product.imageJson}");
-    print("TOTAL IMAGE: ${widget.product.imageJson?.length}");
+    //print("IMAGE JSON: ${widget.product.imageJson}");
+    //print("TOTAL IMAGE: ${widget.product.imageJson?.length}");
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Detail Produk',
@@ -140,17 +143,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             selectedImage != null
                 ? Image.network(
                     '${widget.imageBaseUrl}$selectedImage',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: 250,
+                    fit: BoxFit.fitWidth,
+                    //width: 400,
+                    //height: 250,
                   )
                 : Container(
-                    height: 250,
+                    //height: 250,
                     color: Colors.grey[300],
                     child: const Center(child: Icon(Icons.image)),
                   ),
             if (images.isNotEmpty)
               SizedBox(
+                width: double.infinity,
                 height: 80,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -220,9 +224,75 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ],
               ),
             ),
+            ElevatedButton(
+              onPressed: () => _showMyModal(context),
+              child: const Text("Buka Modal"),
+            )
           ],
         ),
       ),
+    );
+  }
+
+  void _showMyModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// 🔴 HEADER + CLOSE BUTTON
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Tambah Data",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context); // tutup modal
+                      },
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: "Nama",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Simpan"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
