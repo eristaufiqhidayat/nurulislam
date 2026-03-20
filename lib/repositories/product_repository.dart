@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/utils/shared_prefs.dart';
+import '../core/api_client.dart';
 import '../models/product_model.dart';
 import '../config/api_constants.dart';
 
@@ -46,11 +47,9 @@ class ProductRepository {
   }
 
   Future<List<ProductModel>> fetchProducts() async {
-    final response = await http.get(
-        Uri.parse('${ApiConstants.baseUrl}/api/products'),
+    final response = await ApiClient.get(
+        '${ApiConstants.baseUrl}/api/products/paginate-by-user',
         headers: await _headers());
-    //print('Response code: ${response.statusCode}');
-    //print('Response body: ${response.body}');
 
     final body = json.decode(response.body);
     final List data = body['data']['data'];
@@ -59,11 +58,9 @@ class ProductRepository {
   }
 
   Future<List<ProductModel>> fetchProductsList() async {
-    final response = await http.get(
-        Uri.parse('${ApiConstants.baseUrl}/api/productsList'),
+    final response = await ApiClient.get(
+        '${ApiConstants.baseUrl}/api/productsList',
         headers: await _headersList());
-    //print('${ApiConstants.baseUrl}/api/productsList');
-    //print('Response code: ${response.statusCode}');
     print('Response body: ${response.body}');
     final body = json.decode(response.body);
     final List data = body['data']['data'];
