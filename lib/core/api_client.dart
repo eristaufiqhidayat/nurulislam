@@ -1,44 +1,76 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/core/SnackBarService.dart';
+import 'package:flutter/material.dart';
 
 class ApiClient {
-  static Future<http.Response> get(String url,
-      {Map<String, String>? headers}) async {
+  static Future<dynamic> get(
+    String url, {
+    Map<String, String>? headers,
+    BuildContext? context,
+  }) async {
     final response = await http.get(
       Uri.parse(url),
       headers: headers,
     );
-    print("dari service: ${response.statusCode}");
-    _handleError(response);
-
-    return response;
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return _handleError(response);
+    }
   }
 
-  static Future<http.Response> post(String url, Map data,
-      {Map<String, String>? headers}) async {
+  static Future<dynamic> post(String url, Map data,
+      {Map<String, String>? headers, BuildContext? context}) async {
     final response = await http.post(
       Uri.parse(url),
       headers: headers,
       body: jsonEncode(data),
     );
 
-    _handleError(response);
-
-    return response;
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return _handleError(response);
+    }
   }
 
-  static void _handleError(http.Response response) {
+  static String? _handleError(http.Response response) {
     if (response.statusCode == 401) {
-      SnackBarService.show("Session expired, silakan login kembali");
+      return "Unauthorized";
+    }
 
-      throw Exception("401 Unauthorized");
-    }
-    if (response.statusCode == 200) {
-      SnackBarService.show("suksesssss ");
-    }
     if (response.statusCode >= 400) {
-      throw Exception("HTTP Error ${response.statusCode}");
+      return "Error ${response.statusCode}: ${response.body}";
+    }
+    return null;
+  }
+
+  static Future<dynamic> put(String url, Map data,
+      {Map<String, String>? headers, BuildContext? context}) async {
+    final response = await http.put(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return _handleError(response);
+    }
+  }
+
+  static Future<dynamic> delete(String url,
+      {Map<String, String>? headers, BuildContext? context}) async {
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return _handleError(response);
     }
   }
 }

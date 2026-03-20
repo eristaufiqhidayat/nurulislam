@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,16 +20,17 @@ class _HaditsViewScreenState extends State<HaditsViewScreen> {
   @override
   void initState() {
     super.initState();
+    if (!kIsWeb) {
+      // Inisialisasi WebViewController
+      const PlatformWebViewControllerCreationParams params =
+          PlatformWebViewControllerCreationParams();
+      _controller = WebViewController.fromPlatformCreationParams(params);
 
-    // Inisialisasi WebViewController
-    const PlatformWebViewControllerCreationParams params =
-        PlatformWebViewControllerCreationParams();
-    _controller = WebViewController.fromPlatformCreationParams(params);
-
-    // Mengonfigurasi WebView
-    _controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('https://hadits.tazkia.ac.id/'));
+      // Mengonfigurasi WebView
+      _controller
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..loadRequest(Uri.parse('https://hadits.tazkia.ac.id/'));
+    }
   }
 
   @override
@@ -37,8 +39,10 @@ class _HaditsViewScreenState extends State<HaditsViewScreen> {
         appBar: AppBar(
           title: const Text('Back'),
         ),
-        body: WebViewWidget(
-          controller: _controller,
-        ));
+        body: kIsWeb
+            ? Text('This feature is not available on web')
+            : WebViewWidget(
+                controller: _controller,
+              ));
   }
 }

@@ -146,7 +146,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           child: Column(
             children: [
               DropdownSearchMap(
-                fetchData: serviceShop.getShops,
+                fetchData: serviceShop.getDropdownShops,
                 label: 'Shop',
                 idKey: 'id',
                 textKey: 'name',

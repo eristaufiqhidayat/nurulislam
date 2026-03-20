@@ -5,27 +5,25 @@ import 'package:nurulislam/widgets/toast_widget.dart';
 class AuthHelper {
   static Future<void> handle401(
     BuildContext context, {
-    String message = "Sesi Anda telah berakhir. Silakan login kembali.",
+    String message = "Error 401: Unauthorized",
+    String? statusCode,
   }) async {
     // Hapus token
     await SharedPrefs.clear();
-
+    final lowerMessage = message.toLowerCase();
+    if (lowerMessage.contains('unauthorized') ||
+        lowerMessage.contains('unautorized')) {
+      message = "Session expired / Unauthorized";
+    }
     CustomToast.show(
       context,
       message1: message,
       message2: "Silahkan Login ulang.",
       backgroundColor: Colors.red,
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 10),
       gravity: ToastGravity.center,
     );
 
-    // if (context.mounted) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //         content: Text("Sesi Anda telah berakhir. Silakan login kembali.")),
-    //   );
-    // }
-    // Redirect ke login (hapus semua halaman sebelumnya)
     if (context.mounted) {
       Navigator.pushNamedAndRemoveUntil(
         context,

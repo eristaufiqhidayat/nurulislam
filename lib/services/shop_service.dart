@@ -2,29 +2,69 @@ import '../models/shop_model.dart';
 import '../repositories/shop_repository.dart';
 
 class ShopService {
-  final ShopRepository repository = ShopRepository();
+  final repo = ShopRepository();
+  Future<List<Map<String, dynamic>>> getDropdownShops() async {
+    final shops = await repo.getAll();
 
-  Future<List<Map<String, dynamic>>> getShops({int page = 1}) {
-    return repository.fetchShops(page: page);
+    return shops.map((e) {
+      return {
+        'id': e.id,
+        'name': e.name,
+      };
+    }).toList();
   }
 
-  Future<ShopModel> save({
-    int? id,
-    required String name,
-    String? description,
-    String? logo,
-  }) {
-    final data = {
-      if (id != null) 'id': id,
-      'name': name,
-      'description': description,
-      'logo': logo,
-    };
+  Future<List<Map<String, dynamic>>> getDropdownCategories() async {
+    final data = await repo.getAll();
 
-    return repository.saveShop(data);
+    return data
+        .map((e) => {
+              'id': e.id,
+              'name': e.name,
+            })
+        .toList();
   }
 
-  Future<void> delete(int id) {
-    return repository.deleteShop(id);
+  Future<List<Shop>> getShops() async {
+    try {
+      return await repo.getAll();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Shop> getShop(int id) async {
+    try {
+      return await repo.getById(id);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> createShop(Shop shop) async {
+    try {
+      await repo.create(shop);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateShop(int id, Shop shop) async {
+    try {
+      await repo.update(id, shop);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteShop(int id) async {
+    try {
+      await repo.delete(id);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

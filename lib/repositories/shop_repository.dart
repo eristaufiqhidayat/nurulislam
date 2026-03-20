@@ -1,49 +1,66 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:nurulislam/config/api_constants.dart';
+import 'package:nurulislam/utils/shared_prefs.dart';
+
 import '../models/shop_model.dart';
-import '../config/api_constants.dart';
+import '../core/api_client.dart';
 
 class ShopRepository {
-  Future<List<Map<String, dynamic>>> fetchShops({int page = 1}) async {
-    final res = await http.get(
-      Uri.parse('${ApiConstants.baseUrl}/api/shops/list'),
-      headers: await ApiConstants.headers(),
-    );
+  final String baseUrl = ApiConstants.baseUrl;
 
-    print(res.body);
-
-    if (res.statusCode == 200) {
-      final jsonData = jsonDecode(res.body);
-      final List list = jsonData['data'];
-      return list.map((e) => e as Map<String, dynamic>).toList();
-    } else {
-      throw Exception('Gagal memuat data Category ${res.statusCode}');
-    }
+  static Future<Map<String, String>> _headers() async {
+    final token = await SharedPrefs.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
   }
 
-  Future<ShopModel> saveShop(Map<String, dynamic> data) async {
-    final res = await http.post(
-      Uri.parse('${ApiConstants.baseUrl}/api/shops'),
-      headers: await ApiConstants.headers(),
-      body: jsonEncode(data),
+  Future<List<Shop>> getAll() async {
+    final response = await ApiClient.get(
+      '$baseUrl/api/shops',
+      headers: await _headers(),
     );
 
-    if (res.statusCode == 200) {
-      final jsonData = jsonDecode(res.body);
-      return ShopModel.fromJson(jsonData['data']);
-    } else {
-      throw Exception('Gagal menyimpan shop');
-    }
+    final decoded = jsonDecode(response.body);
+
+    //final data = decoded['data'];
+    final List data = decoded['data']['data'];
+
+    return data.map((e) => Shop.fromJson(e)).toList();
   }
 
-  Future<void> deleteShop(int id) async {
-    final res = await http.delete(
-      Uri.parse('${ApiConstants.baseUrl}/api/shops/$id'),
-      headers: await ApiConstants.headers(),
+  Future<Shop> getById(int id) async {
+    final response = await ApiClient.get(
+      '$baseUrl/api/shops/$id',
+      headers: await _headers(),
     );
 
-    if (res.statusCode != 200) {
-      throw Exception('Gagal menghapus shop');
-    }
+    final decoded = jsonDecode(response.body);
+    return Shop.fromJson(decoded['data']);
+  }
+
+  Future<void> create(Shop shop) async {
+    await ApiClient.post(
+      '$baseUrl/api/shops',
+      shop.toJson(),
+      headers: await _headers(),
+    );
+  }
+
+  Future<void> update(int id, Shop shop) async {
+    await ApiClient.put(
+      '$baseUrl/api/shops/$id',
+      shop.toJson(),
+      headers: await _headers(),
+    );
+  }
+
+  Future<void> delete(int id) async {
+    await ApiClient.delete(
+      '$baseUrl/api/shops/$id',
+      headers: await _headers(),
+    );
   }
 }
