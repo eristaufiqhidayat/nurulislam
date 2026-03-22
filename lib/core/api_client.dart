@@ -52,6 +52,7 @@ class ApiClient {
       headers: headers,
       body: jsonEncode(data),
     );
+    print('PUT $url - Status: ${response.statusCode} - Body: ${response.body}');
 
     if (response.statusCode == 200) {
       return response;

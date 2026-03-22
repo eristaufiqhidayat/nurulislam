@@ -80,10 +80,10 @@ class _ShopPageState extends State<ShopPage> {
                         icon: const Icon(Icons.edit),
                         onPressed: () => openForm(shop: s),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => delete(s.id),
-                      ),
+                      // IconButton(
+                      //   icon: const Icon(Icons.delete),
+                      //   onPressed: () => delete(s.id),
+                      // ),
                     ],
                   ),
                 );

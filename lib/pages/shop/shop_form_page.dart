@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/utils/auth_helper.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../models/shop_model.dart';
 import '../../services/shop_service.dart';
 
@@ -16,16 +18,35 @@ class _ShopFormPageState extends State<ShopFormPage> {
 
   final nameCtrl = TextEditingController();
   final descCtrl = TextEditingController();
-
+  List<Shop> shops = [];
   bool loading = false;
 
   @override
   void initState() {
     super.initState();
+    fetch();
+    // if (widget.shop != null) {
+    //   nameCtrl.text = widget.shop!.name;
+    //   descCtrl.text = widget.shop!.description ?? '';
+    // }
+  }
 
-    if (widget.shop != null) {
-      nameCtrl.text = widget.shop!.name;
-      descCtrl.text = widget.shop!.description ?? '';
+  Future<void> fetch() async {
+    setState(() => loading = true);
+
+    try {
+      shops = await service.getShops();
+      if (shops.isNotEmpty) {
+        nameCtrl.text = shops[0].name;
+        descCtrl.text = shops[0].description ?? '';
+      }
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      print(e);
+      AuthHelper.handle401(context, message: e.toString());
+      setState(() => loading = false);
+    } finally {
+      setState(() => loading = false);
     }
   }
 
@@ -40,35 +61,38 @@ class _ShopFormPageState extends State<ShopFormPage> {
 
     final shop = Shop(
       id: widget.shop?.id ?? 0,
-      userId: 0, // ❌ tidak dipakai backend
+      userId: 0,
       name: nameCtrl.text,
       description: descCtrl.text,
       logo: null,
     );
 
-    String? error;
+    bool success;
 
     if (widget.shop == null) {
-      error = (await service.createShop(shop)) as String?;
+      success = await service.createShop(shop);
     } else {
-      error = (await service.updateShop(widget.shop!.id, shop)) as String?;
+      await service.updateShop(widget.shop!.id, shop);
+      success = true;
     }
 
     setState(() => loading = false);
 
-    if (error == null) {
-      Navigator.pop(context, true);
+    if (success) {
+      AuthHelper.sukses(context, message: 'Sukses menyimpan shop');
+      Navigator.pop(context); // 🔥 optional (kembali ke list)
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal menyimpan')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.shop == null ? 'Tambah Shop' : 'Edit Shop'),
+      appBar: AppBarCustom(
+        title: widget.shop == null ? 'Rubah Nama Shop' : 'Rubah Nama Shop',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

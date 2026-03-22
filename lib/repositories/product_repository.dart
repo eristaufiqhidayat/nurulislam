@@ -35,7 +35,7 @@ class ProductRepository {
     request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
     final response = await request.send();
-    print(response.statusCode);
+    //print(response.statusCode);
     if (response.statusCode == 200) {
       //print('Image uploaded successfully');
       final respStr = await response.stream.bytesToString();
@@ -47,8 +47,7 @@ class ProductRepository {
   }
 
   Future<List<ProductModel>> fetchProducts() async {
-    final response = await ApiClient.get(
-        '${ApiConstants.baseUrl}/api/products/paginate-by-user',
+    final response = await ApiClient.get('${ApiConstants.baseUrl}/api/products',
         headers: await _headers());
 
     final body = json.decode(response.body);
@@ -61,7 +60,7 @@ class ProductRepository {
     final response = await ApiClient.get(
         '${ApiConstants.baseUrl}/api/productsList',
         headers: await _headersList());
-    print('Response body: ${response.body}');
+    //print('Response body: ${response.body}');
     final body = json.decode(response.body);
     final List data = body['data']['data'];
 

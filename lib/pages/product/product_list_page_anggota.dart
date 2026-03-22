@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nurulislam/utils/auth_helper.dart';
+import 'package:nurulislam/pages/product/product_form_page_anggota.dart';
+//import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../services/product_service.dart';
 import '../../models/product_model.dart';
@@ -74,7 +75,11 @@ class _ProductListPageAngggotaState extends State<ProductListPageAngggota> {
           onPressed: () async {
             await Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const ProductFormPage()),
+              MaterialPageRoute(
+                  builder: (_) => ProductFormPageAnggota(
+                        product: products[0],
+                        baru: true,
+                      )),
             );
             refresh();
           },
@@ -190,7 +195,8 @@ class _ProductListPageAngggotaState extends State<ProductListPageAngggota> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => ProductFormPage(product: p),
+                                    builder: (_) =>
+                                        ProductFormPageAnggota(product: p),
                                   ),
                                 );
                                 refresh();

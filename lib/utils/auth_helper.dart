@@ -32,4 +32,25 @@ class AuthHelper {
       );
     }
   }
+
+  static Future<void> sukses(
+    BuildContext context, {
+    String message = "Sukses",
+    String? statusCode,
+  }) async {
+    // Hapus token
+    final lowerMessage = message.toLowerCase();
+    if (lowerMessage.contains('unauthorized') ||
+        lowerMessage.contains('unautorized')) {
+      message = "Session expired / Unauthorized";
+    }
+    CustomToast.show(
+      context,
+      message1: message,
+      message2: "Saved successfully.",
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 5),
+      gravity: ToastGravity.center,
+    );
+  }
 }

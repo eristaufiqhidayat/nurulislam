@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HaditsViewScreen extends StatefulWidget {
   const HaditsViewScreen({super.key});
@@ -20,14 +21,13 @@ class _HaditsViewScreenState extends State<HaditsViewScreen> {
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb) {
-      // Inisialisasi WebViewController
+    if (kIsWeb) {
+      _openWeb(); // 🔥 langsung buka tab baru
+    } else {
       const PlatformWebViewControllerCreationParams params =
           PlatformWebViewControllerCreationParams();
-      _controller = WebViewController.fromPlatformCreationParams(params);
 
-      // Mengonfigurasi WebView
-      _controller
+      _controller = WebViewController.fromPlatformCreationParams(params)
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..loadRequest(Uri.parse('https://hadits.tazkia.ac.id/'));
     }
@@ -36,13 +36,21 @@ class _HaditsViewScreenState extends State<HaditsViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Back'),
-        ),
-        body: kIsWeb
-            ? Text('This feature is not available on web')
-            : WebViewWidget(
-                controller: _controller,
-              ));
+      appBar: AppBar(
+        title: const Text('Back'),
+      ),
+      body: kIsWeb
+          ? const Center(
+              child: Text('Membuka halaman...'),
+            )
+          : WebViewWidget(controller: _controller),
+    );
+  }
+
+  void _openWeb() async {
+    final url = Uri.parse('https://hadits.tazkia.ac.id/');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 }

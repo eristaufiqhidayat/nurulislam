@@ -50,13 +50,8 @@ class ShopService {
     }
   }
 
-  Future<bool> updateShop(int id, Shop shop) async {
-    try {
-      await repo.update(id, shop);
-      return true;
-    } catch (e) {
-      return false;
-    }
+  Future<void> updateShop(int id, Shop shop) async {
+    return await repo.update(id, shop);
   }
 
   Future<bool> deleteShop(int id) async {
