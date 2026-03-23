@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import 'package:nurulislam/widgets/header.dart';
-import 'package:nurulislam/widgets/footer.dart';
-import 'package:nurulislam/widgets/menu_drawer.dart';
+// import 'package:nurulislam/widgets/header.dart';
+// import 'package:nurulislam/widgets/footer.dart';
+// import 'package:nurulislam/widgets/menu_drawer.dart';
 
 class dkm extends StatelessWidget {
   const dkm({super.key});
