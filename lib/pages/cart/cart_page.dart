@@ -6,13 +6,27 @@ import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nurulislam/config/api_constants.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      Provider.of<CartProvider>(context, listen: false).fetchCart();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
-    final items = cart.items.values.toList(); // ✅ Map → List
+    final items = cart.items;
 
     final rupiah = NumberFormat.currency(
       locale: 'id_ID',
@@ -27,7 +41,7 @@ class CartPage extends StatelessWidget {
         title: "Keranjang",
       ),
       body: items.isEmpty
-          ? const Center(child: Text("Keranjang kosong"))
+          ? const Center(child: Text("Keranjang kosong s"))
           : ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
@@ -80,7 +94,7 @@ class CartPage extends StatelessWidget {
                                     icon:
                                         const Icon(Icons.remove_circle_outline),
                                     onPressed: () {
-                                      cart.decreaseQty(item.product.id);
+                                      cart.decreaseQty(item.id);
                                     },
                                   ),
                                   Padding(
@@ -97,7 +111,7 @@ class CartPage extends StatelessWidget {
                                     constraints: const BoxConstraints(),
                                     icon: const Icon(Icons.add_circle_outline),
                                     onPressed: () {
-                                      cart.increaseQty(item.product.id);
+                                      cart.increaseQty(item.id);
                                     },
                                   ),
                                 ],
@@ -120,7 +134,7 @@ class CartPage extends StatelessWidget {
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
                               onPressed: () {
-                                cart.removeItem(item.product.id);
+                                cart.removeItem(item.id);
                               },
                             ),
                           ],

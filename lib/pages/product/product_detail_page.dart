@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nurulislam/pages/product/cart_page.dart';
+import 'package:nurulislam/pages/cart/cart_page.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nurulislam/models/product_model.dart';
@@ -110,31 +110,40 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
         child: ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-          ),
-          icon: const Icon(Icons.add_shopping_cart),
-          label: const Text(
-            'Tambah ke Keranjang',
-            style: TextStyle(fontSize: 16),
-          ),
-          onPressed: () {
-            try {
-              cart.addToCart(widget.product);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Produk ditambahkan ke keranjang')),
-              );
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Cart Tidak Boleh Beda Shop'),
-                backgroundColor: Colors.red,
-              ));
-            }
-          },
-        ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
+            icon: const Icon(Icons.add_shopping_cart),
+            label: const Text(
+              'Tambah ke Keranjang',
+              style: TextStyle(fontSize: 16),
+            ),
+            onPressed: () async {
+              // ignore: unnecessary_null_comparison
+              if (widget.product.id == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('ID produk tidak valid')),
+                );
+                return;
+              }
+
+              try {
+                await cart.addToCart(widget.product.id.toString());
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text(
+                          'Berhasil tambah ke cart ${widget.product.id!}')),
+                );
+              } catch (e) {
+                print(e.toString());
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(e.toString())),
+                );
+              }
+            }),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -149,7 +158,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   )
                 : Container(
                     //height: 250,
-                    color: Colors.grey[300],
+                    color: const Color.fromARGB(255, 215, 166, 166),
                     child: const Center(child: Icon(Icons.image)),
                   ),
             if (images.isNotEmpty)

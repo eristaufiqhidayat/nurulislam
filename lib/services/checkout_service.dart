@@ -3,7 +3,7 @@ import 'package:nurulislam/providers/cart_provider.dart';
 class CheckoutService {
   /// Build payload checkout
   Map<String, dynamic> buildPayload(CartProvider cart) {
-    final items = cart.items.values.map((item) {
+    final items = cart.items.map((item) {
       return {
         'product_id': item.product.id,
         'price': item.product.price,

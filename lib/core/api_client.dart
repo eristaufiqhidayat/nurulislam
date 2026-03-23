@@ -12,6 +12,7 @@ class ApiClient {
       Uri.parse(url),
       headers: headers,
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return response;
     } else {
@@ -26,12 +27,15 @@ class ApiClient {
       headers: headers,
       body: jsonEncode(data),
     );
-
-    if (response.statusCode == 200) {
-      return response;
-    } else {
-      return _handleError(response);
-    }
+    print("STATUS: ${response.statusCode}");
+    print("BODY: ${response.body}");
+    // if (response.statusCode == 200) {
+    //   print('okkk');
+    //   return response;
+    // } else {
+    //   print('not ok ${data}');
+    //   return _handleError(response);
+    // }
   }
 
   static String? _handleError(http.Response response) {
@@ -54,11 +58,11 @@ class ApiClient {
     );
     print('PUT $url - Status: ${response.statusCode} - Body: ${response.body}');
 
-    if (response.statusCode == 200) {
-      return response;
-    } else {
-      return _handleError(response);
-    }
+    // if (response.statusCode == 200) {
+    //   return response;
+    // } else {
+    //   return _handleError(response);
+    // }
   }
 
   static Future<dynamic> delete(String url,

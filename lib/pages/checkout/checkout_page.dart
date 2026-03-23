@@ -11,7 +11,7 @@ class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
-    final items = cart.items.values.toList(); // ✅ Map → List
+    final items = cart.items.toList(); // ✅ Map → List
 
     final rupiah = NumberFormat.currency(
       locale: 'id_ID',

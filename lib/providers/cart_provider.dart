@@ -1,77 +1,71 @@
 import 'package:flutter/material.dart';
-
-import '../models/product_model.dart';
+import '../models/cart_item_model.dart';
+import '../services/cart_service.dart';
 
 class CartProvider extends ChangeNotifier {
-  final Map<int, CartItem> _items = {};
+  final CartService _service = CartService();
 
-  Map<int, CartItem> get items => _items;
+  List<CartItemModel> _items = [];
 
-  int get totalItems => _items.values.fold(0, (sum, item) => sum + item.qty);
+  List<CartItemModel> get items => _items;
 
-  double get totalPrice =>
-      _items.values.fold(0, (sum, item) => sum + item.subtotal);
+  int get totalItems => _items.fold(0, (sum, item) => sum + item.qty);
+
+  double get totalPrice => _items.fold(0, (sum, item) => sum + item.subtotal);
 
   int? get currentShopId {
     if (_items.isEmpty) return null;
-    return _items.values.first.product.shopId;
+    return _items.first.product.shopId;
   }
 
-  void addToCart(ProductModel product) {
-    // 🔒 CEK SHOP ID
-    if (currentShopId != null && currentShopId != product.shopId) {
-      throw Exception('Cart hanya boleh dari satu toko');
-    }
-
-    if (_items.containsKey(product.id)) {
-      _items[product.id]!.qty++;
-    } else {
-      _items[product.id] = CartItem(product: product);
-    }
-
+  // 🔥 GET CART FROM API
+  Future<void> fetchCart() async {
+    _items = await _service.getCart();
     notifyListeners();
+  }
+
+  // 🔥 ADD TO CART
+  Future<void> addToCart(String productId) async {
+    try {
+      //print('tambahhhh');
+      await _service.addToCart(productId);
+      await fetchCart();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   // ➕ TAMBAH QTY
-  void increaseQty(int productId) {
-    if (_items.containsKey(productId)) {
-      _items[productId]!.qty++;
-      notifyListeners();
-    }
+  Future<void> increaseQty(int cartId) async {
+    final item = _items.firstWhere((e) => e.id == cartId);
+
+    await _service.updateQty(cartId, item.qty + 1);
+    await fetchCart();
   }
 
   // ➖ KURANG QTY
-  void decreaseQty(int productId) {
-    if (!_items.containsKey(productId)) return;
+  Future<void> decreaseQty(int cartId) async {
+    final item = _items.firstWhere((e) => e.id == cartId);
 
-    if (_items[productId]!.qty > 1) {
-      _items[productId]!.qty--;
+    if (item.qty > 1) {
+      await _service.updateQty(cartId, item.qty - 1);
     } else {
-      _items.remove(productId); // qty 0 → hapus
+      await _service.remove(cartId);
     }
-    notifyListeners();
+
+    await fetchCart();
   }
 
   // 🗑️ HAPUS ITEM
-  void removeItem(int productId) {
-    _items.remove(productId);
-    notifyListeners();
+  Future<void> removeItem(int cartId) async {
+    await _service.remove(cartId);
+    await fetchCart();
   }
 
-  void clearCart() {
-    _items.clear();
+  // 🔥 CLEAR CART (optional API)
+  Future<void> clearCart() async {
+    await _service.clearCart();
+    _items = [];
     notifyListeners();
   }
-}
-
-class CartItem {
-  final ProductModel product;
-  int qty;
-
-  CartItem({
-    required this.product,
-    this.qty = 1,
-  });
-
-  double get subtotal => product.price * qty;
 }

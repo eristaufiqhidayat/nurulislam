@@ -31,7 +31,8 @@ Pembuatan upload multepleImage
 - Peubahan di API (Product)
 
 Next
-Pembiatan New Product Untuk Anggota Koperasi
-Pembuatan SHOP 
+Pembiatan New Product Untuk Anggota Koperasi - done
+Pembuatan SHOP - done
+Pembuatan cart dengan api
 
 

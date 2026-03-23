@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:nurulislam/pages/product/cart_page.dart';
+import 'package:nurulislam/pages/cart/cart_page.dart';
 import 'package:nurulislam/providers/cart_provider.dart';
 import 'package:nurulislam/widgets/logo.dart';
 import 'package:nurulislam/widgets/menuitems.dart';
