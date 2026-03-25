@@ -134,6 +134,7 @@ class _CartPageState extends State<CartPage> {
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
                               onPressed: () {
+                                //print('delete proses');
                                 cart.removeItem(item.id);
                               },
                             ),
@@ -185,6 +186,10 @@ class _CartPageState extends State<CartPage> {
                     : () async {
                         final checkoutService = CheckoutService();
 
+                        final address =
+                            "Jl. Contoh Alamat"; // TODO: ambil dari user
+                        final token = "TOKEN_USER"; // TODO: ambil dari login
+
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -193,15 +198,28 @@ class _CartPageState extends State<CartPage> {
                           ),
                         );
 
-                        await checkoutService.checkout(cart);
+                        try {
+                          await checkoutService.checkout(cart: cart);
 
-                        Navigator.pop(context); // tutup loading
+                          if (!mounted) return;
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Checkout berhasil'),
-                          ),
-                        );
+                          Navigator.pop(context);
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Checkout berhasil'),
+                            ),
+                          );
+                        } catch (e) {
+                          print(e.toString());
+                          Navigator.pop(context);
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          );
+                        }
                       },
                 child: const Text(
                   "Checkout",

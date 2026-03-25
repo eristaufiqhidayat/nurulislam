@@ -15,7 +15,7 @@ class CartItemModel {
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
-      id: json['id'] ?? 0,
+      id: json['id'],
       qty: json['quantity'] ?? 0,
       product: json['product'] != null
           ? ProductModel.fromJson(json['product'])

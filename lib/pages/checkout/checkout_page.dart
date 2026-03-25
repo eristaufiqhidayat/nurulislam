@@ -83,7 +83,7 @@ class CheckoutPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: () async {
-                            await service.checkout(context as CartProvider);
+                            await service.checkout(cart: cart);
 
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(

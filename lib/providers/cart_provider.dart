@@ -65,7 +65,8 @@ class CartProvider extends ChangeNotifier {
   // 🔥 CLEAR CART (optional API)
   Future<void> clearCart() async {
     await _service.clearCart();
-    _items = [];
-    notifyListeners();
+    await fetchCart();
+    // _items = [];
+    // notifyListeners();
   }
 }

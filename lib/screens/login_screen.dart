@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.asset(
-                        'assets/images/masjid.jpg',
+                        'assets/images/masjid.png',
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,

@@ -5,6 +5,7 @@ import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nurulislam/models/product_model.dart';
 import 'package:nurulislam/providers/cart_provider.dart';
+import '../../providers/auth_provider.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
@@ -26,9 +27,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showMyModal(context);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _showMyModal(context);
+    // });
 
     final images = [
       if (widget.product.image != null && widget.product.image!.isNotEmpty)
@@ -41,7 +42,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<CartProvider>();
+    //final cart = context.watch<CartProvider>();
     final rupiah = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
@@ -57,48 +58,59 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     // selectedImage = images.isNotEmpty ? images.first : null;
     //print("IMAGE JSON: ${widget.product.imageJson}");
     //print("TOTAL IMAGE: ${widget.product.imageJson?.length}");
+
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Detail Produk',
         leading: [
-          Stack(
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const CartPage(),
-                    ),
-                  );
-                },
-              ),
-              Positioned(
-                right: 6,
-                top: 6,
-                child: Consumer<CartProvider>(
-                  builder: (_, cart, __) {
-                    if (cart.totalItems == 0) return const SizedBox();
-                    return CircleAvatar(
-                      radius: 8,
-                      backgroundColor: Colors.red,
-                      child: Text(
-                        cart.totalItems.toString(),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
+          Consumer<AuthProvider>(
+            builder: (_, auth, __) {
+              // ❌ kalau belum login → tidak tampil
+              if (!auth.isLoggedIn) {
+                return const SizedBox();
+              }
+
+              // ✅ kalau login → tampil cart
+              return Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const CartPage(),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+                      );
+                    },
+                  ),
+                  Positioned(
+                    right: 6,
+                    top: 6,
+                    child: Consumer<CartProvider>(
+                      builder: (_, cart, __) {
+                        if (cart.totalItems == 0) return const SizedBox();
+                        return CircleAvatar(
+                          radius: 8,
+                          backgroundColor: Colors.red,
+                          child: Text(
+                            cart.totalItems.toString(),
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
+
+          // tombol menu tetap
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu, color: Colors.white),
@@ -109,136 +121,177 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
-        child: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-            ),
-            icon: const Icon(Icons.add_shopping_cart),
-            label: const Text(
-              'Tambah ke Keranjang',
-              style: TextStyle(fontSize: 16),
-            ),
-            onPressed: () async {
-              // ignore: unnecessary_null_comparison
-              if (widget.product.id == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('ID produk tidak valid')),
-                );
-                return;
-              }
+        child: Consumer<AuthProvider>(
+          builder: (context, auth, _) {
+            final isLogin = auth.isLoggedIn;
 
-              try {
-                await cart.addToCart(widget.product.id.toString());
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content:
-                          Text('Berhasil tambah ke cart ${widget.product.id}')),
-                );
-              } catch (e) {
-                print(e.toString());
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(e.toString())),
-                );
-              }
-            }),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            selectedImage != null
-                ? Image.network(
-                    '${widget.imageBaseUrl}$selectedImage',
-                    fit: BoxFit.fitWidth,
-                    //width: 400,
-                    //height: 250,
-                  )
-                : Container(
-                    //height: 250,
-                    color: const Color.fromARGB(255, 215, 166, 166),
-                    child: const Center(child: Icon(Icons.image)),
-                  ),
-            if (images.isNotEmpty)
-              SizedBox(
-                width: double.infinity,
-                height: 80,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: images.length,
-                  itemBuilder: (context, index) {
-                    final img = images[index];
-                    final isSelected = img == selectedImage;
-
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedImage = img;
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color:
-                                isSelected ? Colors.green : Colors.transparent,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Image.network(
-                            '${widget.imageBaseUrl}$img',
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+            return ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    isLogin ? Colors.green : Colors.grey, // 🔥 warna
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-            Padding(
-              padding: const EdgeInsets.all(16),
+              icon: const Icon(Icons.add_shopping_cart),
+              label: const Text(
+                'Tambah ke Keranjang',
+                style: TextStyle(fontSize: 16),
+              ),
+              onPressed: isLogin
+                  ? () async {
+                      // ignore: unnecessary_null_comparison
+                      if (widget.product.id == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('ID produk tidak valid')),
+                        );
+                        return;
+                      }
+
+                      try {
+                        await context
+                            .read<CartProvider>()
+                            .addToCart(widget.product.id.toString());
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'Berhasil tambah ke cart ${widget.product.id}'),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.toString())),
+                        );
+                      }
+                    }
+                  : null, // 🔥 ini yang bikin disabled
+            );
+          },
+        ),
+      ),
+      body: Consumer<AuthProvider>(
+        builder: (context, auth, _) {
+          // ❌ belum login → tampilkan halaman kosong / pesan
+          if (!auth.isLoggedIn) {
+            return Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    widget.product.name,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    rupiah.format(widget.product.price),
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.green[800],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const Icon(Icons.lock, size: 60, color: Colors.grey),
                   const SizedBox(height: 16),
                   const Text(
-                    'Deskripsi Produk',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    "Silakan login untuk melihat detail produk",
+                    style: TextStyle(fontSize: 16),
                   ),
-                  const SizedBox(height: 6),
-                  Text(widget.product.description ?? '-'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      // arahkan ke halaman login (sesuaikan route kamu)
+                      Navigator.pushNamed(context, '/login');
+                    },
+                    child: const Text("Login"),
+                  )
                 ],
               ),
+            );
+          }
+
+          // ✅ kalau login → tampilkan semua isi body
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                selectedImage != null
+                    ? Image.network(
+                        '${widget.imageBaseUrl}$selectedImage',
+                        fit: BoxFit.fitWidth,
+                      )
+                    : Container(
+                        color: const Color.fromARGB(255, 215, 166, 166),
+                        child: const Center(child: Icon(Icons.image)),
+                      ),
+                if (images.isNotEmpty)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 80,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: images.length,
+                      itemBuilder: (context, index) {
+                        final img = images[index];
+                        final isSelected = img == selectedImage;
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedImage = img;
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: isSelected
+                                    ? Colors.green
+                                    : Colors.transparent,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.network(
+                                '${widget.imageBaseUrl}$img',
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.product.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        rupiah.format(widget.product.price),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.green[800],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Deskripsi Produk',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(widget.product.description ?? '-'),
+                      ElevatedButton(
+                        onPressed: () => _showMyModal(context),
+                        child: const Text("Buka Modal"),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () => _showMyModal(context),
-              child: const Text("Buka Modal"),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }

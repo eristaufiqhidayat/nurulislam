@@ -27,13 +27,13 @@ import 'package:nurulislam/utils/shared_prefs.dart';
 // }
 
 class CartService {
-  final String baseUrl = "${ApiConstants.baseUrl}/api/cart";
+  final String baseUrl = "${ApiConstants.baseUrl}/api";
 
   Future<List<CartItemModel>> getCart() async {
     final token = await SharedPrefs.getToken();
 
     final res = await ApiClient.get(
-      baseUrl,
+      '$baseUrl/cart',
       headers: {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',
@@ -54,7 +54,7 @@ class CartService {
     final token = await SharedPrefs.getToken();
 
     await ApiClient.post(
-      baseUrl,
+      '$baseUrl/cart',
       headers: {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',
@@ -67,10 +67,11 @@ class CartService {
   Future<void> updateQty(int id, int qty) async {
     final token = await SharedPrefs.getToken();
     await ApiClient.put(
-      "$baseUrl/$id",
+      "$baseUrl/cart/$id",
       headers: {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
       {'quantity': qty.toString()},
     );
@@ -79,7 +80,7 @@ class CartService {
   Future<void> remove(int id) async {
     final token = await SharedPrefs.getToken();
     await ApiClient.delete(
-      "$baseUrl/$id",
+      "$baseUrl/cart/$id",
       headers: {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',
@@ -90,7 +91,7 @@ class CartService {
   Future<void> clearCart() async {
     final token = await SharedPrefs.getToken();
     await ApiClient.delete(
-      "$baseUrl/clear",
+      "$baseUrl/cart-clear",
       headers: {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',

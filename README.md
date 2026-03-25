@@ -33,6 +33,8 @@ Pembuatan upload multepleImage
 Next
 Pembiatan New Product Untuk Anggota Koperasi - done
 Pembuatan SHOP - done
-Pembuatan cart dengan api
+Pembuatan cart dengan api - done
+
+Pembuatan Transaksi , mengambil data dari Order
 
 

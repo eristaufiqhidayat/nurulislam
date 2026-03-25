@@ -6,6 +6,8 @@ import 'package:nurulislam/providers/cart_provider.dart';
 import 'package:nurulislam/widgets/logo.dart';
 import 'package:nurulislam/widgets/menuitems.dart';
 import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 
 class DesktopMenuBar extends StatelessWidget {
   String? judul;
@@ -91,41 +93,53 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
       iconTheme: const IconThemeData(color: Colors.white),
       centerTitle: false,
       actions: [
-        Stack(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.shopping_cart),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const CartPage(),
-                  ),
-                );
-              },
-            ),
-            Positioned(
-              right: 6,
-              top: 6,
-              child: Consumer<CartProvider>(
-                builder: (_, cart, __) {
-                  if (cart.totalItems == 0) return const SizedBox();
-                  return CircleAvatar(
-                    radius: 8,
-                    backgroundColor: Colors.red,
-                    child: Text(
-                      cart.totalItems.toString(),
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: Colors.white,
+        Consumer<AuthProvider>(
+          builder: (_, auth, __) {
+            // ❌ kalau belum login → tidak tampil
+            if (!auth.isLoggedIn) {
+              return const SizedBox();
+            }
+
+            // ✅ kalau login → tampil cart
+            return Stack(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const CartPage(),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+                    );
+                  },
+                ),
+                Positioned(
+                  right: 6,
+                  top: 6,
+                  child: Consumer<CartProvider>(
+                    builder: (_, cart, __) {
+                      if (cart.totalItems == 0) return const SizedBox();
+                      return CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          cart.totalItems.toString(),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
         ),
+
+        // tombol menu tetap
         Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu, color: Colors.white),
