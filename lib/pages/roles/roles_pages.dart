@@ -31,30 +31,31 @@ class _RolePageState extends State<RolePage> {
     setState(() => isLoading = false);
   }
 
-  void showMenuRoleDialog(int roleId, String roleName) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: Text(
-          'Menu Akses: $roleName',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            child: MenuRoleWidget(roleId: roleId),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Tutup'),
-          ),
-        ],
-      ),
-    );
-  }
+  // void showMenuRoleDialog(int roleId, String roleName) {
+  //   showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (_) => AlertDialog(
+  //       title: Text(
+  //         'Menu Akses 1 $roleName',
+  //         style: const TextStyle(fontWeight: FontWeight.bold),
+  //       ),
+  //       content: SizedBox(
+  //           width: double.maxFinite,
+  //           child: SizedBox(
+  //             height: MediaQuery.of(context).size.height * 0.7,
+  //             child:
+  //                 SingleChildScrollView(child: MenuRoleWidget(roleId: roleId)),
+  //           )),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () => Navigator.pop(context),
+  //           child: const Text('Tutup'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void confirmDelete(int role) {
     showDialog(
@@ -119,7 +120,7 @@ class _RolePageState extends State<RolePage> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Menu Akses: $roleName',
+                          'Menu Akses 2 $roleName',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -139,7 +140,8 @@ class _RolePageState extends State<RolePage> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: MenuRoleWidget(roleId: roleId),
+                    child: SingleChildScrollView(
+                        child: MenuRoleWidget(roleId: roleId)),
                   ),
                 ),
               ],
@@ -161,7 +163,7 @@ class _RolePageState extends State<RolePage> {
             appBar: AppBar(
               backgroundColor: Colors.green,
               title: Text(
-                'Menu Akses: $roleName',
+                'Menu Akses 3 $roleName',
                 style: const TextStyle(color: Colors.white),
               ),
               leading: IconButton(
@@ -170,7 +172,8 @@ class _RolePageState extends State<RolePage> {
               ),
             ),
             body: SafeArea(
-              child: MenuRoleWidget(roleId: roleId),
+              child:
+                  SingleChildScrollView(child: MenuRoleWidget(roleId: roleId)),
             ),
           ),
         );
@@ -196,46 +199,45 @@ class _RolePageState extends State<RolePage> {
                   top: Radius.circular(16),
                 ),
               ),
-              child: Column(
-                children: [
-                  // 🔰 HEADER
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    height: 56,
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Column(
+                  children: [
+                    // 🔰 HEADER
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      height: 56,
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Menu Akses: $roleName',
+                      child: Row(
+                        children: [
+                          Text(
+                            'Menu Akses : $roleName',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.close, color: Colors.white),
-                          onPressed: () => Navigator.pop(context),
-                        )
-                      ],
+                          IconButton(
+                            icon: const Icon(Icons.close, color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
 
-                  // 📦 CONTENT
-                  Expanded(
-                    child: Padding(
+                    // 📦 CONTENT
+                    Padding(
                       padding: const EdgeInsets.all(12),
                       child: MenuRoleWidget(roleId: roleId),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
@@ -273,15 +275,13 @@ class _RolePageState extends State<RolePage> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        role.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                    Text(
+                      role.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

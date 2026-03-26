@@ -59,6 +59,7 @@ class _MenuRoleWidgetState extends State<MenuRoleWidget> {
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         ...menus.map((menu) {
           return CheckboxListTile(

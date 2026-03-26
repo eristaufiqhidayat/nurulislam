@@ -155,8 +155,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
-                                'Berhasil tambah ke cart ${widget.product.id}'),
+                            content: Text('Berhasil tambah ke cart'),
                           ),
                         );
                       } catch (e) {
