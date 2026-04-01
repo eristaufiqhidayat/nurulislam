@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
 import 'package:nurulislam/pages/product/product_list_home.dart';
 import 'package:nurulislam/services/auth_service.dart';
@@ -275,6 +276,8 @@ class _PageContentMobileState extends State<PageContentMobile> {
 
   // ================= CARD SLIDER (QURBAN) ==================
   Widget containerItem(PageinfoModel item) {
+    final assetPath2 =
+        ApiConstants.getFullImageUrl('storage/uploads/${item.image}');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
       child: ClipRRect(
@@ -283,7 +286,8 @@ class _PageContentMobileState extends State<PageContentMobile> {
           fit: StackFit.expand,
           children: [
             Image.network(
-              item.image,
+              assetPath2,
+              //item.image,
               fit: BoxFit.cover,
               loadingBuilder: (context, child, progress) {
                 if (progress == null) return child;

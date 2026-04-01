@@ -14,6 +14,7 @@ import 'package:nurulislam/pages/almawa/supplier/supplier_page.dart';
 import 'package:nurulislam/pages/dkm.dart';
 import 'package:nurulislam/pages/forgot_password_page.dart';
 import 'package:nurulislam/pages/kegiatan.dart';
+import 'package:nurulislam/pages/order/order_page.dart';
 import 'package:nurulislam/pages/page_info/page_info_crud.dart';
 import 'package:nurulislam/pages/pagecontent_crud/page_contetnt_crud.dart';
 import 'package:nurulislam/pages/password/change_password_page.dart';
@@ -98,6 +99,7 @@ class MyApp extends StatelessWidget {
         '/productAnggota': (context) => const ProductListPageAngggota(),
         '/shop': (context) => const ShopFormPage(),
         '/cart': (context) => const CartPage(),
+        '/transaksi': (context) => const trasaksiPage(),
       },
     );
   }

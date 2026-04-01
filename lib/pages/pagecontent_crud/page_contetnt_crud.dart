@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
@@ -49,7 +50,8 @@ class _pagecontent_crudState extends State<pagecontent_crud> {
                     title: Text(item.title),
                     subtitle: Text(item.description),
                     leading: item.imageUrl != null
-                        ? Image.network(item.imageUrl!)
+                        ? Image.network(
+                            ApiConstants.getFullImageUrl(item.imageUrl!))
                         : null,
                   ),
                 );

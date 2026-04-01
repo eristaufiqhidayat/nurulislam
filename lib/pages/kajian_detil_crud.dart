@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
@@ -10,6 +11,8 @@ class KajianDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(
+    //     "Gambar kajian: ${ApiConstants.getFullImageUrl(kajian.image)}"); // Debug: pastikan URL benar
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Home',
@@ -24,7 +27,7 @@ class KajianDetailPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                kajian.image,
+                ApiConstants.getFullImageUrl('storage/uploads/${kajian.image}'),
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => const Icon(
                     Icons.broken_image,

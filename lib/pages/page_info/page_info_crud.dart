@@ -164,7 +164,8 @@ class _PageInfoPageState extends State<PageInfoPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        img.text,
+                        ApiConstants.getFullImageUrl(
+                            'storage/uploads/${img.text}'),
                         height: 120,
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) =>
@@ -192,7 +193,13 @@ class _PageInfoPageState extends State<PageInfoPage> {
 
                     if (result != null) {
                       final url = await uploadImage(result.files.first);
-                      setState(() => img.text = url);
+                      //print("URL hasil upload: $url");
+                      final fileName = url.split('/').last;
+
+                      //print("Nama file dari URL: $fileName");
+                      // Debug: pastikan URL muncul
+                      //setState(() => img.text = url);
+                      setState(() => img.text = fileName);
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

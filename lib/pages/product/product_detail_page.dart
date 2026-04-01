@@ -183,13 +183,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     "Silakan login untuk melihat detail produk",
                     style: TextStyle(fontSize: 16),
                   ),
+                  const Text(
+                    "atau Register bagi anggota baru",
+                    style: TextStyle(fontSize: 16),
+                  ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      // arahkan ke halaman login (sesuaikan route kamu)
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    child: const Text("Login"),
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center, // 🔥 ini penting
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        child: const Text("Login"),
+                      ),
+                      const SizedBox(width: 12), // biar ada jarak
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
+                        child: const Text("Register"),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -280,10 +296,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       ),
                       const SizedBox(height: 6),
                       Text(widget.product.description ?? '-'),
-                      ElevatedButton(
-                        onPressed: () => _showMyModal(context),
-                        child: const Text("Buka Modal"),
-                      )
+                      // ElevatedButton(
+                      //   onPressed: () => _showMyModal(context),
+                      //   child: const Text("Buka Modal"),
+                      // )
                     ],
                   ),
                 ),

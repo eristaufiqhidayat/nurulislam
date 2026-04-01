@@ -11,7 +11,7 @@ class AuthHelper {
     // Hapus token
     await SharedPrefs.clear();
     final lowerMessage = message.toLowerCase();
-    if (lowerMessage.contains('unauthorized') ||
+    if (lowerMessage.contains('Unauthorized') ||
         lowerMessage.contains('unautorized')) {
       message = "Session expired / Unauthorized";
     }

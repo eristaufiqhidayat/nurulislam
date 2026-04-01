@@ -179,7 +179,7 @@ class _PageInfoPageState extends State<PageInfoPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Image.network(
-                      img.text,
+                      ApiConstants.getFullImageUrl(img.text),
                       height: 100,
                       errorBuilder: (_, __, ___) =>
                           const Icon(Icons.broken_image),

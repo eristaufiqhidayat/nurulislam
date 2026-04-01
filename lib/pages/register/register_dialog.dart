@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../services/auth_service.dart';
 import 'otp_dialog.dart';
 
@@ -51,9 +52,9 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
+    return Scaffold(
+      appBar: AppBarCustom(title: 'Register Baru'),
+      body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,

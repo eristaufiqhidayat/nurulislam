@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurulislam/config/api_constants.dart';
 
 class KajianCard extends StatelessWidget {
   final String title;
@@ -14,6 +15,10 @@ class KajianCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final assetPath2 =
+        ApiConstants.getFullImageUrl('storage/uploads/$assetPath');
+    //print(
+    //  "Membangun KajianCard dengan assetPath: $assetPath2"); // Debug: pastikan path benar
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ClipRRect(
@@ -23,7 +28,8 @@ class KajianCard extends StatelessWidget {
             // ====== FULL IMAGE ======
             Positioned.fill(
               child: Image.network(
-                assetPath,
+                assetPath2,
+                //assetPath,
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) =>
                     const Center(child: Icon(Icons.broken_image, size: 40)),

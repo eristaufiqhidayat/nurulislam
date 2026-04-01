@@ -31,7 +31,8 @@ class CartProvider extends ChangeNotifier {
       await _service.addToCart(productId);
       await fetchCart();
     } catch (e) {
-      print(e.toString());
+      print('Error' + e.toString());
+      return null;
     }
   }
 
