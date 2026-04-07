@@ -27,6 +27,7 @@ class AuthRepository {
     required String email,
     required String password,
     required String role,
+    required String no_hp,
   }) async {
     final res =
         await http.post(Uri.parse('${ApiConstants.baseUrl}/api/register'),
@@ -40,8 +41,13 @@ class AuthRepository {
               'password': password,
               'password_confirmation': password,
               'role_id': role,
+              'no_hp': no_hp,
             }));
-    print('Register response: ${res.body} $role');
+    //final data = jsonDecode(res.body);
+    print('Register response: ${res.body} ');
+    if (res.statusCode != 200 && res.statusCode != 201) {
+      throw Exception('Gagal register / Email sudah terdaftar');
+    }
     //var token = res['token']; // ✅ AUTO LOGIN
   }
 

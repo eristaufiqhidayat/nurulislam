@@ -16,6 +16,7 @@ class AuthService {
     required String email,
     required String password,
     required String role,
+    required String nohp,
   }) async {
     if (role == 'jamaah') {
       role = '10';
@@ -23,7 +24,11 @@ class AuthService {
       role = '11';
     }
     await _repo.register(
-        name: name, email: email, password: password, role: role);
+        name: name,
+        email: email,
+        password: password,
+        role: role,
+        no_hp: nohp); // ✅ AUTO LOGIN
     // ✅ AUTO LOGIN
   }
 

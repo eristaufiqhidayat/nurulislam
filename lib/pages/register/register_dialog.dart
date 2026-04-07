@@ -16,13 +16,24 @@ class _RegisterDialogState extends State<RegisterDialog> {
 
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
+  final nohp = TextEditingController();
   final passCtrl = TextEditingController();
   final confirmPassCtrl = TextEditingController();
   String role = 'jamaah';
   bool loading = false;
+  String selectedCode = '+62'; // default Indonesia
 
+  final List<Map<String, String>> countryCodes = [
+    {'code': '+62', 'country': 'Indonesia'},
+    {'code': '+1', 'country': 'USA'},
+    {'code': '+60', 'country': 'Malaysia'},
+    {'code': '+65', 'country': 'Singapore'},
+  ];
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+
+    String cleanNumber =
+        nohp.text.startsWith('0') ? nohp.text.substring(1) : nohp.text;
 
     setState(() => loading = true);
 
@@ -32,21 +43,27 @@ class _RegisterDialogState extends State<RegisterDialog> {
         email: emailCtrl.text,
         password: passCtrl.text,
         role: 'jamaah',
-        //role: role,
+        nohp: '$selectedCode$cleanNumber',
       );
 
       if (!mounted) return;
-      Navigator.pop(context);
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
-    } finally {
-      setState(() => loading = false);
+
+      // ✅ HANYA muncul kalau sukses
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (_) => OtpDialog(email: emailCtrl.text),
       );
+    } catch (e) {
+      // ✅ hanya error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() => loading = false); // ✅ ini saja di finally
     }
   }
 
@@ -73,6 +90,8 @@ class _RegisterDialogState extends State<RegisterDialog> {
               _input(nameCtrl, 'Nama'),
               const SizedBox(height: 12),
               _input(emailCtrl, 'Email'),
+              const SizedBox(height: 12),
+              _phoneInput(),
               const SizedBox(height: 12),
               _input(passCtrl, 'Password', obscure: true),
               const SizedBox(height: 12),
@@ -131,6 +150,49 @@ class _RegisterDialogState extends State<RegisterDialog> {
         return null;
       },
       decoration: _decoration('Konfirmasi Password'),
+    );
+  }
+
+  Widget _phoneInput() {
+    return Row(
+      children: [
+        // Dropdown kode negara
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: DropdownButton<String>(
+            value: selectedCode,
+            underline: const SizedBox(),
+            items: countryCodes.map((item) {
+              return DropdownMenuItem(
+                value: item['code'],
+                child: Text('${item['code']}'),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedCode = value!;
+              });
+            },
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        // Input nomor HP
+        Expanded(
+          child: TextFormField(
+            controller: nohp,
+            keyboardType: TextInputType.phone,
+            validator: (v) =>
+                v == null || v.isEmpty ? 'Nomor HP wajib diisi' : null,
+            decoration: _decoration('Nomor HP'),
+          ),
+        ),
+      ],
     );
   }
 
