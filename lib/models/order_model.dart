@@ -1,5 +1,18 @@
 import 'product_model.dart';
 
+int? toInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  return int.tryParse(value.toString());
+}
+
+double toDouble(dynamic value) {
+  if (value == null) return 0;
+  if (value is double) return value;
+  if (value is int) return value.toDouble();
+  return double.tryParse(value.toString()) ?? 0;
+}
+
 class Order {
   final int? id;
   final int? userId;
@@ -27,24 +40,23 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      id: json['id'],
-      userId: json['user_id'],
-      totalAmount: double.parse(json['total_amount'].toString()),
-      status: json['status'],
+      id: toInt(json['id']),
+      userId: toInt(json['user_id']),
+      totalAmount: toDouble(json['total_amount']),
+      status: json['status'] ?? '',
       paymentMethod: json['payment_method'],
-      paymentStatus: json['payment_status'],
+      paymentStatus: json['payment_status'] ?? '',
       address: json['address'] != null
           ? OrderAddress.fromJson(json['address'])
           : null,
-      items: json['items'] != null
-          ? List<OrderItem>.from(
-              json['items'].map((x) => OrderItem.fromJson(x)))
-          : [],
+      items: (json['items'] as List? ?? [])
+          .map((x) => OrderItem.fromJson(x))
+          .toList(),
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
+          ? DateTime.tryParse(json['created_at'].toString())
           : null,
       updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'])
+          ? DateTime.tryParse(json['updated_at'].toString())
           : null,
     );
   }
@@ -84,12 +96,12 @@ class OrderItem {
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
-      id: json['id'],
-      orderId: json['order_id'],
-      productId: json['product_id'],
-      quantity: json['quantity'],
-      price: double.parse(json['price'].toString()),
-      subtotal: double.parse(json['subtotal'].toString()),
+      id: toInt(json['id']),
+      orderId: toInt(json['order_id']),
+      productId: toInt(json['product_id']) ?? 0,
+      quantity: toInt(json['quantity']) ?? 0,
+      price: toDouble(json['price']),
+      subtotal: toDouble(json['subtotal']),
       product: json['product'] != null
           ? ProductModel.fromJson(json['product'])
           : null,
@@ -129,13 +141,13 @@ class OrderAddress {
 
   factory OrderAddress.fromJson(Map<String, dynamic> json) {
     return OrderAddress(
-      id: json['id'],
-      orderId: json['order_id'],
-      receiverName: json['receiver_name'],
-      phone: json['phone'],
-      address: json['address'],
-      city: json['city'],
-      postalCode: json['postal_code'],
+      id: toInt(json['id']),
+      orderId: toInt(json['order_id']),
+      receiverName: json['receiver_name'] ?? '',
+      phone: json['phone'] ?? '',
+      address: json['address'] ?? '',
+      city: json['city'] ?? '',
+      postalCode: json['postal_code'] ?? '',
     );
   }
 

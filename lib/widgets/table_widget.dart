@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nurulislam/config/theme_config.dart';
-import 'package:nurulislam/pages/detilform.dart';
+import 'package:nurulislam/features/page_info/pages/detilform.dart';
 
 class CustomTable extends StatefulWidget {
   final List<Map<String, dynamic>> data;

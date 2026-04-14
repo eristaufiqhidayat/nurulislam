@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nurulislam/app.dart';
-import 'package:nurulislam/pages/register/otp_dialog.dart';
+import 'package:nurulislam/features/register/pages/otp_dialog.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
