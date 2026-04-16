@@ -1,5 +1,5 @@
 import 'package:nurulislam/features/page_info/repositories/page_info_repository.dart';
-import '../../../models/pageinfo_model.dart';
+import '../models/pageinfo_model.dart';
 import 'package:file_picker/file_picker.dart';
 
 class PageInfoService {

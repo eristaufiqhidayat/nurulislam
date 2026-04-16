@@ -1,5 +1,5 @@
 import 'pembeli_model.dart';
-import '../features/almawa/models/detail_penjualan_model.dart';
+import 'detail_penjualan_model.dart';
 
 class PenjualanModel {
   final int? id;

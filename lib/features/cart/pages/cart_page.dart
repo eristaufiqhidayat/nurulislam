@@ -186,8 +186,10 @@ class _CartPageState extends State<CartPage> {
                     : () async {
                         final checkoutService = CheckoutService();
 
+                        // ignore: unused_local_variable
                         final address =
                             "Jl. Contoh Alamat"; // TODO: ambil dari user
+                        // ignore: unused_local_variable
                         final token = "TOKEN_USER"; // TODO: ambil dari login
 
                         showDialog(

@@ -1,4 +1,4 @@
-import '../../../models/shop_model.dart';
+import '../models/shop_model.dart';
 import '../repositories/shop_repository.dart';
 
 class ShopService {

@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../models/pageinfo_model.dart';
+import '../../page_info/models/pageinfo_model.dart';
 import '../../page_info/services/page_info_service.dart';
 
 class PageInfoPage extends StatefulWidget {

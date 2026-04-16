@@ -1,5 +1,5 @@
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/menuRole_model.dart';
+import 'package:nurulislam/features/roles/models/menuRole_model.dart';
 import 'package:nurulislam/features/menus/models/menu_check_model.dart';
 import 'package:nurulislam/features/menus/repositories/menuRole_repository.dart';
 

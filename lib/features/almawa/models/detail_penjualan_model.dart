@@ -1,5 +1,5 @@
 import 'barang_model.dart';
-import '../../../models/pembeli_model.dart';
+import 'pembeli_model.dart';
 
 class Penjualan {
   final int id;

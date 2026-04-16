@@ -1,4 +1,4 @@
-import 'package:nurulislam/models/supplier_model.dart';
+import 'package:nurulislam/features/almawa/models/supplier_model.dart';
 import 'barang_masuk_model.dart';
 
 class BarangMasukInvModel {

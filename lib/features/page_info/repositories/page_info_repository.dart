@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/pageinfo_model.dart';
+import 'package:nurulislam/features/page_info/models/pageinfo_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
 class PageInfoRepository {

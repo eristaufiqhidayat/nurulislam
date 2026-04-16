@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
-import '../../../models/shop_model.dart';
+import '../models/shop_model.dart';
 import '../../../core/api_client.dart';
 
 class ShopRepository {

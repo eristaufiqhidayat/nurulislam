@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/features/almawa/models/barang_masuk_inv_model.dart';
-import 'package:nurulislam/models/supplier_model.dart';
+import 'package:nurulislam/features/almawa/models/supplier_model.dart';
 import 'package:nurulislam/features/almawa/pages/barang_masuk/detail_barang_masuk_page.dart';
 import 'package:nurulislam/features/almawa/services/barang_masuk_inv_service.dart';
 import 'package:nurulislam/utils/auth_helper.dart';

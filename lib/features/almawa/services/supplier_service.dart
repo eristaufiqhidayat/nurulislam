@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_print
-import 'package:nurulislam/models/supplier_model.dart';
+import 'package:nurulislam/features/almawa/models/supplier_model.dart';
 import 'package:nurulislam/features/almawa/repositories/supplier_repository.dart';
 
 class SupplierService {

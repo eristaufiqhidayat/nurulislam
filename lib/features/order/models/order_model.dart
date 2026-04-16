@@ -1,4 +1,4 @@
-import '../features/product/models/product_model.dart';
+import '../../product/models/product_model.dart';
 
 int? toInt(dynamic value) {
   if (value == null) return null;

@@ -1,4 +1,4 @@
-import '../../../models/order_model.dart';
+import '../models/order_model.dart';
 import '../repositories/order_repository.dart';
 
 class OrderService {

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/supplier_model.dart';
+import 'package:nurulislam/features/almawa/models/supplier_model.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 
 class SupplierRepository {

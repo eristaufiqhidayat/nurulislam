@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/supplier_model.dart';
+import '../../models/supplier_model.dart';
 
 class TableWidget extends StatelessWidget {
   final List<SupplierModel> items;

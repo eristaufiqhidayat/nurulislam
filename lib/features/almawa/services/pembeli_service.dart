@@ -1,5 +1,5 @@
 import 'package:nurulislam/features/almawa/repositories/pembeli_repository.dart';
-import '../../../models/pembeli_model.dart';
+import '../models/pembeli_model.dart';
 
 class PembeliService {
   final _repo = PembeliRepository();

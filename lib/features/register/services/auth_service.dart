@@ -1,7 +1,7 @@
 import 'package:nurulislam/features/register/repositories/auth_repository.dart';
 import '../../user_crud/models/user_model.dart';
 import '../../menus/models/menu_model.dart';
-import '../../../models/pageinfo_model.dart';
+import '../../page_info/models/pageinfo_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AuthService {

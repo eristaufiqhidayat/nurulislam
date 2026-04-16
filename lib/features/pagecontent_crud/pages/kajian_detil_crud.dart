@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/pageinfo_model.dart';
+import 'package:nurulislam/features/page_info/models/pageinfo_model.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class KajianDetailPage extends StatelessWidget {

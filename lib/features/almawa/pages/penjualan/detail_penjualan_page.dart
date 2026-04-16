@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:nurulislam/models/penjualan_model.dart';
+import 'package:nurulislam/features/almawa/models/penjualan_model.dart';
 import 'package:nurulislam/features/almawa/pages/penjualan/penjualan_page.dart';
 import 'package:nurulislam/features/almawa/services/penjualan_service.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';

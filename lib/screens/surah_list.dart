@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/models/surah_model.dart';
+import 'package:nurulislam/features/surah/models/surah_model.dart';
 import 'package:nurulislam/screens/surah_detil_page.dart';
 
 class SurahListPage extends StatelessWidget {

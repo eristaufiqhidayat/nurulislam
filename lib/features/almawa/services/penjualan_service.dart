@@ -1,5 +1,5 @@
 import 'package:nurulislam/features/almawa/repositories/penjualan_repository.dart';
-import '../../../models/penjualan_model.dart';
+import '../models/penjualan_model.dart';
 
 class PenjualanService {
   // from api_constants.dart
