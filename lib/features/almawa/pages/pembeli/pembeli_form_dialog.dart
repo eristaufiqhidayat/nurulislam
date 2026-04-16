@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../models/pembeli_model.dart';
-import '../../../../services/pembeli_service.dart';
+import '../../services/pembeli_service.dart';
 
 void showPembeliFormDialog({
   required BuildContext context,

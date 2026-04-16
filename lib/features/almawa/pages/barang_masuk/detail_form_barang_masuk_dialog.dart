@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/models/barang_masuk_model.dart';
-import 'package:nurulislam/models/barang_model.dart';
+import 'package:nurulislam/features/almawa/models/barang_masuk_model.dart';
+import 'package:nurulislam/features/almawa/models/barang_model.dart';
 //import 'package:nurulislam/models/detail_penjualan_model.dart';
-import '../../../../services/barang_service.dart';
-import 'package:nurulislam/services/barang_harga_service.dart';
+import '../../services/barang_service.dart';
+import 'package:nurulislam/features/almawa/services/barang_harga_service.dart';
 
 class DetailFormBarangMasukDialog extends StatefulWidget {
   final BarangMasukModel? initial;

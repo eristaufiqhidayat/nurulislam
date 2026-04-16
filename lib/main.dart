@@ -35,7 +35,7 @@ import 'package:nurulislam/features/pagecontent_crud/pages/contact.dart';
 import 'package:nurulislam/screens/splash_screen.dart';
 import 'package:nurulislam/screens/version_software.dart';
 import 'package:provider/provider.dart';
-import 'providers/cart_provider.dart';
+import 'features/cart/providers/cart_provider.dart';
 
 /// ✅ Fix utama ada di sini:
 Future<void> main() async {

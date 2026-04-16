@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../models/menu_model.dart';
-import '../../../services/menu_service.dart';
+import '../models/menu_model.dart';
+import '../services/menu_service.dart';
 import 'menu_form.dart';
 import 'menu_table.dart';
 import 'menu_table_mobile.dart';

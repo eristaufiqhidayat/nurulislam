@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/theme_config.dart';
-import 'package:nurulislam/providers/cart_provider.dart';
+import 'package:nurulislam/features/cart/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {

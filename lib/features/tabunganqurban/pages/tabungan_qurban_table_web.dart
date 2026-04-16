@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/tabungan_qurban_model.dart';
+import '../models/tabungan_qurban_model.dart';
 import 'dialog_setoran.dart';
 
 class TabunganQurbanTableWeb extends StatelessWidget {

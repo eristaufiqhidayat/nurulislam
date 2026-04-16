@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nurulislam/features/cart/pages/cart_page.dart';
-import 'package:nurulislam/providers/cart_provider.dart';
+import 'package:nurulislam/features/cart/providers/cart_provider.dart';
 import 'package:nurulislam/widgets/logo.dart';
 import 'package:nurulislam/widgets/menuitems.dart';
 import 'package:provider/provider.dart';

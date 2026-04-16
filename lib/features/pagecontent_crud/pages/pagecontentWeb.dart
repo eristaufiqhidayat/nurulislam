@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/models/pageinfo_model.dart';
-import 'package:nurulislam/services/auth_service.dart';
+import 'package:nurulislam/features/register/services/auth_service.dart';
 import 'package:nurulislam/features/pagecontent_crud/pages/kajian_detil_crud.dart';
 import 'package:nurulislam/widgets/card.dart';
 

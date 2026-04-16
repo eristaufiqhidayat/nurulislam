@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/detail_penjualan_model.dart';
+import '../../models/detail_penjualan_model.dart';
 
 class DetailPenjualanTable extends StatelessWidget {
   final List<DetailPenjualan> items;

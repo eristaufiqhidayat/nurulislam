@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:nurulislam/features/product/pages/product_form_page_anggota.dart';
 //import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../services/product_service.dart';
-import '../../../models/product_model.dart';
+import '../services/product_service.dart';
+import '../models/product_model.dart';
 //import 'product_form_page.dart';
 
 import '../../../config/api_constants.dart';

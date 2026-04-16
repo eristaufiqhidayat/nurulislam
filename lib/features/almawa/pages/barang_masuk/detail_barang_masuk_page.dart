@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, control_flow_in_finally, deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:nurulislam/models/barang_masuk_inv_model.dart';
-import 'package:nurulislam/models/barang_masuk_model.dart';
+import 'package:nurulislam/features/almawa/models/barang_masuk_inv_model.dart';
+import 'package:nurulislam/features/almawa/models/barang_masuk_model.dart';
 import 'package:nurulislam/features/almawa/pages/barang_masuk/detail_barang_masuk_table.dart';
 import 'package:nurulislam/features/almawa/pages/barang_masuk/detail_form_barang_masuk_dialog.dart';
-import 'package:nurulislam/services/barang_masuk_inv_service.dart';
-import 'package:nurulislam/services/barang_masuk_service.dart';
+import 'package:nurulislam/features/almawa/services/barang_masuk_inv_service.dart';
+import 'package:nurulislam/features/almawa/services/barang_masuk_service.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 

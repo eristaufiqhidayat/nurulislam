@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../models/user_model.dart';
-import '../services/auth_service.dart';
+import '../features/user_crud/models/user_model.dart';
+import '../features/register/services/auth_service.dart';
 import '../utils/shared_prefs.dart';
 
 class AuthProvider extends ChangeNotifier {

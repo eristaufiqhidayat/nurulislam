@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/features/tabunganqurban/pages/tabungan_qurban_list_detail.dart';
-import '../../../models/tabungan_qurban_model.dart';
+import '../models/tabungan_qurban_model.dart';
 
 class TabunganQurbanListMobile extends StatelessWidget {
   final List<TabunganQurbanModel> data;

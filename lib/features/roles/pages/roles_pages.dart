@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/services/role_services.dart';
-import '../../../models/role_model.dart';
+import 'package:nurulislam/features/roles/services/role_services.dart';
+import '../models/role_model.dart';
 import 'menu_role_widget.dart';
 import 'role_form_dialog.dart';
 

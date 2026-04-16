@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/models/supplier_model.dart';
 import 'package:nurulislam/features/almawa/pages/supplier/supplier_form_dialog.dart';
 import 'package:nurulislam/features/almawa/pages/supplier/supplier_table_widget.dart';
-import 'package:nurulislam/services/supplier_service.dart';
+import 'package:nurulislam/features/almawa/services/supplier_service.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 

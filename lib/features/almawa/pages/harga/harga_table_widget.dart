@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../models/barang_harga_model.dart';
+import '../../models/barang_harga_model.dart';
 
 class HargaTableWidget extends StatelessWidget {
   final List<BarangHarga> items;

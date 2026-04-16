@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/product_model.dart';
-import 'package:nurulislam/services/product_service.dart';
+import 'package:nurulislam/features/product/models/product_model.dart';
+import 'package:nurulislam/features/product/services/product_service.dart';
 import 'product_card.dart';
 
 class ProductListHome extends StatefulWidget {

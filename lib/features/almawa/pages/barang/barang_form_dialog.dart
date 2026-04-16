@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print, deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import '../../../../models/barang_model.dart';
-import '../../../../services/barang_service.dart';
+import '../../models/barang_model.dart';
+import '../../services/barang_service.dart';
 
 Future<void> showBarangFormDialog({
   required BuildContext context,

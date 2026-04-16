@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/services/detail_penjualan_service.dart';
-import '../../../../models/barang_model.dart';
-import '../../../../models/detail_penjualan_model.dart';
+import 'package:nurulislam/features/almawa/services/detail_penjualan_service.dart';
+import '../../models/barang_model.dart';
+import '../../models/detail_penjualan_model.dart';
 
 class DetailPenjualanFormDialog extends StatefulWidget {
   final DetailPenjualan? initial;

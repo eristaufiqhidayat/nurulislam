@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/repositories/user_repository.dart';
+import 'package:nurulislam/features/user_crud/repositories/user_repository.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 
 class ChangePasswordPage extends StatefulWidget {

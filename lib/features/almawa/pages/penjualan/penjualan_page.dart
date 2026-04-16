@@ -5,7 +5,7 @@ import 'package:nurulislam/features/almawa/pages/penjualan/detail_penjualan_page
 import 'package:nurulislam/features/almawa/pages/penjualan/penjualan_form_page.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../../services/penjualan_service.dart';
+import '../../services/penjualan_service.dart';
 
 class PenjualanPage extends StatefulWidget {
   const PenjualanPage({super.key});

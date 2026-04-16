@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nurulislam/providers/cart_provider.dart';
-import 'package:nurulislam/services/checkout_service.dart';
+import 'package:nurulislam/features/cart/providers/cart_provider.dart';
+import 'package:nurulislam/features/checkout/services/checkout_service.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nurulislam/config/api_constants.dart';

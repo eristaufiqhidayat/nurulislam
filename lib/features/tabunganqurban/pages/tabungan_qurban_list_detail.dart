@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/features/tabunganqurban/pages/dialog_setoran.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:nurulislam/widgets/menu_drawer.dart';
-import '../../../models/tabungan_qurban_detail_model.dart';
-import '../../../services/tabungan_qurban_service.dart';
+import '../models/tabungan_qurban_detail_model.dart';
+import '../services/tabungan_qurban_service.dart';
 
 class TabunganQurbanListDetail extends StatefulWidget {
   final int? id;

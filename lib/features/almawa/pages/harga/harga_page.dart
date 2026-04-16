@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../../models/barang_harga_model.dart';
-import '../../../../services/barang_harga_service.dart';
+import '../../models/barang_harga_model.dart';
+import '../../services/barang_harga_service.dart';
 import 'harga_form.dart';
 import 'harga_table_widget.dart';
 

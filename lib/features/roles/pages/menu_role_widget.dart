@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../models/menu_check_model.dart';
-import '../../../services/menuRole_service.dart';
+import '../../menus/models/menu_check_model.dart';
+import '../../menus/services/menuRole_service.dart';
 
 class MenuRoleWidget extends StatefulWidget {
   final int roleId;

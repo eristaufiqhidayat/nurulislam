@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user_model.dart';
+import '../features/user_crud/models/user_model.dart';
 
 class SharedPrefs {
   static const String _userKey = 'user_data';

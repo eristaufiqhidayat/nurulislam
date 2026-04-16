@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/menu_model.dart';
+import '../models/menu_model.dart';
 
 class MenuTableMobile extends StatelessWidget {
   final List<MenuModel> items;

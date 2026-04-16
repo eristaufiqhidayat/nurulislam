@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/features/register/pages/otp_verification_page.dart';
-import 'package:nurulislam/services/forgot_password_service.dart';
+import 'package:nurulislam/features/password/services/forgot_password_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});

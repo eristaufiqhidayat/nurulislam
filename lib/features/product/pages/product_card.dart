@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nurulislam/models/product_model.dart';
+import 'package:nurulislam/features/product/models/product_model.dart';
 import 'package:nurulislam/features/product/pages/product_detail_page.dart';
 
 class ProductCard extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/services/tabungan_qurban_service.dart';
-import 'package:nurulislam/services/user_service.dart';
+import 'package:nurulislam/features/tabunganqurban/services/tabungan_qurban_service.dart';
+import 'package:nurulislam/features/user_crud/services/user_service.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:nurulislam/widgets/dropdown_search_map.dart';
 

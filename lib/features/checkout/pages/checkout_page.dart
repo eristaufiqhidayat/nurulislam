@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import '../../../providers/cart_provider.dart';
-import '../../../services/checkout_service.dart';
+import '../../cart/providers/cart_provider.dart';
+import '../services/checkout_service.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});

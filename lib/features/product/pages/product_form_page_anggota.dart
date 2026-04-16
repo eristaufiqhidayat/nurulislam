@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nurulislam/config/api_constants.dart';
-import 'package:nurulislam/models/product_model.dart';
-import 'package:nurulislam/services/category_service.dart';
-import 'package:nurulislam/services/shop_service.dart';
+import 'package:nurulislam/features/product/models/product_model.dart';
+import 'package:nurulislam/features/product/services/category_service.dart';
+import 'package:nurulislam/features/shop/services/shop_service.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import 'package:nurulislam/widgets/dropdown_search_map.dart';
-import '../../../services/product_service.dart';
+import '../services/product_service.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart'; // untuk kIsWeb

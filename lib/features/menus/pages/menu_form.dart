@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:nurulislam/config/api_constants.dart';
-import '../../../models/menu_model.dart';
-import '../../../services/menu_service.dart';
+import '../models/menu_model.dart';
+import '../services/menu_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MenuForm extends StatefulWidget {

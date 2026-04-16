@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../models/role_model.dart';
-import '../../../services/menuRole_service.dart';
+import '../models/role_model.dart';
+import '../../menus/services/menuRole_service.dart';
 
 class RoleFormDialog extends StatefulWidget {
   final RoleModel? role;

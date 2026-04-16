@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../models/supplier_model.dart';
-import '../../../../services/supplier_service.dart';
+import '../../services/supplier_service.dart';
 
 Future<void> showFormDialog({
   required BuildContext context,

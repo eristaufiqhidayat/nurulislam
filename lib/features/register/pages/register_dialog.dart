@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../services/auth_service.dart';
+import '../services/auth_service.dart';
 import 'otp_dialog.dart';
 
 class RegisterDialog extends StatefulWidget {

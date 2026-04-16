@@ -9,7 +9,7 @@ import 'package:nurulislam/config/api_constants.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../models/pageinfo_model.dart';
-import '../../../services/page_info_service.dart';
+import '../../page_info/services/page_info_service.dart';
 
 class PageInfoPage extends StatefulWidget {
   const PageInfoPage({super.key});

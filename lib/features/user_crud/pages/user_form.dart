@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/models/role_model.dart';
-import 'package:nurulislam/services/role_services.dart';
+import 'package:nurulislam/features/roles/models/role_model.dart';
+import 'package:nurulislam/features/roles/services/role_services.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Tambahkan di pubspec.yaml
-import '../../../models/user_crud_model.dart';
+import '../models/user_crud_model.dart';
 
 class UserForm extends StatefulWidget {
   final UserModel? user;

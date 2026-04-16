@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nurulislam/models/barang_masuk_model.dart';
+import 'package:nurulislam/features/almawa/models/barang_masuk_model.dart';
 //import '../../../models/barang_harga_model.dart';
 
 class DetailBarangMasukTable extends StatelessWidget {

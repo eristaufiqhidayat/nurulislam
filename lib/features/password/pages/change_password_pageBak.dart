@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nurulislam/services/forgot_password_service.dart';
+import 'package:nurulislam/features/password/services/forgot_password_service.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   final String email;

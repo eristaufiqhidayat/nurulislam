@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-import '../models/menu_model.dart';
-import '../services/auth_service.dart';
+import '../features/menus/models/menu_model.dart';
+import '../features/register/services/auth_service.dart';
 // import 'admin_screen.dart';
 
 class DashBoard extends StatefulWidget {

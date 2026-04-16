@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 //import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../../models/barang_model.dart';
-import '../../../../services/barang_service.dart';
+import '../../models/barang_model.dart';
+import '../../services/barang_service.dart';
 import 'barang_table_widget.dart';
 import 'barang_form_dialog.dart';
 

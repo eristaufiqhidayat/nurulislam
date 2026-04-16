@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../../../../config/api_constants.dart';
 import '../../../../models/penjualan_model.dart';
 import '../../../../models/pembeli_model.dart';
-import '../../../../services/penjualan_service.dart';
+import '../../services/penjualan_service.dart';
 import '../../../../utils/shared_prefs.dart';
 import 'detail_penjualan_page.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/user_crud_model.dart';
+import '../models/user_crud_model.dart';
 
 class UserTableMobile extends StatefulWidget {
   final List<UserModel> items;

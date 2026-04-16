@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/barang_masuk_model.dart';
+import '../../models/barang_masuk_model.dart';
 
 class BarangMasukTableWidget extends StatelessWidget {
   final List<BarangMasukModel> data;

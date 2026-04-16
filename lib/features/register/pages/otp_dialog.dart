@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:nurulislam/models/user_model.dart';
+import 'package:nurulislam/features/user_crud/models/user_model.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
-import '../../../services/auth_service.dart';
+import '../services/auth_service.dart';
 
 class OtpDialog extends StatefulWidget {
   final String email;

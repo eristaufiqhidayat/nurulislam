@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:nurulislam/models/penjualan_model.dart';
 import 'package:nurulislam/features/almawa/pages/penjualan/penjualan_page.dart';
-import 'package:nurulislam/services/penjualan_service.dart';
+import 'package:nurulislam/features/almawa/services/penjualan_service.dart';
 import 'package:nurulislam/utils/shared_prefs.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../../config/api_constants.dart';
-import '../../../../models/barang_model.dart';
-import '../../../../models/detail_penjualan_model.dart';
-import '../../../../services/detail_penjualan_service.dart';
+import '../../models/barang_model.dart';
+import '../../models/detail_penjualan_model.dart';
+import '../../services/detail_penjualan_service.dart';
 import 'detail_penjualan_form_dialog.dart';
 import 'detail_penjualan_table.dart';
 

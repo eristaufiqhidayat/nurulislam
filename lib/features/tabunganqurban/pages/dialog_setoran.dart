@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../services/tabungan_qurban_service.dart';
+import '../services/tabungan_qurban_service.dart';
 
 class DialogSetoran extends StatefulWidget {
   final int? tabunganId;

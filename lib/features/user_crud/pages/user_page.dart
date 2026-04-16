@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/features/user_crud/pages/user_table_mobile.dart';
-import '../../../models/user_crud_model.dart';
-import '../../../services/user_service.dart';
+import '../models/user_crud_model.dart';
+import '../services/user_service.dart';
 import 'user_form.dart';
 
 class UserPage extends StatefulWidget {

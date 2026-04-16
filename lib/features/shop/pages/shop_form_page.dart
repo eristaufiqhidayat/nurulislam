@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
 import '../../../models/shop_model.dart';
-import '../../../services/shop_service.dart';
+import '../services/shop_service.dart';
 
 class ShopFormPage extends StatefulWidget {
   final Shop? shop;

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nurulislam/features/tabunganqurban/pages/tabungan_form.dart';
 import 'package:nurulislam/utils/auth_helper.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import '../../../services/tabungan_qurban_service.dart';
-import '../../../models/tabungan_qurban_model.dart';
+import '../services/tabungan_qurban_service.dart';
+import '../models/tabungan_qurban_model.dart';
 import 'tabungan_qurban_table_web.dart';
 import 'tabungan_qurban_list_mobile.dart';
 
