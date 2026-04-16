@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nurulislam/core/api_client.dart';
 import 'package:nurulislam/widgets/appbar_widget.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+//import 'dart:convert';
+//import 'package:http/http.dart' as http;
 
 class ResetPasswordPage extends StatefulWidget {
   final String emailOrPhone;

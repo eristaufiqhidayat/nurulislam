@@ -311,65 +311,65 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  void _showMyModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                /// 🔴 HEADER + CLOSE BUTTON
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Tambah Data",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        Navigator.pop(context); // tutup modal
-                      },
-                    ),
-                  ],
-                ),
+  // void _showMyModal(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+  //     ),
+  //     builder: (context) {
+  //       return Padding(
+  //         padding: EdgeInsets.only(
+  //           bottom: MediaQuery.of(context).viewInsets.bottom,
+  //         ),
+  //         child: Container(
+  //           padding: const EdgeInsets.all(16),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               /// 🔴 HEADER + CLOSE BUTTON
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   const Text(
+  //                     "Tambah Data",
+  //                     style: TextStyle(
+  //                       fontSize: 18,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                   IconButton(
+  //                     icon: const Icon(Icons.close),
+  //                     onPressed: () {
+  //                       Navigator.pop(context); // tutup modal
+  //                     },
+  //                   ),
+  //                 ],
+  //               ),
 
-                const SizedBox(height: 16),
+  //               const SizedBox(height: 16),
 
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: "Nama",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+  //               TextField(
+  //                 decoration: const InputDecoration(
+  //                   labelText: "Nama",
+  //                   border: OutlineInputBorder(),
+  //                 ),
+  //               ),
 
-                const SizedBox(height: 16),
+  //               const SizedBox(height: 16),
 
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Simpan"),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  //               ElevatedButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 child: const Text("Simpan"),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }
