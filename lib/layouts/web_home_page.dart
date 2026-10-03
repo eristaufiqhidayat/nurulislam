@@ -37,7 +37,7 @@ class _WebHomePageState extends State<WebHomePage> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      PageContentMobile(),
+      const PageContentMobile(infoFirst: true),
       SurahListPage(),
       HaditsViewScreen(),
       RdViewScreen(),
