@@ -1,6 +1,6 @@
 # nurulislam
 
-Pembauatan Android dan Web untuk kegiatan Nurul Islam
+Pembauatan Android dan Web untuk kegiatan Nurul Islam September 2026
 
 ## Getting Started
 
@@ -14,8 +14,8 @@ Pembauatan Android dan Web untuk kegiatan Nurul Islam
     -- /nurulislam <-- web
 
 flutter run -d chrome --web-browser-flag "--disable-web-security" --web-port=8181
-flutter build web --release   
-flutter build appbundle --release    
+flutter build web --release
+flutter build appbundle --release
 ## Task Yang harus di buat
 - Mebuat CRUD pagecontent
 
