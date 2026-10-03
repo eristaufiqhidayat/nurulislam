@@ -175,21 +175,6 @@ class _DashBoardState extends State<DashBoard> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Wrap(spacing: 12, runSpacing: 12, children: [
-                FilledButton.icon(
-                  onPressed: () => Navigator.pushNamed(context, '/kegiatanCrud'),
-                  icon: const Icon(Icons.event), label: const Text('Kelola Kegiatan'),
-                ),
-                FilledButton.icon(
-                  onPressed: () => Navigator.pushNamed(context, '/kajianCrud'),
-                  icon: const Icon(Icons.menu_book), label: const Text('Kelola Kajian'),
-                ),
-              ]),
-            ),
-          ),
           FutureBuilder<List<MenuItem>>(
             future: _menuFuture,
             builder: (context, snapshot) {
@@ -197,6 +182,16 @@ class _DashBoardState extends State<DashBoard> {
                 return const SliverFillRemaining(
                   child: Center(child: CircularProgressIndicator()),
                 );
+              }
+
+              final items = List<MenuItem>.of(snapshot.data!);
+              for (final entry in [
+                MenuItem(title: 'Kelola Kegiatan', icon: 'content_kegiatan', route: '/kegiatanCrud'),
+                MenuItem(title: 'Kelola Kajian', icon: 'content_kajian', route: '/kajianCrud'),
+              ]) {
+                if (!items.any((item) => item.route == entry.route)) {
+                  items.add(entry);
+                }
               }
 
               return SliverLayoutBuilder(
@@ -217,7 +212,7 @@ class _DashBoardState extends State<DashBoard> {
                       childAspectRatio: 0.9,
                     ),
                     delegate: SliverChildBuilderDelegate((context, i) {
-                      final item = snapshot.data![i];
+                      final item = items[i];
                       return InkWell(
                         onTap: () => Navigator.pushNamed(context, item.route),
                         child: Column(
@@ -233,7 +228,7 @@ class _DashBoardState extends State<DashBoard> {
                           ],
                         ),
                       );
-                    }, childCount: snapshot.data!.length),
+                    }, childCount: items.length),
                   );
                 },
               );
@@ -245,6 +240,13 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget _menuIcon(String iconName) {
+    if (iconName == 'content_kegiatan' || iconName == 'content_kajian') {
+      return Icon(
+        iconName == 'content_kegiatan' ? Icons.event_note : Icons.menu_book,
+        size: 40,
+        color: Colors.green.shade700,
+      );
+    }
     return Image.asset(
       'assets/images/$iconName',
       width: 40,
