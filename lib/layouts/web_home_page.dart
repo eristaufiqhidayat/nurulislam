@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nurulislam/features/pagecontent_crud/pages/pagecontentMobile.dart';
+import 'package:nurulislam/features/pagecontent_crud/pages/kegiatan.dart';
 import 'package:nurulislam/features/product/pages/product_list_card.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/screens/surah_list.dart';
 import 'package:nurulislam/widgets/haditsviewscreen.dart';
-import 'package:nurulislam/widgets/rdviewscreen.dart';
 
 class WebHomePage extends StatefulWidget {
   final int initialIndex;
@@ -40,7 +40,7 @@ class _WebHomePageState extends State<WebHomePage> {
       const PageContentMobile(infoFirst: true),
       SurahListPage(),
       HaditsViewScreen(),
-      RdViewScreen(),
+      const kegiatan(),
       ProductListPage(),
       const DashBoard(),
     ];
