@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nurulislam/features/pagecontent_crud/pages/pagecontentMobile.dart';
 import 'package:nurulislam/layouts/web_kegiatan_page.dart';
+import 'package:nurulislam/layouts/web_kajian_page.dart';
 import 'package:nurulislam/features/product/pages/product_list_card.dart';
 import 'package:nurulislam/screens/home_screen.dart';
 import 'package:nurulislam/screens/surah_list.dart';
@@ -24,6 +25,7 @@ class _WebHomePageState extends State<WebHomePage> {
     'Al-Qur\'an',
     'Hadits',
     'Kegiatan',
+    'Kajian',
     'Koperasi',
     'Akun',
   ];
@@ -41,6 +43,7 @@ class _WebHomePageState extends State<WebHomePage> {
       SurahListPage(),
       HaditsViewScreen(),
       const WebKegiatanPage(),
+      const WebKajianPage(),
       ProductListPage(),
       const DashBoard(),
     ];
@@ -99,6 +102,10 @@ class _WebHomePageState extends State<WebHomePage> {
               NavigationRailDestination(
                 icon: Icon(FontAwesomeIcons.calendarCheck),
                 label: Text('Kegiatan'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(FontAwesomeIcons.bookOpenReader),
+                label: Text('Kajian'),
               ),
               NavigationRailDestination(
                 icon: Icon(FontAwesomeIcons.store),
