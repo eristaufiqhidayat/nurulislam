@@ -1,8 +1,8 @@
 import 'package:nurulislam/utils/shared_prefs.dart';
 
 class ApiConstants {
-  //static const String baseUrl = 'https://nurul-islam.id';
-  static const String baseUrl = 'http://localhost:8013';
+  static const String baseUrl = 'https://nurul-islam.id';
+  //static const String baseUrl = 'http://localhost:8013';
   static Future<Map<String, String>> headers() async {
     final token = await SharedPrefs.getToken();
     return {
