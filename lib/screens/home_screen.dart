@@ -175,6 +175,21 @@ class _DashBoardState extends State<DashBoard> {
               ),
             ),
           ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Wrap(spacing: 12, runSpacing: 12, children: [
+                FilledButton.icon(
+                  onPressed: () => Navigator.pushNamed(context, '/kegiatanCrud'),
+                  icon: const Icon(Icons.event), label: const Text('Kelola Kegiatan'),
+                ),
+                FilledButton.icon(
+                  onPressed: () => Navigator.pushNamed(context, '/kajianCrud'),
+                  icon: const Icon(Icons.menu_book), label: const Text('Kelola Kajian'),
+                ),
+              ]),
+            ),
+          ),
           FutureBuilder<List<MenuItem>>(
             future: _menuFuture,
             builder: (context, snapshot) {

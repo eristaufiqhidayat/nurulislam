@@ -1,3 +1,4 @@
+import 'package:nurulislam/features/content_management/content_management_page.dart';
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
@@ -79,6 +80,8 @@ class MyApp extends StatelessWidget {
         '/contact': (context) => ContactPage(),
         '/kegiatan': (context) => const kegiatan(),
         '/login': (context) => const LoginScreen(),
+        '/kegiatanCrud': (context) => const ContentManagementPage(category: 'kegiatan'),
+        '/kajianCrud': (context) => const ContentManagementPage(category: 'kajian'),
         '/admin': (context) => const AdminScreen(),
         '/pagecontent_crud': (context) => const pagecontent_crud(),
         '/pageInfo': (context) => const PageInfoPage(),
