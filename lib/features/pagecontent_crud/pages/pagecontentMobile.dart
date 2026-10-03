@@ -10,7 +10,13 @@ import 'package:nurulislam/widgets/card.dart';
 class PageContentMobile extends StatefulWidget {
   final double? screenWidth;
   final bool? isMobile;
-  const PageContentMobile({super.key, this.screenWidth, this.isMobile});
+  final bool infoFirst;
+  const PageContentMobile({
+    super.key,
+    this.screenWidth,
+    this.isMobile,
+    this.infoFirst = false,
+  });
 
   @override
   _PageContentMobileState createState() => _PageContentMobileState();
@@ -50,7 +56,7 @@ class _PageContentMobileState extends State<PageContentMobile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductListHome(), //<---- ditambahkan di sini
+            if (!widget.infoFirst) ProductListHome(),
 
             Text(
               'Sekilas Info',
@@ -130,6 +136,11 @@ class _PageContentMobileState extends State<PageContentMobile> {
             ),
 
             const SizedBox(height: 30),
+
+            if (widget.infoFirst) ...[
+              ProductListHome(),
+              const SizedBox(height: 30),
+            ],
 
             // ================= KEGIATAN ==================
             Text(
